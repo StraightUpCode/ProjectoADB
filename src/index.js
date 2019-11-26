@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "semantic-ui-css/semantic.min.css";
 import App from "./App";
+import { modificarConfig, sendLoginData } from './utils/config'
+modificarConfig({db_host: 'localhost', db_name:'projecto'})
+sendLoginData('sa','Roberto4$')
+ReactDOM.render(<App />, document.getElementById("root"))
 
-ReactDOM.render(<App />, document.getElementById("root"));
+

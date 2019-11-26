@@ -1,13 +1,22 @@
 import React, { Component } from "react";
 import Navbar from "./components/Navbar";
-import Custom from "./components/Custom";
 import "./custom.css";
+import { Switch, Route, BrowserRouter as Router} from 'react-router-dom'
 class App extends Component {
   render() {
     return (
       <div>
-        <Navbar />
-        <Custom />
+        <Router>
+          <Navbar />
+          <Switch>
+            <Route path='/' >
+            </Route>
+            <Route path='/setup'>
+            </Route>
+            <Route path='/config'>
+            </Route>
+          </Switch>
+        </Router>
       </div>
     );
   }

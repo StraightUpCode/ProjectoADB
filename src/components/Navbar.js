@@ -1,12 +1,10 @@
 import React from "react";
-
+import { Link } from "react-router-dom"
 const Navbar = () => {
   return (
     <div className="ui secondary menu">
-      <div className="header item">Our Company</div>
-      <a className="right item">Products</a>
-      <a className="item">Locations</a>
-      <a className="item">About Us</a>
+      <div className="header item">Menu</div>
+      <a to='/'></a>
     </div>
   );
 };
