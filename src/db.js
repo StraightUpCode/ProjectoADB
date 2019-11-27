@@ -34,14 +34,12 @@ class ConeccionDB {
     }
     async crearConeccion() { 
         try {
-            console.log(this.opciones)
-
             this.coneccion = new mssql.ConnectionPool(this.opciones)
             await this.coneccion.connect()
             this.estaConectado = true
             console.log('conectado')
         } catch (e) {
-            console.log(e)
+           throw e
         }
     }
 

@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import { modificarConfig, sendLoginData } from './utils/config'
-modificarConfig({db_host: 'localhost', db_name:'projecto'})
-sendLoginData('sa','Roberto4$')
+import { modificarConfig, sendLoginData, responseLogin, getDbConfig } from './utils/events'
+//modificarConfig({db_host: 'localhst', db_name:'projecto'})
+console.log(getDbConfig())
 ReactDOM.render(<App />, document.getElementById("root"))
 
 

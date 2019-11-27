@@ -63,16 +63,14 @@ ipcMain.on('db-config', (e, arg) => {
 })
 ipcMain.on('login', async (e, ...arg) => {
   const [username, password] = arg
-  const coneccion = await connecionDb.loginToDB(username, password)
-  if (coneccion) { 
-    console.log(coneccion)
-    const request = coneccion.request()
-    const result = await request.query('Select * from Unidad')
-    console.log(result)
-    e.reply('login-reply', result)
-
-
-  }
+  try {
+    const coneccion = await connecionDb.loginToDB(username, password)
+    if (coneccion) {
+      e.reply('login-reply', true)
+    }
+  } catch (error) {
+    e.reply('login-reply',error)
+ }
 
 })
 ipcMain.on('set-config', (e, ...arg) => {
