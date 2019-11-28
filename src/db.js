@@ -52,6 +52,25 @@ class ConeccionDB {
         }
     }
 
+    async testConeccion({ server, database, user, password}) { 
+        console.log('Test Coneccion')
+        try {
+            console.log(server)
+            console.log(database)
+            console.log(user)
+            console.log(password)
+            const pool = await new mssql.connect({
+                server,
+                database,
+                user,
+                password
+            })
+            if(pool) return true
+        } catch (error) { 
+            return false
+        }
+    }
+
 }
 module.exports = ConeccionDB
 

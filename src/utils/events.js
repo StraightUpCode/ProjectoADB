@@ -6,7 +6,7 @@ export const status = {
     validDb: false,
     login : false
 }
-
+export const setConeccionStatus= (estatusConeccion) => status.validDb = estatusConeccion
 export const setLoginStatus = (loginStatus) => status.login = loginStatus
 
 export const getDbConfig = () => { 

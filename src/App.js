@@ -3,18 +3,19 @@ import { Switch, Route, Redirect, BrowserRouter as Router } from 'react-router-d
 import { status } from './utils/events'
 import Login from './components/Login'
 import Navbar from "./components/Navbar";
+import Setup from './components/Setup'
 import "./custom.css";
 
-const RequireValidDB = (props) => { 
-  const { children , ...restProps } = props
+const RequireValidDB = ({children, ...rest}) => { 
   return (
-    <Route {...restProps}>
-      { ! status.validDb ? <Redirect to='/setup' /> : children}
+    <Route {...rest}>
+      {! status.validDb ? <Redirect to='/setup' /> : children}
    </Route>
   )
 }
 
 const RequireLogin = ({ children, ...rest }) => {
+
   return (
     <RequireValidDB {...rest} >
       { ! status.login ? <Redirect to='/login'/> : children} 
@@ -29,6 +30,7 @@ class App extends Component {
           <Navbar />
           <Switch>
             <Route path='/setup'>
+              <Setup/>
             </Route>
             <RequireValidDB path='/login'>
               <Login></Login>

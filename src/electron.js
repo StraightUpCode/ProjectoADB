@@ -83,4 +83,19 @@ ipcMain.on('set-config', (e, ...arg) => {
   e.reply('set-config-reply', respuesta)
 })
 
+ipcMain.on('set-conection', async (e, objetoConeccion) => {
+  try {
+    console.log(objetoConeccion)
+    const result = await connecionDb.testConeccion(objetoConeccion)
+    if (result) {
+      e.reply('set-conection-reply', true)
+      store.set({
+        db_host: objetoConeccion.server,
+        db_name: objetoConeccion.database
+      })
+    }
+  } catch (error) {
+    e.reply('set-conection-reply', false)
+  }
+})
 
