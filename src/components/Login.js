@@ -11,8 +11,7 @@ const Login = (props) => {
   })
 
   const checkLogin = (event, didLogIn) => {
-    console.log(`didLogin ${didLogIn}`)
-    if (didLogIn && typeof didLogIn !== 'object') {
+    if (didLogIn) {
       setLoginStatus(true)
     } else {
       setLoginStatus(false)

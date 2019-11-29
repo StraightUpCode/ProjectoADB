@@ -66,7 +66,9 @@ ipcMain.on('login', async (e, ...arg) => {
   try {
     const coneccion = await connecionDb.loginToDB(username, password)
     if (coneccion) {
-      e.reply('login-reply', true)
+      await coneccion.connect()
+      coneccion.request("")
+      e.reply('login-reply', true )
     }
   } catch (error) {
     e.reply('login-reply',error)
