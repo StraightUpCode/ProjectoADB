@@ -44,8 +44,8 @@ app.on("activate", () => {
 
 const getDatabaseConfig= () => { 
   const config = {
-    db_host: store.get('db_host'),
-    db_name: store.get('db_name')
+    db_host: undefined /*store.get('db_host')*/,
+    db_name: undefined /*store.get('db_name')*/
   }
   return config
 }
@@ -67,7 +67,7 @@ ipcMain.on('login', async (e, ...arg) => {
     const coneccion = await connecionDb.loginToDB(username, password)
     if (coneccion) {
       await coneccion.connect()
-      coneccion.request("")
+    //     coneccion.request("Select ") 
       e.reply('login-reply', true )
     }
   } catch (error) {
@@ -101,3 +101,25 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
   }
 })
 
+
+/// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
+ipcMain.on('leer-factura', (event, args) => {
+  try {
+    const conecion = connecionDb.getConeccion()
+    await coneccion.connect()
+    const request = await coneccion.request('Select * from vFacturas')
+    event.reply(resultado)
+  } catch (e) {
+    console.log(e)
+  }
+})
+/* En el front end 
+Se importa createListener de /utils/events.js
+y se usa de la siguiente forma
+const listener = createLister(nombreDelEvento, funcion de como recepcionas la respuesta de la solicitud)
+esto devuelve un objeto con 3 funciones, send, listener , y clear
+Send recibe un varios argumento que es la informacion que se recibe en electron
+listener es el receptor de eventos en front end se usa objeto.listener() y ya estuchando
+clear elima el receptor de eventos el front end se usar objeto.clera y remueve el listener
+
+*/
