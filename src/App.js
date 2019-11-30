@@ -15,7 +15,8 @@ const RequireValidDB = ({ children, ...rest }) => {
 }
 
 const RequireLogin = (props) => {
-  const {children , ...rest} = props
+  const { children, ...rest } = props
+  console.log(children)
   return (
     <Route {...rest}>
       {!status.login ? <Redirect to='/login' /> : children}
@@ -25,7 +26,6 @@ const RequireLogin = (props) => {
 }
 class App extends Component {
   render() {
-    console.log(RegistrarUsuario)
     return (
       <>
         <Router>
@@ -38,6 +38,8 @@ class App extends Component {
             </RequireValidDB>    
             <RequireLogin path='/registrarUsuario' >
               <RegistrarUsuario></RegistrarUsuario>
+            </RequireLogin>
+            <RequireLogin path='/' >
             </RequireLogin>
           </Switch>
         </Router>
