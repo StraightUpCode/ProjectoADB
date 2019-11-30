@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import {useHistory} from 'react-router-dom'
 import { createListener , setConeccionStatus} from '../utils/events'
+import useListener from './hooks/userListener'
+import useForm from './hooks/useForm'
 
 
 const testConeccionListener = (history) => createListener('set-conection', (event, coneccion) => {
     setConeccionStatus(coneccion)
     console.log(coneccion)
     if (coneccion) {
-
         history.push('/')
     }
 })
 const Setup = (props) => {
     const history = useHistory()
-    const [coneccion, setConeccionData] = useState({
+    const [coneccion, handleCredenciales] = useForm({
         server: 'localhost',
         database: 'projecto',
         user: 'sa',
         password: 'Roberto4$'
     })
 
-    const handleCredenciales = (e) => setConeccionData({
-        ...coneccion,
-        [e.target.name]: e.target.value
-    })
     const listener = testConeccionListener(history)
-    useEffect(() => {
-        listener.listener()
-        return () => listener.clear()
-    })
+    useListener(listener)
     
     const handleSubmit = (e) => {
         e.preventDefault()
