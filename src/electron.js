@@ -103,17 +103,26 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
 
 
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
-ipcMain.on('leer-factura', (event, args) => {
+
+/* 
+
+ipcMain.on(nombre del evento, (event, args) => {
   try {
+  // Se consigue la coneccion al db
     const conecion = connecionDb.getConeccion()
+    // se conecta como tal
     await coneccion.connect()
+    // hace la solicutd
     const request = await coneccion.request('Select * from vFacturas')
+    // devuelve el valor al front end
     event.reply(resultado)
   } catch (e) {
     console.log(e)
   }
 })
-/* En el front end 
+
+
+En el front end 
 Se importa createListener de /utils/events.js
 y se usa de la siguiente forma
 const listener = createLister(nombreDelEvento, funcion de como recepcionas la respuesta de la solicitud)
