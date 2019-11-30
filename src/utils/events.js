@@ -11,7 +11,7 @@ export const setLoginStatus = (loginStatus) => status.login = loginStatus
 
 export const getDbConfig = () => { 
     const config = ipcRenderer.sendSync('db-config')
-    if (config) status.validDb = true
+    if (config.db_host && config.db_name) status.validDb = true
     return config
 }
 
