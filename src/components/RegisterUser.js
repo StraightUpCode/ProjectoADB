@@ -26,19 +26,27 @@ const RegistrarUsuario = (props) => {
     }
     return (
         <div>
-            <p>'Hi</p>
-            <form onSubmit={handleSubmit}>
-                <input type='text' name="nombre" placeholder="Nombre"
+            
+            <p className="Registro">Registro</p>
+
+            <form className="formregister" onSubmit={handleSubmit} >
+                <input type='text' className="label" name="nombre" 
                     value={formData.nombre} onChange={handleChange}/> 
-                <input type='text' name="apellido" placeholder="Apellido"
+                <label for="" className="labelinput">Nombre</label>   
+                <input type='text' className="label"  name="apellido" 
                     value={formData.apellido} onChange={handleChange}/> 
-                <input type='text' name="username" placeholder="Usuario"
+                    <label for="" className="labelinput">Apellido</label>   
+                <input type='text' className="label" name="username"
                     value={formData.username} onChange={handleChange}/>  
-                <input type='password' name="password" placeholder="Contrase;a"
+                    <label for="" className="labelinput">Usuario</label>   
+                <input type='password' className="label" name="password" 
                     value={formData.password} onChange={handleChange}/>
+                    <label for="" className="labelinput">Contraseña</label>   
                 <Permisos setPermisos={handlePermisos}/>
-                <input type='submit' ></input> 
+                <input type='submit' className="enter" ></input> 
+          
             </form>
+          
         </div>
     )
 
