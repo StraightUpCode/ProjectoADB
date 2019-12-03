@@ -29,6 +29,7 @@ class ConeccionDB {
         this.opciones.user = user
         this.opciones.password = password
         await this.crearConeccion()
+
        
         return  this.getConeccion()
     }
@@ -39,6 +40,7 @@ class ConeccionDB {
             this.estaConectado = true
             console.log('conectado')
         } catch (e) {
+            this.coneccion.close()
            throw e
         }
     }

@@ -10,6 +10,7 @@ const Login = (props) => {
   })
   const history = useHistory()
   const checkLogin = (event, didLogIn) => {
+    console.log(didLogIn)
     if (didLogIn ) {
       setLoginStatus(true)
       history.push('/registrarUsuario')

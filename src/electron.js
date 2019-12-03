@@ -71,7 +71,8 @@ ipcMain.on('login', async (e, ...arg) => {
       e.reply('login-reply', true )
     }
   } catch (error) {
-    e.reply('login-reply',error)
+    console.log(error)
+    e.reply('login-reply',false)
  }
 
 })
