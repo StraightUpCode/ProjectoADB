@@ -44,8 +44,8 @@ app.on("activate", () => {
 
 const getDatabaseConfig= () => { 
   const config = {
-    db_host: undefined /*store.get('db_host')*/,
-    db_name: undefined /*store.get('db_name')*/
+    db_host: store.get('db_host'),
+    db_name: store.get('db_name')
   }
   return config
 }
@@ -101,7 +101,22 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
   }
 })
 
+ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
+  const { permisos, ...infoUsuario } = nuevoUsuario
+  try {
+    console.log(permisos)
+    console.log(infoUsuario)
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const request = conexion.request()
+    const permisosResult = await request.query(`Select * from Permiso`)
+    console.log(permisosResult.recordset.map())
 
+  } catch (e) {
+    console.log(e)
+  }
+
+})
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 

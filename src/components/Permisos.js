@@ -3,7 +3,10 @@ import React, {useState, useEffect} from 'react'
 
 const Permisos = ({ setPermisos }) => {
     const [permisosTablas, cambiarPermisos] = useState({
-        facturacion : 0
+        Factura : 0,
+        Platillo: 0,
+        Inventario: 0,
+        Unidad: 0,
     })
 
     const handleChange = e => {
@@ -18,7 +21,6 @@ const Permisos = ({ setPermisos }) => {
             cambiarPermisos({ [tabla]: nuevoValor })
         } else if(valor == 0) {
             cambiarPermisos({ [tabla]: valor })
-
         }
     }
 

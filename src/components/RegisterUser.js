@@ -1,6 +1,12 @@
 import React from 'react'
 import useForm from './hooks/useForm'
+import useListener from './hooks/userListener'
 import Permisos from './Permisos'
+import {createListener} from '../utils/events'
+
+const registrarUsuarioListener = createListener('registrar-usuario', (event, respuesta) => {
+    console.log(respuesta)
+})
 
 const RegistrarUsuario = (props) => {
     const [formData, handleChange] = useForm({
@@ -10,6 +16,7 @@ const RegistrarUsuario = (props) => {
         apellido: '',
         permisos: {}
     })
+    useListener(registrarUsuarioListener)
     const handlePermisos = permisos => {
         console.log(permisos)
         const permiso = {
@@ -22,6 +29,7 @@ const RegistrarUsuario = (props) => {
     }
     const handleSubmit = e => {
         console.log(formData)
+        registrarUsuarioListener.send(formData)
         e.preventDefault()
     }
     return (

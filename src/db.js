@@ -48,6 +48,7 @@ class ConeccionDB {
         if (this.estaConectado) {
             return this.coneccion
         } else {
+            
             return false
         }
     }
