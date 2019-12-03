@@ -38,9 +38,11 @@ const RegistrarUsuario = (props) => {
             <p className="Registro">Registro</p>
 
             <form className="formregister" onSubmit={handleSubmit} >
-                <input type='text' className="label" name="nombre" 
-                    value={formData.nombre} onChange={handleChange}/> 
-                <label for="" className="labelinput">Nombre</label>   
+                <label>
+                    Nombre
+                    <input placeholder='Nombre'type='text' className="label" name="nombre"
+                        value={formData.nombre} onChange={handleChange} /> 
+                </label>
                 <input type='text' className="label"  name="apellido" 
                     value={formData.apellido} onChange={handleChange}/> 
                     <label for="" className="labelinput">Apellido</label>   

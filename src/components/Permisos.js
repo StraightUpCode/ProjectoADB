@@ -18,9 +18,9 @@ const Permisos = ({ setPermisos }) => {
 
         const nuevoValor = permisosTablas[tabla] + valor
         if ( nuevoValor <= 15 && valor != 0) {
-            cambiarPermisos({ [tabla]: nuevoValor })
+            cambiarPermisos({ ...permisosTablas,[tabla]: nuevoValor })
         } else if(valor == 0) {
-            cambiarPermisos({ [tabla]: valor })
+            cambiarPermisos({ ...permisosTablas,[tabla]: valor })
         }
     }
 
