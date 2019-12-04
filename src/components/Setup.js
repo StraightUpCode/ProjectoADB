@@ -6,6 +6,7 @@ import useForm from './hooks/useForm'
 
 
 const testConeccionListener = (history) => createListener('set-conection', (event, coneccion) => {
+    console.log(coneccion)
     setConeccionStatus(coneccion)
     console.log(coneccion)
     if (coneccion) {

@@ -44,8 +44,8 @@ app.on("activate", () => {
 
 const getDatabaseConfig= () => { 
   const config = {
-    db_host: store.get('db_host'),
-    db_name: store.get('db_name')
+  //  db_host: store.get('db_host'),
+  //  db_name: store.get('db_name')
   }
   return config
 }
@@ -89,6 +89,7 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
   try {
     console.log(objetoConeccion)
     const result = await connecionDb.testConeccion(objetoConeccion)
+    console.log(result)
     if (result) {
       e.reply('set-conection-reply', true)
       store.set({
@@ -97,6 +98,7 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
       })
     }
   } catch (error) {
+    console.log(error)
     e.reply('set-conection-reply', false)
   }
 })
@@ -108,8 +110,9 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     const conexion = connecionDb.getConeccion()
     await conexion
     const solicitudesPermisos = []
-    for (const tabla in permisos) {
-      console.log(tabla)
+    console.log(permisos)
+    for (const [tabla, permiso] of permisos) {
+      console.log(tabla, permiso)
     }
   } catch (e) {
     console.log(e)

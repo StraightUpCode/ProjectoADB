@@ -62,14 +62,19 @@ class ConeccionDB {
 
     async testConeccion({ server, database, user, password}) { 
         try {
-            const pool = await new mssql.connect({
+            const pool = await new mssql.ConnectionPool({
                 server,
                 database,
                 user,
                 password
             })
-            if(pool) return true
+            pool.close()
+            const conecto = await pool.connect()
+            if (conecto) {
+                return true
+            }
         } catch (error) { 
+            console.log(error)
             return false
         }
     }
