@@ -35,24 +35,22 @@ const RegistrarUsuario = (props) => {
     return (
         <div>
             
-            <p className="Registro">Registro</p>
+            <h1 className="tituloRegistro">Registro</h1>
 
             <form className="formregister" onSubmit={handleSubmit} >
-                <label>
-                    Nombre
-                    <input placeholder='Nombre'type='text' className="label" name="nombre"
+|               <label className="label">Nombre</label>
+                    <input placeholder='Nombre'type='text' className="labelinput" name="nombre"
                         value={formData.nombre} onChange={handleChange} /> 
-                </label>
-                <input type='text' className="label"  name="apellido" 
-                    value={formData.apellido} onChange={handleChange}/> 
-                    <label for="" className="labelinput">Apellido</label>   
-                <input type='text' className="label" name="username"
+                            <label className="label">Apellido</label>
+                <input type='text' className="labelinput"  name="apellido" 
+                    value={formData.apellido} onChange={handleChange}/>
+                        <label className="label">UserName</label>
+                <input type='text' className="labelinput" name="username"
                     value={formData.username} onChange={handleChange}/>  
-                    <label for="" className="labelinput">Usuario</label>   
-                <input type='password' className="label" name="password" 
+                        <label className="label">Password</label>
+                    <input type='password' className="labelinput" name="password" 
                     value={formData.password} onChange={handleChange}/>
-                    <label for="" className="labelinput">Contraseña</label>   
-                <Permisos setPermisos={handlePermisos}/>
+                        <Permisos setPermisos={handlePermisos}/>
                 <input type='submit' className="enter" ></input> 
           
             </form>

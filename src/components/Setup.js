@@ -31,13 +31,17 @@ const Setup = (props) => {
     }
     return (
         <div className="ui container">
-            <h1>Setup</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="text" placeholder='server' name='server' value={coneccion.server} onChange={handleCredenciales} ></input>
-                <input type="text" placeholder='database name' name="database" value={coneccion.database} onChange={handleCredenciales} ></input>
-                <input type="text" placeholder='SQL Login User' name='user' value={coneccion.user} onChange={handleCredenciales} ></input>
-                <input type="password" placeholder='SQL Login Password' name="password" value={coneccion.password} onChange={handleCredenciales} ></input>
-                <input type="submit" value="Submit" />
+            <h1 className="tituloSetup">Setup</h1>
+            <form className="formregister" onSubmit={handleSubmit}>
+                <label className="label">Server</label>
+                <input className="labelinput" type="text" placeholder='server' name='server' value={coneccion.server} onChange={handleCredenciales} ></input>
+                <label className="label">Database Name</label>
+                <input className="labelinput" type="text" placeholder='database name' name="database" value={coneccion.database} onChange={handleCredenciales} ></input>
+                <label className="label">Usuario de SQL</label>
+                <input className="labelinput" type="text" placeholder='SQL Login User' name='user' value={coneccion.user} onChange={handleCredenciales} ></input>
+                <label className="label">Password</label>
+                <input className="labelinput" type="password" placeholder='SQL Login Password' name="password" value={coneccion.password} onChange={handleCredenciales} ></input>
+                <input className="enter" type="submit" value="Submit" />
             </form>
 
         </div>
