@@ -28,9 +28,8 @@ class ConeccionDB {
     async loginToDB(user, password) { 
         this.opciones.user = user
         this.opciones.password = password
+        if(this.estaConectado) this.coneccion.close()
         await this.crearConeccion()
-
-       
         return  this.getConeccion()
     }
     async crearConeccion() { 
@@ -40,6 +39,7 @@ class ConeccionDB {
             this.estaConectado = true
             console.log('conectado')
         } catch (e) {
+            console.log(e)
             this.coneccion.close()
            throw e
         }
