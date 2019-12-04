@@ -28,6 +28,7 @@ class ConeccionDB {
     async loginToDB(user, password) { 
         this.opciones.user = user
         this.opciones.password = password
+
         if(this.estaConectado) this.coneccion.close()
         await this.crearConeccion()
         return  this.getConeccion()
@@ -35,12 +36,16 @@ class ConeccionDB {
     async crearConeccion() { 
         try {
             this.coneccion = new mssql.ConnectionPool(this.opciones)
-            await this.coneccion.connect()
-            this.estaConectado = true
-            console.log('conectado')
-        } catch (e) {
-            console.log(e)
             this.coneccion.close()
+            const something = await this.coneccion.connect()
+            if (something) {
+                
+                this.estaConectado = true
+                console.log('Conectado')
+            }
+        } catch (e) {
+            this.coneccion.close()
+            console.log(e)
            throw e
         }
     }

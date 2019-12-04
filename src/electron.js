@@ -61,13 +61,12 @@ console.log(connecionDb)
 ipcMain.on('db-config', (e, arg) => { 
   e.returnValue = getDatabaseConfig()
 })
+
 ipcMain.on('login', async (e, ...arg) => {
   const [username, password] = arg
   try {
     const coneccion = await connecionDb.loginToDB(username, password)
     if (coneccion) {
-      await coneccion.connect()
-    //     coneccion.request("Select ") 
       e.reply('login-reply', true )
     }
   } catch (error) {
@@ -105,14 +104,13 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
 ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
   const { permisos, ...infoUsuario } = nuevoUsuario
   try {
-    console.log(permisos)
     console.log(infoUsuario)
     const conexion = connecionDb.getConeccion()
     await conexion
-    const request = conexion.request()
-    const permisosResult = await request.query(`Select * from Permiso`)
-    console.log(permisosResult.recordset.map())
-
+    const solicitudesPermisos = []
+    for (const tabla in permisos) {
+      console.log(tabla)
+    }
   } catch (e) {
     console.log(e)
   }
