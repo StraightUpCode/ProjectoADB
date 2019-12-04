@@ -1,6 +1,10 @@
 const electron = require("electron");
 const isDev = require("electron-is-dev");
 const path = require("path");
+const crypto = require('crypto')
+const secret = 'secreto'
+
+
 const DB_DAO = require('./db')
 const connecionDb = new DB_DAO()
 const store = require('./store')
@@ -44,8 +48,8 @@ app.on("activate", () => {
 
 const getDatabaseConfig= () => { 
   const config = {
-  //  db_host: store.get('db_host'),
-  //  db_name: store.get('db_name')
+    db_host: store.get('db_host'),
+    db_name: store.get('db_name')
   }
   return config
 }
@@ -105,15 +109,30 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
 
 ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
   const { permisos, ...infoUsuario } = nuevoUsuario
+  const { username, password } = infoUsuario
+  const hash = crypto.createHash('sha256')
   try {
     console.log(infoUsuario)
     const conexion = connecionDb.getConeccion()
     await conexion
     const solicitudesPermisos = []
     console.log(permisos)
-    for (const [tabla, permiso] of permisos) {
-      console.log(tabla, permiso)
+    for (const [tabla, permiso] of Object.entries(permisos)) {
+      solicitudesPermisos.push(conexion.request().query(`
+      Select *
+      from Permiso
+      where tabla = '${tabla}' and crud = ${permiso}`))
+      
     }
+    const results = await Promise.all(solicitudesPermisos)
+    console.log(results)
+    const createLogin = await conexion.request().query(`Create Login ${username} with password = '${password}'`)
+    const createUser = await conexion.request().query(`Create User ${username} for login ${username} `)
+    const createUserString = `Insert into Usuario values
+    ('${username}',CAST(N'${hash.update(password).digest('binary')}' AS BINARY(32)), '${infoUsuario.nombre}','${infoUsuario.apellido}' )`
+    console.log(createUserString)
+    const createUserInTable = await conexion.request().query(createUserString)
+    console.log(createUserInTable)
   } catch (e) {
     console.log(e)
   }
