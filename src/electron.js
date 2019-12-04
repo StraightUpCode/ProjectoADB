@@ -2,7 +2,6 @@ const electron = require("electron");
 const isDev = require("electron-is-dev");
 const path = require("path");
 const crypto = require('crypto')
-const secret = 'secreto'
 
 
 const DB_DAO = require('./db')
