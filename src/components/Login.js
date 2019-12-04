@@ -29,11 +29,13 @@ const Login = (props) => {
   useListener(listeners)
   return (
     <div className="ui container">
-      <h1>Login</h1>
-      <form onSubmit={submitLogin}>
-        <input type="text" name='username' value={loginData.username} onChange={handleChange} ></input>
-        <input type="password" name="password" value={loginData.password} onChange={handleChange} ></input>
-        <input type="submit" value="Submit" />
+      <h1 className="titulologin">Login</h1>
+      <form className="formregister" onSubmit={submitLogin}>
+        <label className="label">UserName</label>
+        <input className="labelinput" type="text" name='username' value={loginData.username} onChange={handleChange} ></input>
+        <label className="label">Password</label>
+        <input className="labelinput" type="password" name="password" value={loginData.password} onChange={handleChange} ></input>
+        <input  type="submit" value="Submit" className="enter" />
       </form>
        
     </div>
