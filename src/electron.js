@@ -173,7 +173,7 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
           }
         }
       }
-      
+      console.log(tabla, permisosSQL)
       await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${username}`)
       if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
         const tablaIntermedia = esquemaDb.esquema[tabla]
