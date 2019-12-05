@@ -7,10 +7,10 @@ const crypto = require('crypto')
 const DB_DAO = require('./db')
 const connecionDb = new DB_DAO()
 const store = require('./store')
+const esquemaDb = require('./esquemaDb') 
 const ipcMain = electron.ipcMain
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-
 let mainWindow;
 
 function createWindow() {
@@ -116,6 +116,7 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     await conexion
     const solicitudesPermisos = []
     for (const [tabla, permiso] of Object.entries(permisos)) {
+      if(permiso == 0 ) continue
       solicitudesPermisos.push(conexion.request().query(`
       Select IdPermiso
       from Permiso
@@ -124,8 +125,8 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     }
     const results = await Promise.all(solicitudesPermisos)
     console.log(results)
-    const createLogin = await conexion.request().query(`Create Login ${username} with password = '${password}'`)
-    const createUser = await conexion.request().query(`Create User ${username} for login ${username} `)
+    await conexion.request().query(`Create Login ${username} with password = '${password}'`)// Crea Login
+    await conexion.request().query(`Create User ${username} for login ${username} `)// 
     const createUserString = `Insert into Usuario values
     ('${username}',CAST(N'${hash.update(password).digest('binary')}' AS BINARY(32)), '${infoUsuario.nombre}','${infoUsuario.apellido}' );
     Select SCOPE_IDENTITY() as id`
@@ -144,17 +145,49 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     } catch (e) {
       throw e
     }
-    // Como dar los permisos a la DB 
-    //Para Toda Tabla a excepcion de 'SA'
-    // Convertir permiso a Binario, En base a eso empujar permisos Select, Insert, Update, Delete a un array
-    // crear String permiso `Grant ${array.join(',')} on ${tabla}`
     // if(array.includes('Select')) => Grant Select on v${tabla}
     // if(array.includes('Insert')) => Grant execture on spInsert${tabla}
+    for (const [tabla, permiso] of Object.entries(permisos)) {
+      if (permiso == 0) continue
+      const permisosSQL = []
+      const permisoBinario = permiso.toString(2).padStart(4, '0')
+      for (let index = 0; index < permisoBinario.length; index+= 1){
+        if (permisoBinario.charAt(index) == '1') {
+          switch (index) {
+            case 0: {
+              permisosSQL.push('Delete')
+              break;
+            }
+            case 1: {
+              permisosSQL.push('Update')
+              break;
+            }
+            case 2: {
+              permisosSQL.push('Insert')
+              break;
+            }
+            case 3: {
+              permisosSQL.push('Select') 
+              break;
+            }
+          }
+        }
+      }
+      
+      await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${username}`)
+      if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
+        const tablaIntermedia = esquemaDb.esquema[tabla]
+        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablaIntermedia} to ${username}`)
+      }
+      if (permisosSQL.includes('Select')) {
+        await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
+      }
 
+
+    }
   } catch (e) {
     console.log(e)
   }
-
 })
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
