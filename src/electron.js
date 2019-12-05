@@ -115,10 +115,9 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     const conexion = connecionDb.getConeccion()
     await conexion
     const solicitudesPermisos = []
-    console.log(permisos)
     for (const [tabla, permiso] of Object.entries(permisos)) {
       solicitudesPermisos.push(conexion.request().query(`
-      Select *
+      Select IdPermiso
       from Permiso
       where tabla = '${tabla}' and crud = ${permiso}`))
       
@@ -128,10 +127,30 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     const createLogin = await conexion.request().query(`Create Login ${username} with password = '${password}'`)
     const createUser = await conexion.request().query(`Create User ${username} for login ${username} `)
     const createUserString = `Insert into Usuario values
-    ('${username}',CAST(N'${hash.update(password).digest('binary')}' AS BINARY(32)), '${infoUsuario.nombre}','${infoUsuario.apellido}' )`
+    ('${username}',CAST(N'${hash.update(password).digest('binary')}' AS BINARY(32)), '${infoUsuario.nombre}','${infoUsuario.apellido}' );
+    Select SCOPE_IDENTITY() as id`
     console.log(createUserString)
     const createUserInTable = await conexion.request().query(createUserString)
-    console.log(createUserInTable)
+    const insertQueue = []
+    for (const permiso of results) {
+      if (permiso.recordset.length == 1) {
+        const idPermiso = permiso.recordset[0].IdPermiso
+        insertQueue.push(conexion.request().query(`Insert into Usuario_Permiso 
+        values(${createUserInTable.recordset[0].id}, ${idPermiso})`))
+      }
+    }
+    try {
+      await Promise.all(insertQueue)
+    } catch (e) {
+      throw e
+    }
+    // Como dar los permisos a la DB 
+    //Para Toda Tabla a excepcion de 'SA'
+    // Convertir permiso a Binario, En base a eso empujar permisos Select, Insert, Update, Delete a un array
+    // crear String permiso `Grant ${array.join(',')} on ${tabla}`
+    // if(array.includes('Select')) => Grant Select on v${tabla}
+    // if(array.includes('Insert')) => Grant execture on spInsert${tabla}
+
   } catch (e) {
     console.log(e)
   }
