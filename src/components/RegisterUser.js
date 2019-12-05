@@ -10,10 +10,10 @@ const registrarUsuarioListener = createListener('registrar-usuario', (event, res
 
 const RegistrarUsuario = (props) => {
     const [formData, handleChange] = useForm({
-        username: '',
-        password: '',
-        nombre: '',
-        apellido: '',
+        username: 'lmao',
+        password: 'Roberto4$',
+        nombre: 'Roberto',
+        apellido: 'Sanchez',
         permisos: {}
     })
     useListener(registrarUsuarioListener)
@@ -36,9 +36,8 @@ const RegistrarUsuario = (props) => {
         <div>
             
             <h1 className="tituloRegistro">Registro</h1>
-
             <form className="formregister" onSubmit={handleSubmit} >
-|               <label className="label">Nombre</label>
+              <label className="label">Nombre</label>
                     <input placeholder='Nombre'type='text' className="labelinput" name="nombre"
                         value={formData.nombre} onChange={handleChange} /> 
                             <label className="label">Apellido</label>
