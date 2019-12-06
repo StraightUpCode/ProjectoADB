@@ -38,20 +38,20 @@ const RegistrarUsuario = (props) => {
             <h1 className="tituloRegistro">Registro</h1>
 
             <form className="formregister" onSubmit={handleSubmit} >
-|               <label className="label">Nombre</label>
+             <label className="label">Nombre</label>
                     <input placeholder='Nombre'type='text' className="labelinput" name="nombre"
                         value={formData.nombre} onChange={handleChange} /> 
                             <label className="label">Apellido</label>
-                <input type='text' className="labelinput"  name="apellido" 
+                <input type='text' placeholder="Apellido" className="labelinput"  name="apellido" 
                     value={formData.apellido} onChange={handleChange}/>
                         <label className="label">UserName</label>
-                <input type='text' className="labelinput" name="username"
+                <input type='text' placeholder="UserName" className="labelinput" name="username"
                     value={formData.username} onChange={handleChange}/>  
                         <label className="label">Password</label>
-                    <input type='password' className="labelinput" name="password" 
+                    <input type='password' placeholder="Password" className="labelinput" name="password" 
                     value={formData.password} onChange={handleChange}/>
                         <Permisos setPermisos={handlePermisos}/>
-                <input type='submit' className="enter" ></input> 
+                <input  type='submit' className="entercheck" ></input> 
           
             </form>
           
