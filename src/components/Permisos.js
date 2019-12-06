@@ -30,34 +30,34 @@ const Permisos = ({ setPermisos }) => {
     },[permisosTablas])
 
     return (
-        <div>
+        <div className="checkboxpedo">
             {
                 Object.entries(permisosTablas).map(([llave , valor], index) => {
                     const val = valor.toString(2).padStart(4,'0')
                     return (
                         <div key={index}>
                             <p>{llave}</p>
-                            <label>
-                                Ninguno
-                                <input onChange={handleChange} type='checkbox' name={llave} value='0' checked={!valor != 0}></input>
-                            </label>
-                            <label>
-Leer
-                            <input onChange={handleChange} type='checkbox' name={llave} value='1' checked={val.charAt(3) == '1'}></input>
-                            </label>
-                            <label>
-                                Escribir
-                            <input onChange={handleChange} type='checkbox' name={llave} value='2' checked={val.charAt(2) == '1'}></input>
+                       
+                                <input className="check" onChange={handleChange} type='checkbox'  name={llave} value='0' checked={!valor != 0}></input>
+                                <label className="labelcheck" >Ninguno</label>
 
-                            </label>
-                            <label>
-                            Actualizar
-                            <input onChange={handleChange} type='checkbox'name={llave} value='4' checked={val.charAt(1) == '1'}></input>
-                            </label>
-                            <label>
-                            Borrar
-                            <input onChange={handleChange} type='checkbox' name={llave} value='8' checked={val.charAt(0) == '1'}></input> 
-                            </label>
+                                
+                            <input className="check" onChange={handleChange} type='checkbox'  name={llave} value='1' checked={val.charAt(3) == '1'}></input>
+                            <label className="labelcheck" >Leer</label>
+         
+                               
+                            <input className="check" onChange={handleChange} type='checkbox'  name={llave} value='2' checked={val.charAt(2) == '1'}></input>   
+                            <label className="labelcheck">Escribir</label>
+
+                        
+                           
+                            <input className="check" onChange={handleChange} type='checkbox'  name={llave} value='4' checked={val.charAt(1) == '1'}></input>
+                            <label className="labelcheck">Actualizar</label>
+                            
+
+                            <input className="check" onChange={handleChange} type='checkbox'  name={llave} value='8' checked={val.charAt(0) == '1'}></input> 
+                            <label className="labelcheck">Borrar</label>
+                           
                         </div>    
                     )
                     

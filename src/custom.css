@@ -28,7 +28,7 @@ body {
   
 }
 
-.enter{
+.enter, .entercheck{
   display: block;
   width: 101%;
   font-size: 1.1em;
@@ -37,6 +37,10 @@ body {
   padding: 10px 20px;
   cursor: pointer;
   border: none;
+}
+
+.entercheck{
+  margin-top: 12px;
 }
 
 .labelinput{
@@ -58,4 +62,46 @@ body {
 
 }
 
+.check{
+  position: relative;
+  cursor: pointer;
+}
+.check:after {
+  content: '\00D7';
+  display: block;
+  background: white;
+  background-image: url('https://cdn0.iconfinder.com/data/icons/slim-square-icons-basics/100/basics-21-32.png');
+  pointer-events: none;
+  font-size: 15px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 15px;
+  width: 15px;
+  color: transparent;
+  transition: .25s all ease-in-out;
+  border-radius: 3px;
+  line-height: 15px;
+  background-position: 0 15px;
+  background-repeat: no-repeat;
+  background-size: 15px 15px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.3);
+  
+}
 
+.check + .labelcheck{
+  margin-right: 20px;
+}
+.labelcheck{
+  padding-left: 8px;
+}
+
+.check:checked:after {
+  background-color: mediumseagreen;
+  background-position: 0 0;
+}
+.check:hover:after{
+  border-color: mediumseagreen;
+}
