@@ -37,11 +37,8 @@ const RegistrarUsuario = (props) => {
             
             <h1 className="tituloRegistro">Registro</h1>
             <form className="formregister" onSubmit={handleSubmit} >
-<<<<<<< HEAD
-             <label className="label">Nombre</label>
-=======
+
               <label className="label">Nombre</label>
->>>>>>> dc08d24e871c640358f5943ef9f1c378b9ff44ff
                     <input placeholder='Nombre'type='text' className="labelinput" name="nombre"
                         value={formData.nombre} onChange={handleChange} /> 
                             <label className="label">Apellido</label>
