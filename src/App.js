@@ -32,7 +32,8 @@ class App extends Component {
         <Router>
           <Switch>
             <Route path='/setup'>
-              <Setup/>
+              {/* <Setup />  */}
+              
             </Route>
             <RequireValidDB path='/login'>
               <Login></Login>
