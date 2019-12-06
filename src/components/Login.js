@@ -15,7 +15,7 @@ const Login = (props) => {
   const checkLogin = (event, didLogIn) => {
     console.log(didLogIn)
     if (didLogIn.logged) {
-      createNavbar(didLogIn.user.permisos)
+     // createNavbar(didLogIn.user.permisos)
       setLoginStatus(true)
       history.push('/registrarUsuario')
     } else {
