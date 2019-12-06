@@ -1,10 +1,12 @@
-const TablasConTablasIntermedias = ['Factura', 'Usuario', 'Platillo', 'Factura']
+const TablasConTablasIntermedias = ['Factura', 'Usuario', 'Platillo', ]
 
 const esquema = {
     Factura: 'DetalleFactura',
-    Platilo: 'Platilo_Ingrediente',
+    Inventario: '',
+    Permiso: '',
+    Platillo: 'Platillo_Ingrediente',
+    Unidad: '',
     Usuario: 'Usuario_Permiso',
-    Platillo: 'Platillo_Ingrediente'
 }
 
 
