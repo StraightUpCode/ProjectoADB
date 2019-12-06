@@ -1,5 +1,4 @@
 import React from 'react'
-import { esquema } from '../esquemaDb'
 import useForm from './hooks/useForm'
 import useListener from './hooks/useListener'
 import Permisos from './Permisos'
@@ -8,7 +7,6 @@ import {createListener} from '../utils/events'
 const registrarUsuarioListener = createListener('registrar-usuario', (event, respuesta) => {
     console.log(respuesta)
 })
-console.log('Esquema Db', esquema)
 
 const RegistrarUsuario = (props) => {
     const [formData, handleChange] = useForm({
