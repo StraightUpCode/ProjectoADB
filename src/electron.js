@@ -75,14 +75,16 @@ ipcMain.on('login', async (e, ...arg) => {
   try {
     const coneccion = await connecionDb.loginToDB(username, password)
     if (coneccion) {
-      if (username != 'sa') {
-        const hash = crypto.createHash('sha256')
-        const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`
-        const userData = await coneccion.request().query(query)
-        response.user = userData.recordset
+      if (username != 'sa') { // si el usuario no es sa
+        const hash = crypto.createHash('sha256') // crea el encriptador
+        const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
+        const userData = await coneccion.request().query(query) // ejecuta el query
+        response.user = userData.recordset // se guardan los datos en el objeto
         console.log(response.user)
-        response.user.permisos = await coneccion.request().query(`execute sp_MisPermisos ${parseInt(response.user.IdUser)}`)
-      } else {
+        const permisosQuery = `execute sp_MisPermisos ${response.user[0].IdUsuario}` // se llaman a los permisos
+        permisosResponse = await coneccion.request().query(permisosQuery) // se ejecuta el sp
+        response.user[0].permisos = permisosResponse.recordset // se guarda el resultado
+      } else { // si es sa
         response.user = {permiso: [ {sa: 1}]}
       }
       response.logged = true

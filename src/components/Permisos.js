@@ -1,13 +1,14 @@
 import React, {useState, useEffect} from 'react'
+import { esquema } from '../esquemaDb'
 
 
+console.log(esquema)
 const Permisos = ({ setPermisos }) => {
-    const [permisosTablas, cambiarPermisos] = useState({
-        Factura : 0,
-        Platillo: 0,
-        Inventario: 0,
-        Unidad: 0,
-    })
+   const esquemaDb = Object.keys(esquema).reduce((acc, cur) => {
+        acc[cur] = 0
+        return acc
+    }, {}) 
+    const [permisosTablas, cambiarPermisos] = useState(esquemaDb)
 
     const handleChange = e => {
         const tabla = e.target.name
