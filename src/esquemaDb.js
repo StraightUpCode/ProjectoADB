@@ -3,7 +3,8 @@ const TablasConTablasIntermedias = ['Factura', 'Usuario', 'Platillo', 'Factura']
 const esquema = {
     Factura: 'DetalleFactura',
     Platilo: 'Platilo_Ingrediente',
-    Usuario: 'UsarioPermiso'
+    Usuario: 'Usuario_Permiso',
+    Platillo: 'Platillo_Ingrediente'
 }
 
 
