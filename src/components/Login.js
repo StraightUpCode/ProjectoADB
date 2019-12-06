@@ -3,6 +3,9 @@ import { loginListener, setLoginStatus } from '../utils/events'
 import { useHistory } from 'react-router-dom'
 import useListener from "./hooks/useListener";
 import useForm from './hooks/useForm'
+import { createNavbar } from "./Navbar";
+
+
 const Login = (props) => {
   const [loginData, handleChange] = useForm({
     username: 'sa',
@@ -11,7 +14,8 @@ const Login = (props) => {
   const history = useHistory()
   const checkLogin = (event, didLogIn) => {
     console.log(didLogIn)
-    if (didLogIn ) {
+    if (didLogIn.logged) {
+     // createNavbar(didLogIn.user.permisos)
       setLoginStatus(true)
       history.push('/registrarUsuario')
     } else {

@@ -48,3 +48,18 @@ Select I.ingrediente, I.cantidad,  U.unidad
 from Inventario as I 
 inner join Unidad as U on U.IdUnidad = I.idUnidad
 go
+
+
+-- Procedimiento
+drop PROCEDURE sp_MiData
+go
+create procedure sp_MiData 
+   @username nvarchar(50),
+   @password NVARCHAR(50)
+as 
+    Select IdUsuario, nombreUsuario, nombre, apellido 
+    from vUsuario
+    where vUsuario.nombreUsuario = @username
+    and vUsuario.contrasena = @password
+go
+

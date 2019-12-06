@@ -27,7 +27,11 @@ function createWindow() {
       ? "http://localhost:3000"
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
-  mainWindow.on("closed", () => (mainWindow = null));
+  mainWindow.on("closed", () => {
+    const conexion = connecionDb.getConeccion()
+    if(conexion) conexion.close()
+   mainWindow = null
+  });
 }
 
 app.on("ready", createWindow);
@@ -67,14 +71,26 @@ ipcMain.on('db-config', (e, arg) => {
 
 ipcMain.on('login', async (e, ...arg) => {
   const [username, password] = arg
+  const response = { logged : false}
   try {
     const coneccion = await connecionDb.loginToDB(username, password)
     if (coneccion) {
-      e.reply('login-reply', true )
+      if (username != 'sa') {
+        const hash = crypto.createHash('sha256')
+        const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`
+        const userData = await coneccion.request().query(query)
+        response.user = userData.recordset
+        console.log(response.user)
+        response.user.permisos = await coneccion.request().query(`execute sp_MisPermisos ${parseInt(response.user.IdUser)}`)
+      } else {
+        response.user = {permiso: [ {sa: 1}]}
+      }
+      response.logged = true
+      e.reply('login-reply', response)
     }
   } catch (error) {
     console.log(error)
-    e.reply('login-reply',false)
+    e.reply('login-reply',response)
  }
 
 })
@@ -128,10 +144,11 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     await conexion.request().query(`Create Login ${username} with password = '${password}'`)// Crea Login
     await conexion.request().query(`Create User ${username} for login ${username} `)// 
     const createUserString = `Insert into Usuario values
-    ('${username}',CAST(N'${hash.update(password).digest('binary')}' AS BINARY(32)), '${infoUsuario.nombre}','${infoUsuario.apellido}' );
+    ('${username}','${hash.update(password).digest('hex')}', '${infoUsuario.nombre}','${infoUsuario.apellido}' );
     Select SCOPE_IDENTITY() as id`
     console.log(createUserString)
     const createUserInTable = await conexion.request().query(createUserString)
+    console.log(await conexion.request().query(`Select * from Usuario where Usuario.IdUsuario = ${createUserInTable.recordset[0].id} `))
     const insertQueue = []
     for (const permiso of results) {
       if (permiso.recordset.length == 1) {
@@ -185,7 +202,8 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
         console.log('Agregar Select Vista Tabla', tabla)
         await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
       }
-
+      await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
+      await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
 
     }
   } catch (e) {
