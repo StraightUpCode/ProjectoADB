@@ -15,10 +15,10 @@ insert into Unidad values ('Taza')
 --Usuario
 insert into Usuario 
 values
-('alex',CAST('SaladoPescado10' as BINARY(32)), 'Alex','Cuadra'),
-('rodolfo',CAST('SaladoPescado10' as BINARY(32)), 'Rodolfo','Andrino'),
-('jacobo',CAST('SaladoPescado10' as BINARY(32)), 'Jacobo','Amador'),
-('roberto',CAST('SaladoPescado10' as BINARY(32)), 'Roberto','Sanchez')
+('alex','SaladoPescado10', 'Alex','Cuadra'),
+('rodolfo','SaladoPescado10', 'Rodolfo','Andrino'),
+('jacobo','SaladoPescado10', 'Jacobo','Amador'),
+('roberto','SaladoPescado10', 'Roberto','Sanchez')
 
 --Permiso
 insert into Permiso values('Unidad',1),
@@ -158,4 +158,5 @@ VALUES
 (4,'carlos',100,0,'2019-11-08',0),
 (3,'marco',120,0,'2019-11-06',1)
 
-select * from Usuario
+
+

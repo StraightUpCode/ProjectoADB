@@ -63,7 +63,7 @@ GO
 create table Usuario(
     IdUsuario int IDENTITY(1,1) PRIMARY Key,
     nombreUsuario nvarchar(16) not null,
-    contrasena binary(32) not null,
+    contrasena nvarchar(64) not null,
     nombre varchar(100),
     apellido varchar(100)
 )
@@ -97,3 +97,4 @@ go
 
 alter table Factura 
     add CONSTRAINT FK_Factura_Usuario FOREIGN key (idUsuario) REFERENCES Usuario(IdUsuario) on delete cascade on update cascade;
+    
