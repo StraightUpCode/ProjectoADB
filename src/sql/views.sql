@@ -55,7 +55,7 @@ drop PROCEDURE sp_MiData
 go
 create procedure sp_MiData 
    @username nvarchar(50),
-   @password NVARCHAR(50)
+   @password NVARCHAR(64)
 as 
     Select IdUsuario, nombreUsuario, nombre, apellido 
     from vUsuario
@@ -63,3 +63,20 @@ as
     and vUsuario.contrasena = @password
 go
 
+Select * from Permiso
+go
+create procedure sp_MisPermisos
+    @IdUsuario INT
+as
+Select tabla, crud 
+from Permiso
+inner join Usuario_Permiso on Usuario_Permiso.idPermiso = Permiso.IdPermiso
+inner join Usuario on Usuario.IdUsuario = Usuario_Permiso.idUsuario
+where Usuario.IdUsuario = @IdUsuario
+go
+
+
+drop login lmao
+drop user lmao
+select  * from Usuario
+execute sp_MiData 'lmao', 'd88d772e4b185786ce705a3ed811d421826cda03cfce94b25de7da679f00b007'
