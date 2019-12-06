@@ -176,10 +176,13 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
       console.log(tabla, permisosSQL)
       await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${username}`)
       if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
+        console.log(tabla)
         const tablaIntermedia = esquemaDb.esquema[tabla]
+        console.log('Agregando permiso a tabla intermedia', tablaIntermedia)
         await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablaIntermedia} to ${username}`)
       }
       if (permisosSQL.includes('Select')) {
+        console.log('Agregar Select Vista Tabla', tabla)
         await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
       }
 
