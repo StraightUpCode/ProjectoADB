@@ -9,7 +9,7 @@ const registrarUsuarioListener = createListener('registrar-usuario', (event, res
 })
 
 const RegistrarUsuario = (props) => {
-    const [formData, handleChange] = useForm({
+    const [formData, handleChange, resetFormulario] = useForm({
         username: 'lmao',
         password: 'Roberto4$',
         nombre: 'Roberto',
@@ -31,6 +31,7 @@ const RegistrarUsuario = (props) => {
         console.log(formData)
         registrarUsuarioListener.send(formData)
         e.preventDefault()
+        resetFormulario()
     }
     return (
         <div>
