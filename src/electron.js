@@ -212,20 +212,34 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     console.log(e)
   }
 })
-ipcMain.on("rootCommand", (event, args) => {
+ipcMain.on("rootCommand", async (event, args) => {
   try {
   // Se consigue la coneccion al db
     const conecion = connecionDb.getConeccion()
     // se conecta como tal
-    await coneccion.connect()
+    await conecion
     // hace la solicutd
-    const request = await coneccion.request().query(args)
+    const request = await conecion.request().query(args)
     // devuelve el valor al front end
-    event.reply(request)
-  } catch (e) {
-    event.reply(e)
+    console.log(request)
+    event.reply('rootCommand-reply', request)
+  } catch (error) {
+    event.reply('rootCommand-reply',e)
     console.log(e)
   }
+})
+
+ipcMain.on('get-facturas', async (event, args) => { 
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Select * from vFactura`)
+    event.reply('get-facturas-reply', result.recordset)
+  } catch (e) { 
+    event.reply('get-facturas-reply',e)
+    console.log(e)
+  }
+
 })
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 

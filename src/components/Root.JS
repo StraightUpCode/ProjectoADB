@@ -1,11 +1,11 @@
 import React,{useState} from "react";
 import useForm from './hooks/useForm'
-import {createListener} from './utils/events'
-import {useListener} from './utils/events'
+import {createListener} from '../utils/events'
+import useListener from './hooks/useListener'
 
 const Root = (props) => {
   const [stat,fstat]= useState() 
-  const listener = createListener('rootCommand', (toLog) => {
+  const listener = createListener('rootCommand', (event, toLog) => {
     fstat(toLog)
   })
 
@@ -18,7 +18,7 @@ const Root = (props) => {
     const sendCommand = (event) => {
       event.preventDefault()
       console.log(Command);
-      listener.send(Command); 
+      listener.send(Command.Log); 
   
     }
 

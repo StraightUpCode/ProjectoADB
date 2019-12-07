@@ -1,6 +1,6 @@
 create view vFactura 
 as
-Select U.nombre + ' ' + U.apellido as nombre , nombreCliente, precioTotal, totalDescontado
+Select IdFactura ,F.fecha, U.nombre + ' ' + U.apellido as vendedor, nombreCliente, precioTotal, totalDescontado, cancelado
 From Factura as F
 inner join Usuario as U on U.IdUsuario = F.idUsuario
 go
@@ -79,4 +79,5 @@ go
 drop login lmao
 drop user lmao
 select  * from Usuario
+delete from Usuario where IdUsuario > 5
 execute sp_MiData 'lmao', 'd88d772e4b185786ce705a3ed811d421826cda03cfce94b25de7da679f00b007'

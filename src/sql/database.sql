@@ -97,4 +97,3 @@ go
 
 alter table Factura 
     add CONSTRAINT FK_Factura_Usuario FOREIGN key (idUsuario) REFERENCES Usuario(IdUsuario) on delete cascade on update cascade;
-    
