@@ -1,5 +1,6 @@
-import React, { useState} from 'react'
+import React, { useState, useEffect} from 'react'
 import { createListener } from '../utils/events'
+import useListener from './hooks/useListener'
 
 
 
@@ -16,12 +17,17 @@ const FacturaView = (props) => {
             fecha: ''
         }
     ])
-    const listener = createListener('get-facturas', (event) => {
-        setFacturas(event)
+    const listener = createListener('get-facturas', (event, data) => {
+        
+        setFacturas(data)
+        
+        
     })
-
-    listener.send()
-
+    useListener(listener,facturas)
+    useEffect(() => {
+       listener.send()
+   },[])
+   console.log(facturas)
     return (
         <div>
             <div><h1>Factura</h1></div>
@@ -37,7 +43,7 @@ const FacturaView = (props) => {
                     <div> Cancelado </div>
                 </div>
                 {
-                    facturas.map((factura) => {
+                    facturas.map((factura) => (
                         <div>
                             <div> {factura.IdFactura} </div>
                             <div> {factura.fecha}  </div>
@@ -47,10 +53,12 @@ const FacturaView = (props) => {
                             <div> {factura.totalDescontado}  </div>
                             <div> {factura.cancelado}  </div>
                         </div>
-                    })
+                    ))
                 }
 
             </div>
         </div>
     )
 }
+
+export default FacturaView
