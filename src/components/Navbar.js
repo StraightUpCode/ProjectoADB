@@ -14,17 +14,17 @@ const navbarComposed = (rutas) => () => (
   
   <div id="content">
       
-      <span class="slide">
-          <a href="#" onclick={openSlideMenu}>
-            <i class="fas fa-bars"></i>
+      <span className="slide">
+          <a href="#" >
+            <i className="fas fa-bars"></i>
 
           </a>
           
       </span>
 
-      <div id="menu" class="nav">
-          <a href="#" class="close" onclick={closeSlideMenu}>
-          <i class="fas fa-times"></i></a>
+      <div id="menu" className="nav">
+          <a href="#" className="close" >
+          <i className="fas fa-times"></i></a>
           {rutas}
 
       </div>
@@ -72,12 +72,6 @@ export const createNavbar = (permisos) => {
     for (const accion of miniRutas) {
       const link = `/${permiso.tabla}/${accion}` // crea la url de la accion
       //a;ade un anchor tag a rutas 
-
-
-      array.push((<li><a className="rutas" key={rutas.length} href={link} >{permiso.tabla + ' '+ accion} </a></li> ))
-      
-
-      rutas.push((<Zelda key={rutas.length} href={link} >{permiso.tabla + ' '+ accion}</Zelda>))
       array.push((<li><Zelda className="rutas" key={rutas.length} href={link} >{permiso.tabla + ' '+ accion} </Zelda></li> ))
       
 
