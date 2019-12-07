@@ -31,7 +31,7 @@ const Root = (props) => {
         <form className="Root" onSubmit={sendCommand} >
           <label className="label">Console</label>
           <input className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></input>
-          
+          <input className="labelinput" type="text" name='LogBack' value={toLog.log} onChange={handleChange} ></input>
           <input  type="submit" value="Submit" className="enter" />
         </form>
     
