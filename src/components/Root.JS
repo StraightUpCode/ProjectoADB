@@ -4,7 +4,7 @@ import {createListener} from '../utils/events'
 import useListener from './hooks/useListener'
 
 const Root = (props) => {
-  const [stat,fstat]= useState() 
+  const [stat,fstat]= useState('') 
   const listener = createListener('rootCommand', (event, toLog) => {
     fstat(toLog)
   })
@@ -34,7 +34,7 @@ const Root = (props) => {
           
           <input  type="submit" value="Submit" className="enter" />
         </form>
-    
+        <div>{JSON.stringify(stat)}</div>
       </div>
     );
   };
