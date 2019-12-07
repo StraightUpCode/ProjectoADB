@@ -19,6 +19,8 @@ const Root = (props) => {
       event.preventDefault()
       console.log(Command);
       listener.send(Command.Log); 
+      const xd = new XMLHttpRequest();
+      xd.open(GET,)
   
     }
 
@@ -30,9 +32,31 @@ const Root = (props) => {
         <h1 className="TitleRoot">Admin</h1>
         <form className="Root" onSubmit={sendCommand} >
           <label className="label">Console</label>
-          <input className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></input>
-          <input className="labelinput" type="text" name='LogBack' value={toLog.log} onChange={handleChange} ></input>
+          <input className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></input>;
           <input  type="submit" value="Submit" className="enter" />
+          <div>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Firstname</th>
+              <th>Lastname</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Data.map((user, index) => {
+              return (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+          
         </form>
         <div>{JSON.stringify(stat)}</div>
       </div>
