@@ -206,13 +206,18 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
       await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${username}`)
       if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
         console.log(tabla)
-        const tablaIntermedia = esquemaDb.esquema[tabla]
-        console.log('Agregando permiso a tabla intermedia', tablaIntermedia)
-        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablaIntermedia} to ${username}`)
+        const tablasIntermedia = esquemaDb.esquema[tabla]
+        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablasIntermedia[0]} to ${username}`)
+   
+        
       }
       if (permisosSQL.includes('Select')) {
         console.log('Agregar Select Vista Tabla', tabla)
         await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
+        for (const tablaIntermedia of tablasIntermedia) {
+          console.log('Agregando Select Vistas a tablas intermedia', tablaIntermedia)
+          await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablaIntermedia} to ${username}`)
+        }
       }
       await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
       await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
