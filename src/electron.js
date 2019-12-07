@@ -29,7 +29,10 @@ function createWindow() {
   );
   mainWindow.on("closed", () => {
     const conexion = connecionDb.getConeccion()
-    if(conexion) conexion.close()
+    if (conexion) {
+      console.log('Cerrando App')
+      conexion.close()
+    }
    mainWindow = null
   });
 }
@@ -73,8 +76,13 @@ ipcMain.on('login', async (e, ...arg) => {
   const [username, password] = arg
   const response = { logged : false}
   try {
-    const coneccion = await connecionDb.loginToDB(username, password)
+    
+    let coneccion = connecionDb.getConeccion()
+    if (!coneccion) { 
+      coneccion == await connecionDb.loginToDB(username, password)
+    } 
     if (coneccion) {
+      await coneccion
       if (username != 'sa') { // si el usuario no es sa
         const hash = crypto.createHash('sha256') // crea el encriptador
         const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
