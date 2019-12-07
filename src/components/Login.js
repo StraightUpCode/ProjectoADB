@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import useListener from "./hooks/useListener";
 import useForm from './hooks/useForm'
 import { createNavbar } from "./Navbar";
+import { addUser } from "../utils/store";
 
 
 const Login = (props) => {
@@ -15,9 +16,10 @@ const Login = (props) => {
   const checkLogin = (event, didLogIn) => {
     console.log(didLogIn)
     if (didLogIn.logged) {
-     // createNavbar(didLogIn.user.permisos)
+      createNavbar(didLogIn.user[0].permisos)
+      addUser(didLogIn.user[0])
       setLoginStatus(true)
-      history.push('/registrarUsuario')
+      history.push('/')
     } else {
       setLoginStatus(false)
     }
