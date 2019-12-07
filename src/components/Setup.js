@@ -5,15 +5,15 @@ import useListener from './hooks/useListener'
 import useForm from './hooks/useForm'
 
 
-const testConeccionListener = (history) => createListener('set-conection', (event, coneccion) => {
+const testConeccionListener = (history, setValidDb) => createListener('set-conection', (event, coneccion) => {
     console.log(coneccion)
-    setConeccionStatus(coneccion)
+    setValidDb(coneccion)
     console.log(coneccion)
     if (coneccion) {
         history.push('/')
     }
 })
-const Setup = (props) => {
+const Setup = ({setDb}) => {
     const history = useHistory()
     const [coneccion, handleCredenciales] = useForm({
         server: 'localhost',
@@ -22,7 +22,7 @@ const Setup = (props) => {
         password: 'Roberto4$'
     })
 
-    const listener = testConeccionListener(history)
+    const listener = testConeccionListener(history,setDb)
     useListener(listener)
     
     const handleSubmit = (e) => {
