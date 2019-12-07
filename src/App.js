@@ -7,11 +7,8 @@ import "./custom.css";
 import "./estilo.js";
 import Home from "./components/Home";
 import Root from "./components/Root.JS";
-<<<<<<< HEAD
-=======
 import FacturaView from "./components/FacturaView";
 import { getDbConfig } from "./utils/events";
->>>>>>> 9bdc259d6f6600478a89e122834ac1418ed5a6c9
 
 const RequireValidDB = ({ children, validDb, ...rest }) => {
   return (
@@ -31,33 +28,6 @@ const RequireLogin = ({ isLogged, children,...rest }) => {
   )
   
 }
-<<<<<<< HEAD
-class App extends Component {
-  render() {
-    return (
-      <>
-        <Router>
-          <Switch>
-            <Route path='/setup'>
-            <Root/>
-
-
-            </Route>
-            <RequireValidDB path='/login'>
-              <Login></Login>
-            </RequireValidDB>    
-            <RequireLogin path='/registrarUsuario' >
-              <RegistrarUsuario></RegistrarUsuario>
-            </RequireLogin>
-            <RequireLogin path='/' >
-              <Home/>
-            </RequireLogin>
-          </Switch>
-        </Router>
-      </>
-    );
-  }
-=======
 
 const App = () => {
   const [session, setSession] = useState(false)
@@ -91,6 +61,5 @@ const App = () => {
       </Router>
     </>
   )
->>>>>>> 9bdc259d6f6600478a89e122834ac1418ed5a6c9
 }
 export default App;
