@@ -1,18 +1,10 @@
-import { create } from "domain"
 
 const { ipcRenderer } = window.require('electron')
 
-export const status = {
-    validDb: false,
-    login : false
-}
-export const setConeccionStatus= (estatusConeccion) => status.validDb = estatusConeccion
-export const setLoginStatus = (loginStatus) => status.login = loginStatus
-
 export const getDbConfig = () => { 
     const config = ipcRenderer.sendSync('db-config')
-    if (config.db_host && config.db_name) status.validDb = true
-    return config
+    if (config.db_host && config.db_name) return true
+    return false
 }
 
 export const modificarConfig = async (nuevaConfig) => {

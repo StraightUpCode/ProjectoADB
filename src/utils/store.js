@@ -1,7 +1,9 @@
 import React from 'react'
 
 const store = { 
-    user: {}
+    user: {
+        permisos: []
+    }
 }
 const addStore = (Component) => () => (
     <>

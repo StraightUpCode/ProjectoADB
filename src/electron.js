@@ -29,7 +29,10 @@ function createWindow() {
   );
   mainWindow.on("closed", () => {
     const conexion = connecionDb.getConeccion()
-    if(conexion) conexion.close()
+    if (conexion) {
+      console.log('Cerrando App')
+      conexion.close()
+    }
    mainWindow = null
   });
 }
@@ -73,8 +76,13 @@ ipcMain.on('login', async (e, ...arg) => {
   const [username, password] = arg
   const response = { logged : false}
   try {
-    const coneccion = await connecionDb.loginToDB(username, password)
+    
+    let coneccion = connecionDb.getConeccion()
+    if (!coneccion) { 
+      coneccion == await connecionDb.loginToDB(username, password)
+    } 
     if (coneccion) {
+      await coneccion
       if (username != 'sa') { // si el usuario no es sa
         const hash = crypto.createHash('sha256') // crea el encriptador
         const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
@@ -211,6 +219,35 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
   } catch (e) {
     console.log(e)
   }
+})
+ipcMain.on("rootCommand", async (event, args) => {
+  try {
+  // Se consigue la coneccion al db
+    const conecion = connecionDb.getConeccion()
+    // se conecta como tal
+    await conecion
+    // hace la solicutd
+    const request = await conecion.request().query(args)
+    // devuelve el valor al front end
+    console.log(request)
+    event.reply('rootCommand-reply', request)
+  } catch (error) {
+    event.reply('rootCommand-reply',e)
+    console.log(e)
+  }
+})
+
+ipcMain.on('get-facturas', async (event, args) => { 
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Select * from vFactura`)
+    event.reply('get-facturas-reply', result.recordset)
+  } catch (e) { 
+    event.reply('get-facturas-reply',e)
+    console.log(e)
+  }
+
 })
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 

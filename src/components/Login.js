@@ -1,5 +1,5 @@
 import React from "react";
-import { loginListener, setLoginStatus } from '../utils/events'
+import { loginListener} from '../utils/events'
 import { useHistory } from 'react-router-dom'
 import useListener from "./hooks/useListener";
 import useForm from './hooks/useForm'
@@ -7,7 +7,7 @@ import { createNavbar } from "./Navbar";
 import { addUser } from "../utils/store";
 
 
-const Login = (props) => {
+const Login = ({setLoginStatus,...rest}) => {
   const [loginData, handleChange] = useForm({
     username: 'sa',
     password: 'Roberto4$'
@@ -19,8 +19,11 @@ const Login = (props) => {
       createNavbar(didLogIn.user[0].permisos)
       addUser(didLogIn.user[0])
       setLoginStatus(true)
+      console.log('Loggin true')
       history.push('/')
     } else {
+      console.log('Loggin false')
+
       setLoginStatus(false)
     }
   }
