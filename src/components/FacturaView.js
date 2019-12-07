@@ -62,6 +62,8 @@ const FacturaView = ({ store }) => {
                                 Menu
                                 <Zelda href="/Factura/ver/1"> Ver Detalle</Zelda>
                                 {permisoFactura[1] == '1' ? <Zelda href='/Factura/actualizar'>Actualizar Data</Zelda> : null}
+                                {permisoFactura[0] == '1' ? <Zelda href={`/Factura/borrar/${factura.IdFactura}`}>Actualizar Data</Zelda> : null}
+
                             </div>
                         </div>
                     ))
