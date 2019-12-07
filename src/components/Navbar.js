@@ -1,4 +1,5 @@
 import React from "react"
+<<<<<<< HEAD
 import Zelda from "../utils/Zelda";
 
 
@@ -6,6 +7,9 @@ import Zelda from "../utils/Zelda";
 const rutas = []
 
 
+=======
+import Zelda from '../utils/Zelda'
+>>>>>>> e24ac29c9c1327b01b50acbed9f58a0a815ed904
 
 const navbarComposed = (rutas) => () => (
   
@@ -31,6 +35,10 @@ const navbarComposed = (rutas) => () => (
   </div>
  
 
+<<<<<<< HEAD
+=======
+)
+>>>>>>> e24ac29c9c1327b01b50acbed9f58a0a815ed904
 
 )
 
@@ -72,12 +80,17 @@ export const createNavbar = (permisos) => {
     for (const accion of miniRutas) {
       const link = `/${permiso.tabla}/${accion}` // crea la url de la accion
       //a;ade un anchor tag a rutas 
+<<<<<<< HEAD
 
       array.push((<li><a className="rutas" key={rutas.length} href={link} >{permiso.tabla + ' '+ accion} </a></li> ))
       
 
       rutas.push((<Zelda key={rutas.length} href={link} >{permiso.tabla + ' '+ accion}</Zelda>))
 
+=======
+      array.push((<li><Zelda className="rutas" key={rutas.length} href={link} >{permiso.tabla + ' '+ accion} </Zelda></li> ))
+      
+>>>>>>> e24ac29c9c1327b01b50acbed9f58a0a815ed904
     }
     
     
