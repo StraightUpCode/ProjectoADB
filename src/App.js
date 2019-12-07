@@ -10,15 +10,7 @@ import Root from "./components/Root.JS";
 import FacturaView from "./components/FacturaView";
 import { getDbConfig } from "./utils/events";
 
-<<<<<<< HEAD
 const RequireValidDB = ({ validDb, children, ...rest }) => {
-=======
-
-const RequireValidDB = ({ children, ...rest }) => {
-
-const RequireValidDB = ({ children, validDb, ...rest }) => {
-
->>>>>>> e79ff9e171b81fdabef31910ace66b534ad705cd
   return (
     <Route {...rest}>
       {!validDb ? <Redirect to='/setup' /> : children}
