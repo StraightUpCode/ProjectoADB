@@ -85,7 +85,7 @@ ipcMain.on('login', async (e, ...arg) => {
         permisosResponse = await coneccion.request().query(permisosQuery) // se ejecuta el sp
         response.user[0].permisos = permisosResponse.recordset // se guarda el resultado
       } else { // si es sa
-        response.user = {permiso: [ {sa: 1}]}
+        response.user = [{ permisos: [{ tabla: 'sa' , crud : 1}] }]
       }
       response.logged = true
       e.reply('login-reply', response)
