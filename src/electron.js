@@ -228,6 +228,19 @@ ipcMain.on("rootCommand", async (event, args) => {
     console.log(e)
   }
 })
+
+ipcMain.on('get-facturas', async (event, args) => { 
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Select * from vFactura`)
+    event.reply('get-facturas-reply', result.recordset)
+  } catch (e) { 
+    event.reply('get-facturas-reply',e)
+    console.log(e)
+  }
+
+})
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 
