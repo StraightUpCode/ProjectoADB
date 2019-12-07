@@ -1,18 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom"
 
 
-let Navbar
+const navbarComposed = (rutas) => () => (<div> {rutas}</div>)
+const rutas = []
 export const createNavbar = (permisos) => {
-  const rutas = []
+  
   //arreglo de permisos
   for (const permiso of permisos) {
      //permiso es un objeto que contiene, el nombre de la tabla 
     // y el valor crud
     const miniRutas = []
-    const linkBase = ''
-    const crud = permiso.crud.toString(2)
+    const crud = permiso.crud.toString(2).padStart(4,'0')
     for (let index = 0; index < crud.length; index += 1) {
+      console.log(permiso.tabla, crud)
+      //Determina que permisos tiene si ver, actualizar,etc
       if (crud.charAt(index) == '1') {
         switch (index) {
           case 0: {
@@ -35,18 +36,12 @@ export const createNavbar = (permisos) => {
       }
     }
     for (const accion of miniRutas) {
-      const link = `/${permiso.tabla}/${accion}`
-      rutas.push((<a href={link} ></a>))
+      const link = `/${permiso.tabla}/${accion}` // crea la url de la accion
+      //a;ade un anchor tag a rutas 
+      rutas.push((<a key={rutas.length} href={link} >{permiso.tabla + ' '+ accion}</a>))
     }
   }
-
-  Navbar = (
-    <div>
-      {rutas}
-    </div>
-  )
   
 }
 
-export default Navbar; 
-
+export default navbarComposed(rutas); 
