@@ -78,15 +78,16 @@ ipcMain.on('login', async (e, ...arg) => {
   try {
     
     let coneccion = connecionDb.getConeccion()
+    console.log(coneccion)
     if (!coneccion) { 
       coneccion == await connecionDb.loginToDB(username, password)
-    } 
-    if (coneccion) {
-      await coneccion
+      console.log('coneccion generada')
       if (username != 'sa') { // si el usuario no es sa
         const hash = crypto.createHash('sha256') // crea el encriptador
         const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
+        console.log('query creada')
         const userData = await coneccion.request().query(query) // ejecuta el query
+        console.log('Connsiguiendo el usuario')
         response.user = userData.recordset // se guardan los datos en el objeto
         console.log(response.user)
         const permisosQuery = `execute sp_MisPermisos ${response.user[0].IdUsuario}` // se llaman a los permisos
@@ -96,6 +97,7 @@ ipcMain.on('login', async (e, ...arg) => {
         response.user = [{ permisos: [{ tabla: 'sa' , crud : 1}] }]
       }
       response.logged = true
+      console.log('reply')
       e.reply('login-reply', response)
     }
   } catch (error) {
@@ -233,7 +235,7 @@ ipcMain.on("rootCommand", async (event, args) => {
     event.reply('rootCommand-reply', request)
   } catch (error) {
     event.reply('rootCommand-reply',e)
-    console.log(e)
+    console.log(error)
   }
 })
 
