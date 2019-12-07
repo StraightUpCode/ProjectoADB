@@ -5,8 +5,9 @@ import Login from './components/Login'
 import Setup from './components/Setup'
 import RegistrarUsuario from './components/RegisterUser'
 import "./custom.css";
-import "./estilo.js";
+
 import Home from "./components/Home";
+
 
 const RequireValidDB = ({ children, ...rest }) => {
   return (
