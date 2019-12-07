@@ -10,7 +10,7 @@ import Root from "./components/Root.JS";
 import FacturaView from "./components/FacturaView";
 import { getDbConfig } from "./utils/events";
 
-const RequireValidDB = ({ children, validDb, ...rest }) => {
+const RequireValidDB = ({ validDb, children, ...rest }) => {
   return (
     <Route {...rest}>
       {!validDb ? <Redirect to='/setup' /> : children}
@@ -40,7 +40,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route path='/setup'>
-            <Setup />
+            <Setup setDB={setValidDb}/>
           </Route>
           <RequireValidDB validDb={validDb} path='/login'>
             <Login setLoginStatus={setSession}></Login>
