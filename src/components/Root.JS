@@ -1,16 +1,29 @@
-import React from "react";
+import React,{useState} from "react";
 import useForm from './hooks/useForm'
+import {createListener} from './utils/events'
+import {useListener} from './utils/events'
 
 const Root = (props) => {
-  const sendCommand = (event) => {
-    event.preventDefault()
-    console.log(Command);
+  const [stat,fstat]= useState() 
+  const listener = createListener('rootCommand', (toLog) => {
+    fstat(toLog)
+  })
 
-  }
+
     const [Command, handleChange] = useForm({   
 
       Log:''
     })
+
+    const sendCommand = (event) => {
+      event.preventDefault()
+      console.log(Command);
+      listener.send(Command); 
+  
+    }
+
+    useListener(listener)
+
   
     return (
       <div className="Root_Container">
