@@ -1,4 +1,5 @@
 import React from "react";
+import Zelda from "../utils/Zelda";
 
 
 const navbarComposed = (rutas) => () => (<div> {rutas}</div>)
@@ -38,7 +39,7 @@ export const createNavbar = (permisos) => {
     for (const accion of miniRutas) {
       const link = `/${permiso.tabla}/${accion}` // crea la url de la accion
       //a;ade un anchor tag a rutas 
-      rutas.push((<a key={rutas.length} href={link} >{permiso.tabla + ' '+ accion}</a>))
+      rutas.push((<Zelda key={rutas.length} href={link} >{permiso.tabla + ' '+ accion}</Zelda>))
     }
   }
   
