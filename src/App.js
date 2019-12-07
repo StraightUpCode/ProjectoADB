@@ -7,6 +7,7 @@ import RegistrarUsuario from './components/RegisterUser'
 import "./custom.css";
 import "./estilo.js";
 import Home from "./components/Home";
+import Root from "./components/Root.JS";
 
 const RequireValidDB = ({ children, ...rest }) => {
   return (
@@ -42,7 +43,10 @@ class App extends Component {
               <RegistrarUsuario></RegistrarUsuario>
             </RequireLogin>
             <RequireLogin path='/' >
-              <Home/>
+              <>
+                <Home />
+                <Root></Root>
+              </>
             </RequireLogin>
           </Switch>
         </Router>

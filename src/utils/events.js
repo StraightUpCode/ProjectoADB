@@ -1,4 +1,3 @@
-import { create } from "domain"
 
 const { ipcRenderer } = window.require('electron')
 
