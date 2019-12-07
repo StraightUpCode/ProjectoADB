@@ -1,9 +1,41 @@
+<<<<<<< HEAD
+import React from "react"
+
+
+const navbarComposed = (rutas) => () => (
+  
+
+  
+      <div id="content">
+          
+          <span class="slide">
+              <a href="#" onclick={openSlideMenu}>
+                <i class="fas fa-bars"></i>
+
+              </a>
+              
+          </span>
+
+          <div id="menu" class="nav">
+              <a href="#" class="close" onclick={closeSlideMenu}>
+              <i class="fas fa-times"></i></a>
+              {rutas}
+
+          </div>
+
+      </div>
+     
+
+
+)
+=======
 import React from "react";
 import Zelda from "../utils/Zelda";
+>>>>>>> 9e74094c26e26cd2db6f5ba9dc164b8694d9263f
 
 
-const navbarComposed = (rutas) => () => (<div> {rutas}</div>)
 const rutas = []
+
 export const createNavbar = (permisos) => {
   
   //arreglo de permisos
@@ -36,12 +68,36 @@ export const createNavbar = (permisos) => {
         }
       }
     }
+
+    const array = []
     for (const accion of miniRutas) {
       const link = `/${permiso.tabla}/${accion}` // crea la url de la accion
       //a;ade un anchor tag a rutas 
+<<<<<<< HEAD
+      array.push((<li><a className="rutas" key={rutas.length} href={link} >{permiso.tabla + ' '+ accion} </a></li> ))
+      
+=======
       rutas.push((<Zelda key={rutas.length} href={link} >{permiso.tabla + ' '+ accion}</Zelda>))
+>>>>>>> 9e74094c26e26cd2db6f5ba9dc164b8694d9263f
     }
+    
+    
+rutas.push((
+  
+       <ul>
+        
+         {array}
+
+
+       </ul>
+
+
+    ))
+
+
   }
+
+  
   
 }
 
