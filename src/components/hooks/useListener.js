@@ -5,7 +5,7 @@ const useListener = (listener, dependencias = [] ) => {
         listener.listener()
 
         return () => listener.clear()
-    },dependencias)
+    },[dependencias])
 }
 
 export default useListener
