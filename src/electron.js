@@ -80,26 +80,28 @@ ipcMain.on('login', async (e, ...arg) => {
     let coneccion = connecionDb.getConeccion()
     console.log(coneccion)
     if (!coneccion) { 
-      coneccion == await connecionDb.loginToDB(username, password)
+      coneccion = await connecionDb.loginToDB(username, password)
       console.log('coneccion generada')
-      if (username != 'sa') { // si el usuario no es sa
-        const hash = crypto.createHash('sha256') // crea el encriptador
-        const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
-        console.log('query creada')
-        const userData = await coneccion.request().query(query) // ejecuta el query
-        console.log('Connsiguiendo el usuario')
-        response.user = userData.recordset // se guardan los datos en el objeto
-        console.log(response.user)
-        const permisosQuery = `execute sp_MisPermisos ${response.user[0].IdUsuario}` // se llaman a los permisos
-        permisosResponse = await coneccion.request().query(permisosQuery) // se ejecuta el sp
-        response.user[0].permisos = permisosResponse.recordset // se guarda el resultado
-      } else { // si es sa
-        response.user = [{ permisos: [{ tabla: 'sa' , crud : 1}] }]
-      }
-      response.logged = true
-      console.log('reply')
-      e.reply('login-reply', response)
     }
+    if (username != 'sa') { // si el usuario no es sa
+      console.log(coneccion)
+      const hash = crypto.createHash('sha256') // crea el encriptador
+      const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
+      console.log('query creada')
+      const userData = await coneccion.request().query(query) // ejecuta el query
+      console.log('Connsiguiendo el usuario')
+      response.user = userData.recordset // se guardan los datos en el objeto
+      console.log(response.user)
+      const permisosQuery = `execute sp_MisPermisos ${response.user[0].IdUsuario}` // se llaman a los permisos
+      permisosResponse = await coneccion.request().query(permisosQuery) // se ejecuta el sp
+      response.user[0].permisos = permisosResponse.recordset // se guarda el resultado
+    } else { // si es sa
+      response.user = [{ permisos: [{ tabla: 'sa', crud: 1 }] }]
+    }
+    response.logged = true
+    console.log('reply')
+    console.log(response.user[0].permisos)
+    e.reply('login-reply', response)
   } catch (error) {
     console.log(error)
     e.reply('login-reply',response)
@@ -206,16 +208,23 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
       await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${username}`)
       if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
         console.log(tabla)
-        const tablaIntermedia = esquemaDb.esquema[tabla]
-        console.log('Agregando permiso a tabla intermedia', tablaIntermedia)
-        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablaIntermedia} to ${username}`)
+        const tablasIntermedia = esquemaDb.esquema[tabla]
+        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablasIntermedia[0]} to ${username}`)
+   
+        
       }
       if (permisosSQL.includes('Select')) {
         console.log('Agregar Select Vista Tabla', tabla)
         await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
+        for (const tablaIntermedia of tablasIntermedia) {
+          console.log('Agregando Select Vistas a tablas intermedia', tablaIntermedia)
+          conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${username}`)
+
+        }
       }
-      await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
-      await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
+
+      conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
+      conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
 
     }
   } catch (e) {

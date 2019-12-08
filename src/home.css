@@ -2,17 +2,69 @@
 body{
     font-family: 'Alegreya Sans', sans-serif;
     
+
+    
 }
 
 
 *{
     margin: 0;
     padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.wrapper{
+    display: flex;
+    position: relative;
+}
+
+.wrapper .sidebar{
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    background: #29638D;
+    border-color: rgba(0, 0, 0, 0.3);     
+    padding: 30px 0;
+}
+
+.wrapper .sidebar .permisito{
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 30px ;
+}
+ 
+.TitleRoot{
+    text-align: center;
+}
+
+
+.pedo{
+    display:block;
+    padding: 20px 30px;
+    font-size: 20px;
+    color: #E9EBED;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(225, 225, 225, 0.2);
+    
+}
+
+.rutas:hover{
+    background: #377EB2;
+}
+
+.rutas:hover .pedo{
+    color:#fff;
+    font-size: 22px;
+    transition: 0.4s;
 }
 
 
 .homeh1{
     text-align: center;
+    padding-left: 110px;
     
 }
 
