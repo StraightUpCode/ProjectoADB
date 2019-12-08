@@ -82,8 +82,8 @@ body{
  
     
 }
-/*
-No le hagan caso
+
+
 .table{
 margin: 0 auto;
 text-align: left;
@@ -93,7 +93,7 @@ text-align: left;
 display: table;
 padding: 0 0 8em 0;
 border-radius: 5px 5px 0 0;
-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
 }
 .table thead tr{
     background-color: #007EA7;
@@ -118,17 +118,56 @@ box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     border-bottom: 1px solid #dddddd;
 }
 
-.table tbody tr:nth-of-type(even){
-    background-color: #f3f3f3;
-}
+
 
 .table tbody tr:last-of-type{
     border-bottom: 2px solid #007EA7;;
 }
-*/
+
+.table tr:nth-child(odd){
+    background-color: #DDFFF7;
+}
+
+.table tr:nth-child(even){
+    background-color: #DDFFF7;
+}
+
+.table th{
+    background-color: #007EA7;
+    font-weight: bold;
+}
+
+.table td:first-child{
+    font-weight: bolder;
+}
 
 
+
+.table td:hover{
+    background-color: #AFD0D6;
+    color: #403E10;
+    font-weight: bold;
+    
+    box-shadow: #A5D8FF -1px 1px, #A5D8FF -2px 2px, #A5D8FF -3px 3px, #A5D8FF -4px 4px, #A5D8FF -5px 5px, #A5D8FF -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    
+    transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+    transition-timing-function: line;
+}
+
+.table tr:hover {
+    background-color: #D3F8E2;
+ -webkit-box-shadow: 0 6px 6px -6px #0E1119;
+        -moz-box-shadow: 0 6px 6px -6px #0E1119;
+             box-shadow: 0 6px 6px -6px #0E1119;
+ }
+
+
+/*
 .table{
+    border-collapse: collapse;
     margin: 0 auto;
     text-align: left;
 	  overflow: hidden;
@@ -175,7 +214,7 @@ box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .table td:first-child{
-    color: #FB667A;
+    font-weight: bolder;
 }
 
 
@@ -199,4 +238,4 @@ box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
  -webkit-box-shadow: 0 6px 6px -6px #0E1119;
         -moz-box-shadow: 0 6px 6px -6px #0E1119;
              box-shadow: 0 6px 6px -6px #0E1119;
- }
+ }*/
