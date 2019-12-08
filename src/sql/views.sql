@@ -20,7 +20,7 @@ create view vUsuario
 as 
 Select * from Usuario
 go
-create view vUsuarioPermiso
+create view vUsuario_Permiso
 as
 Select UP.idUsuario , P.tabla, P.crud
 from Usuario_Permiso as UP
