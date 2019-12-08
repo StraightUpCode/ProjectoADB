@@ -216,6 +216,7 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
       if (permisosSQL.includes('Select')) {
         console.log('Agregar Select Vista Tabla', tabla)
         await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
+        const tablasIntermedia = esquemaDb.esquema[tabla]
         for (const tablaIntermedia of tablasIntermedia) {
           console.log('Agregando Select Vistas a tablas intermedia', tablaIntermedia)
           conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${username}`)
@@ -223,8 +224,8 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
         }
       }
 
-      conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
-      conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
+      await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
+      await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
 
     }
   } catch (e) {
@@ -260,9 +261,26 @@ ipcMain.on('get-facturas', async (event, args) => {
   }
 
 })
+
+
+
+ipcMain.on('get-platillos', async (event, args) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Select * from vPlatillo`)
+    console.log('Enviando', result.recordset)
+    event.reply('get-platillos-reply', result.recordset)
+  } catch (e) {
+    event.reply('get-platillos-reply', e)
+    console.log(e)
+  }
+})
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 
+
+
 
 ipcMain.on(nombre del evento, (event, args) => {
   try {

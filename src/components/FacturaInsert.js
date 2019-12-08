@@ -1,34 +1,41 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useListener from './hooks/useListener'
 import { createListener } from '../utils/events'
 import useForm from './hooks/useForm'
+import { parse } from 'path'
 
 const FacturaInsertar = (props) => { 
     const [nombreCliente, setNombreCliente] = useState('')
+    const [platillos, setPlatillo] = useState([])
     const [detalleFactura, setDetalleFactura] = useState([])
-    const [platillo, handleChange] = useForm({
-        IdPlatillo: 0,
+    const [formData, handleChange] = useForm({
+        indexPlatillo: 0,
         cantidad: 0
     })
+    console.log
+
     const addPlatillo = () => { 
-        const nuevoDetalleFactura = [...detalleFactura, platillo]
+        const cantidadPlatillo = parseInt(formData.cantidad)
+        const platillo = platillos[parseInt(formData.indexPlatillo)]
+        console.log(platillo)
+        const detalleAIngresar = {
+            ...platillo,
+            cantidad: cantidadPlatillo,
+            cantidadAPagar : cantidadPlatillo * platillo.precio,
+           // valorDescontado: platillo.precio * cantidadPlatillo * ((platillo.porcentajeDescuento / 100) || 1)
+        }
+        const nuevoDetalleFactura = [...detalleFactura, detalleAIngresar]
+        console.log(nuevoDetalleFactura)
         setDetalleFactura(nuevoDetalleFactura)
+        console.log(detalleFactura)
     }
-    const [platilloSearch, setPlatillo] = useState([])
-    const listenerBusqueda = createListener('buscar-platillos', (event, respuesta) => {
+    console.log(platillos)
+    const listenerPlatillos = createListener('get-platillos', (event, respuesta) => {
         setPlatillo(respuesta)
     })
-    useListener(listenerBusqueda, platilloSearch)
-    handleBusqueda = (event) => { 
-        const valorBusqueda = event.target.value
-        if (platilloSearch.length !== 0) {
-            listenerBusqueda.send(valorBusqueda)
-        }
-        else {
-            setPlatillo(platilloSearch.filter((value) => value.nombre == valorBusqueda ))
-        }
-    }
-
+ 
+    useListener(listenerPlatillos, platillos)
+    useEffect(() => { listenerPlatillos.send()},[])
     return ( 
         <div> 
             <form> 
@@ -39,19 +46,32 @@ const FacturaInsertar = (props) => {
                 <div>
                     <label>
                         Platillo
-                        <input type='text' value={platillo} onChange={setNombreCliente}></input>
-                        {platilloSearch.length > 0 ? (
-                            <select name='IdPlatillo' onSelect={handleChange}>
-                                {platilloSearch.map(platillo => (
-                                    <option value={platillo.IdPlatillo}>{platillo.nombre}</option>
+                            <select name='indexPlatillo' onChange={handleChange}>
+                                <option value={'something'}>Escoja una de los platillos</option>
+                                {platillos.map((platillo, index) => (
+                                    <option value={index}>{platillo.nombre}</option>
                                 ))}
                             </select>
-                        ) : null}
-                        <input type='number'></input>
+                        <input name='cantidad' type='number' value={formData.cantidad} onChange={handleChange}></input>
                     </label>
                     <div onClick= {addPlatillo}>Agregar </div>
                 </div>
             </form>
+            <div>
+                Detalle Factura
+                <div>
+                    {detalleFactura[0] ?Object.keys(detalleFactura[0]).map((key) => <div>{key}</div>) : null}
+                </div>
+                {detalleFactura.map((detalle) => (
+                    <div>
+                        {Object.values(detalle).map(val => (<div>{val} </div>))}
+                    </div>
+                ))}
+                <div>Total : {detalleFactura.reduce((acc, cur) => { 
+
+                    return acc + (curr.cantidadAPagar)
+                },0)}</div>
+            </div>
         </div>
     )
     
