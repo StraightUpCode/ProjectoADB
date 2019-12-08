@@ -10,6 +10,7 @@ body {
   margin: auto;
   margin-top: 30px;
   padding: 20px;
+  border-radius: 5px 5px 0 0;
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
   position: relative;
 }
@@ -17,7 +18,7 @@ body {
 .Root{
   width: 600px;
   max-width: 100%;
-  margin: 0 230px;
+  margin: 0 auto;
   margin-top: 70px;
   padding: 20px;
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
@@ -103,14 +104,17 @@ body {
   border-style: solid;
   border-color: rgba(0, 0, 0, 0.3);
   
+  
 }
 
+
 .check + .labelcheck{
-  margin-right: 20px;
+ margin-right: 3px;
+  padding-left: 16px;
+
+
 }
-.labelcheck{
-  padding-left: 8px;
-}
+
 
 .check:checked:after {
   background-color: mediumseagreen;
