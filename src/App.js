@@ -45,7 +45,7 @@ const App = () => {
           <RequireValidDB validDb={validDb} path='/login'>
             <Login setLoginStatus={setSession}></Login>
           </RequireValidDB>
-          <RequireLogin isLogged={session} path='/registrarUsuario' >
+          <RequireLogin isLogged={session} path='/sa/ver' >
             <RegistrarUsuario></RegistrarUsuario>
           </RequireLogin>
           <RequireLogin isLogged={session}  path='/Factura/ver' >

@@ -1,6 +1,7 @@
 import React from "react"
 import Zelda from "../utils/Zelda";
 import {esquema} from '../esquemaDb'
+import { setPermisos } from "../utils/store";
 
 
 const rutas = []
@@ -29,12 +30,19 @@ const navbarComposed = (rutas) => () => (
 
 )
 export const createNavbar = (permisos) => {
-  if (permisos.find(el => el.tabla == 'sa')) {
-      permisos.push(...sa)
-  }
   console.log(permisos)
+  let permisosFinal 
+  if (permisos.find(el => el.tabla == 'sa')) {
+    console.log(permisos)
+    console.log(sa)
+    permisosFinal = [ ...permisos, ...sa]
+    
+  } else {
+    permisosFinal = permisos
+  }
+  
   //arreglo de permisos
-  for (const permiso of permisos) {
+  for (const permiso of permisosFinal) {
      //permiso es un objeto que contiene, el nombre de la tabla 
     // y el valor crud
 
@@ -75,17 +83,18 @@ export const createNavbar = (permisos) => {
     }
     
     
-rutas.push((
-  
-       <ul>
-        
-         {array}
+    rutas.push((
+      
+          <ul>
+            
+            {array}
 
 
-       </ul>
+          </ul>
 
 
-    ))
+
+        ))
 
 
   }

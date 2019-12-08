@@ -8,7 +8,8 @@ import Zelda from '../utils/Zelda'
 
 
 const FacturaView = ({ store }) => { 
-    const permisoFactura = store.user.permisos.find( el=> el.tabla = 'factura').crud.toString(2).padStart(4,'0')
+    console.log(store.user)
+    const permisoFactura = store.user.permisos.find( el=> el.tabla = 'Factura').crud.toString(2).padStart(4,'0')
     console.log(permisoFactura)
     const [facturas, setFacturas] = useState([
         {

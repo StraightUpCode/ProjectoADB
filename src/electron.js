@@ -100,6 +100,7 @@ ipcMain.on('login', async (e, ...arg) => {
     }
     response.logged = true
     console.log('reply')
+    console.log(response.user[0].permisos)
     e.reply('login-reply', response)
   } catch (error) {
     console.log(error)
