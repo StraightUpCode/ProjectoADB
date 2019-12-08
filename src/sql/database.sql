@@ -57,6 +57,7 @@ create table DetalleFactura(
     idPlatillo int not null,
     idFactura int not null,
     cantidad int not null,
+    subTotal numeric(9,2) not null, 
     valorDescontado numeric(9,2) not null
 )
 GO
