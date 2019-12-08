@@ -39,7 +39,7 @@ const FacturaInsertar = (props) => {
                 <div>
                     <label>
                         Platillo
-                        <input type='text' value={nombreCliente} onChange={setNombreCliente}></input>
+                        <input type='text' value={platillo} onChange={setNombreCliente}></input>
                         {platilloSearch.length > 0 ? (
                             <select name='IdPlatillo' onSelect={handleChange}>
                                 {platilloSearch.map(platillo => (
@@ -57,3 +57,5 @@ const FacturaInsertar = (props) => {
     
 
 }
+
+export default FacturaInsertar
