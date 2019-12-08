@@ -80,7 +80,7 @@ ipcMain.on('login', async (e, ...arg) => {
     let coneccion = connecionDb.getConeccion()
     console.log(coneccion)
     if (!coneccion) { 
-      coneccion == await connecionDb.loginToDB(username, password)
+      coneccion = await connecionDb.loginToDB(username, password)
       console.log('coneccion generada')
       if (username != 'sa') { // si el usuario no es sa
         const hash = crypto.createHash('sha256') // crea el encriptador
