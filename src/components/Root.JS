@@ -4,9 +4,10 @@ import {createListener} from '../utils/events'
 import useListener from './hooks/useListener'
 
 const Root = (props) => {
-  const [stat,fstat]= useState('') 
+  const [stat,fstat]= useState({recordset: []}) 
   const listener = createListener('rootCommand', (event, toLog) => {
     fstat(toLog)
+    console.log(stat)
   })
 
 
@@ -30,8 +31,31 @@ const Root = (props) => {
         <h1 className="TitleRoot">Admin</h1>
         <form className="Root" onSubmit={sendCommand} >
           <label className="label">Console</label>
-          <input className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></input>
+          <input className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></input>;
           <input  type="submit" value="Submit" className="enter" />
+          <div>
+            {
+              stat.recordset.length > 0 ? (
+                <table className="table">
+                  <thead>
+                    <tr>
+                      {Object.keys(stat.recordset[0]).map(el => <th>{el}</th>)}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {stat.recordset.map((element, index) => {
+                      return (
+                        <tr key={index}>
+                          {Object.values(element).map(val => <td>{val}</td>)}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              ) : null
+        }
+      </div>
+          
         </form>
         <div>{JSON.stringify(stat)}</div>
       </div>

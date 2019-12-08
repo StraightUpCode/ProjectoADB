@@ -13,8 +13,9 @@ const addStore = (Component) => () => (
 const addUser = (userData) => store.user = userData
 
 
+
 export {
     store,
     addStore,
-    addUser
+    addUser,
 }
