@@ -1,46 +1,60 @@
 @import url('https://fonts.googleapis.com/css?family=Alegreya+Sans:800');
 body{
     font-family: 'Alegreya Sans', sans-serif;
+    background-color: #FFFFF2;
     
+
 
     
 }
 
 
 *{
-    margin: 0;
     padding: 0;
+    margin: 0;
     list-style: none;
     text-decoration: none;
     box-sizing: border-box;
 }
 
 .wrapper{
+    
     display: flex;
     position: relative;
 }
 
 .wrapper .sidebar{
     position: fixed;
-    width: 200px;
+    width: 210px;
     height: 100%;
-    background: #29638D;
+    background: #003249;
     border-color: rgba(0, 0, 0, 0.3);     
     padding: 30px 0;
+    overflow: auto;
+   
+
+
 }
+
+
 
 .wrapper .sidebar .permisito{
     color: #fff;
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 30px ;
+
 }
  
 .TitleRoot{
     text-align: center;
 }
 
+.wrapper .scrollbar::-webkit-scrollbar{
+    width: 7px;
+    background: #000
 
+}
 .pedo{
     display:block;
     padding: 20px 30px;
@@ -53,19 +67,175 @@ body{
 
 .rutas:hover{
     background: #377EB2;
+    transition: 0.5s;
 }
 
 .rutas:hover .pedo{
     color:#fff;
-    font-size: 22px;
-    transition: 0.4s;
+ 
+  
 }
 
 
 .homeh1{
     text-align: center;
-    padding-left: 110px;
+ 
     
 }
 
 
+.table{
+margin: 0 auto;
+text-align: left;
+  overflow: hidden;
+  width: 50%;
+  margin: 25px auto;
+display: table;
+padding: 0 0 8em 0;
+border-radius: 5px 5px 0 0;
+
+}
+.table thead tr{
+    background-color: #007EA7;
+    color: #fff;
+    text-align: left;
+    font-weight: bold;
+
+
+}
+
+.table td, .table th{
+    padding-bottom: 2%;
+	  padding-top: 2%;
+  padding-left:2%;  
+}
+
+.table th, table td{
+    padding: 12px 15px;
+}
+
+.table tbody tr{
+    border-bottom: 1px solid #dddddd;
+}
+
+
+
+.table tbody tr:last-of-type{
+    border-bottom: 2px solid #007EA7;;
+}
+
+.table tr:nth-child(odd){
+    background-color: #DDFFF7;
+}
+
+.table tr:nth-child(even){
+    background-color: #DDFFF7;
+}
+
+.table th{
+    background-color: #007EA7;
+    font-weight: bold;
+}
+
+.table td:first-child{
+    font-weight: bolder;
+}
+
+
+
+.table td:hover{
+    background-color: #AFD0D6;
+    color: #403E10;
+    font-weight: bold;
+    
+    box-shadow: #A5D8FF -1px 1px, #A5D8FF -2px 2px, #A5D8FF -3px 3px, #A5D8FF -4px 4px, #A5D8FF -5px 5px, #A5D8FF -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    
+    transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+    transition-timing-function: line;
+}
+
+.table tr:hover {
+    background-color: #D3F8E2;
+ -webkit-box-shadow: 0 6px 6px -6px #0E1119;
+        -moz-box-shadow: 0 6px 6px -6px #0E1119;
+             box-shadow: 0 6px 6px -6px #0E1119;
+ }
+
+
+/*
+.table{
+    border-collapse: collapse;
+    margin: 0 auto;
+    text-align: left;
+	  overflow: hidden;
+	  width: 50%;
+	  margin: 25px auto;
+  display: table;
+  padding: 0 0 8em 0;
+    
+}
+
+.table thead tr{
+    font-weight: bolder;
+	  font-size: 1em;
+  text-align: left;
+  color: #ffff;
+  
+}
+
+.table td{
+    font-weight: normal;
+    font-size: 1em;
+-webkit-box-shadow: 0 2px 2px -2px #0E1119;
+     -moz-box-shadow: 0 2px 2px -2px #0E1119;
+          box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+.table td, .table th{
+    padding-bottom: 2%;
+	  padding-top: 2%;
+  padding-left:2%;  
+}
+
+.table tr:nth-child(odd){
+    background-color: #DDFFF7;
+}
+
+.table tr:nth-child(even){
+    background-color: #DDFFF7;
+}
+
+.table th{
+    background-color: #007EA7;
+    font-weight: bold;
+}
+
+.table td:first-child{
+    font-weight: bolder;
+}
+
+
+
+.table td:hover{
+    background-color: #AFD0D6;
+    color: #403E10;
+    font-weight: bold;
+    
+    box-shadow: #A5D8FF -1px 1px, #A5D8FF -2px 2px, #A5D8FF -3px 3px, #A5D8FF -4px 4px, #A5D8FF -5px 5px, #A5D8FF -6px 6px;
+    transform: translate3d(6px, -6px, 0);
+    
+    transition-delay: 0s;
+        transition-duration: 0.4s;
+        transition-property: all;
+    transition-timing-function: line;
+}
+
+.table tr:hover {
+    background-color: #D3F8E2;
+ -webkit-box-shadow: 0 6px 6px -6px #0E1119;
+        -moz-box-shadow: 0 6px 6px -6px #0E1119;
+             box-shadow: 0 6px 6px -6px #0E1119;
+ }*/

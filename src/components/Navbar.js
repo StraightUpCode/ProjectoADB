@@ -15,17 +15,18 @@ const sa = Object.keys(esquema).map((val) => ({
 const navbarComposed = (rutas) => () => (
   
 
-  <div className="wrapper">
+
+<div className="wrapper">
+
   <div className="sidebar">
+  
     <h2 className="permisito">Permisos</h2>
       
       {rutas}
 
   </div>
-
-  </div>
  
-
+  </div>
 
 
 )

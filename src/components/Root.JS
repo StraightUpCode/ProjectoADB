@@ -31,15 +31,22 @@ const Root = (props) => {
         <h1 className="TitleRoot">Admin</h1>
         <form className="Root" onSubmit={sendCommand} >
           <label className="label">Console</label>
-          <input className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></input>;
+          <input className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></input>
           <input  type="submit" value="Submit" className="enter" />
-          <div>
+          
+          
+        </form>
+        <div>
             {
               stat.recordset.length > 0 ? (
                 <table className="table">
                   <thead>
-                    <tr>
+                    <tr className="tablanombre">
+                     
+                      
                       {Object.keys(stat.recordset[0]).map(el => <th>{el}</th>)}
+                      
+                      
                     </tr>
                   </thead>
                   <tbody>
@@ -55,9 +62,6 @@ const Root = (props) => {
               ) : null
         }
       </div>
-          
-        </form>
-        <div>{JSON.stringify(stat)}</div>
       </div>
     );
   };
