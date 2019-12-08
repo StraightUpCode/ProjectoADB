@@ -6,7 +6,8 @@ import "../home.css"
 
 
 const Home = ({ store, ...props }) => {
-    console.log(Navbar)
+    console.log(store)
+    const nombre = store.user.nombre? store.user.nombre + ' ' + store.user.apellido : 'SA'
     return (
         
         <>
@@ -14,7 +15,7 @@ const Home = ({ store, ...props }) => {
 
 
            
-           <h1 className="homeh1">Bienvenido {store.user.nombre + ' ' + store.user.apellido}</h1> 
+           <h1 className="homeh1">Bienvenido {nombre }</h1> 
        
           
         </>
