@@ -22,25 +22,35 @@ body{
 
 .wrapper .sidebar{
     position: fixed;
-    width: 200px;
+    width: 210px;
     height: 100%;
     background: #29638D;
     border-color: rgba(0, 0, 0, 0.3);     
     padding: 30px 0;
+    overflow: auto;
+
+
 }
+
+
 
 .wrapper .sidebar .permisito{
     color: #fff;
     text-transform: uppercase;
     text-align: center;
     margin-bottom: 30px ;
+
 }
  
 .TitleRoot{
     text-align: center;
 }
 
+.wrapper .scrollbar::-webkit-scrollbar{
+    width: 7px;
+    background: #000
 
+}
 .pedo{
     display:block;
     padding: 20px 30px;
@@ -57,7 +67,7 @@ body{
 
 .rutas:hover .pedo{
     color:#fff;
-    font-size: 22px;
+    font-size: 21px;
     transition: 0.4s;
 }
 
