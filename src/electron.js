@@ -80,9 +80,10 @@ ipcMain.on('login', async (e, ...arg) => {
     let coneccion = connecionDb.getConeccion()
     console.log(coneccion)
     if (!coneccion) { 
-      coneccion == await connecionDb.loginToDB(username, password)
+      coneccion = await connecionDb.loginToDB(username, password)
       console.log('coneccion generada')
       if (username != 'sa') { // si el usuario no es sa
+        console.log(coneccion)
         const hash = crypto.createHash('sha256') // crea el encriptador
         const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
         console.log('query creada')
@@ -94,7 +95,7 @@ ipcMain.on('login', async (e, ...arg) => {
         permisosResponse = await coneccion.request().query(permisosQuery) // se ejecuta el sp
         response.user[0].permisos = permisosResponse.recordset // se guarda el resultado
       } else { // si es sa
-        response.user = [{ permisos: [{ tabla: 'sa' , crud : 1}] }]
+        response.user = [{ permisos: [{ tabla: 'sa', crud: 1 }] }]
       }
       response.logged = true
       console.log('reply')
