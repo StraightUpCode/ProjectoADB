@@ -4,6 +4,7 @@ import useListener from './hooks/useListener'
 import { addStore } from '../utils/store'
 import Zelda from '../utils/Zelda'
 import Navbar, { withNavbar } from './Navbar'
+import Dialog from './components/Dialog';
 
 
 
@@ -75,7 +76,30 @@ const FacturaView = ({ store, addPermisos }) => {
     )
 }
 
+/*Dialogo con botones */
+/*class App extends Component {
+  state = {
+    isOpen: false
+  }
+  render() {
+    return (
+      <div className="App">
+        <button onClick={(e) => this.setState({ isOpen: true })}>Open Dialog</button>
 
-
+        <Dialog isOpen={this.state.isOpen} onClose={(e) => this.setState({ isOpen: false })}>
+       
+          Esta seguro que quiere eliminar el registro. <br/>
+          <button onClick={(e) => this.setState({ isOpen: true })}>Si</button>
+          <label>            </label>
+          <button onClick={(e) => this.setState({ isOpen: true })}>No</button>
+        </Dialog>
+      </div>
+    );
+  }
+}*/ 
 
 export default withNavbar(addStore(FacturaView))
+
+
+
+
