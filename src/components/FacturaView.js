@@ -3,6 +3,8 @@ import { createListener } from '../utils/events'
 import useListener from './hooks/useListener'
 import { addStore } from '../utils/store'
 import Zelda from '../utils/Zelda'
+import Navbar from './Navbar'
+
 
 
 
@@ -34,34 +36,28 @@ const FacturaView = ({ store }) => {
     }, [])
     
     return (
+      <>
+      <Navbar></Navbar>
         <div>
-            <div><h1>Factura</h1></div>
+            <div><h1 className="facturah1">Factura</h1></div>
 
             <div>
-                <div> 
-                    <div> N Factura </div>
-                    <div> Fecha </div>
-                    <div> Vendedor </div>
-                    <div> Cliente </div>
-                    <div> Total </div>
-                    <div> Descuento </div>
-                    <div> Cancelado </div>
-                </div>
+                
                 {
                     facturas.map((factura) => (
-                        <div>
-                            <div>
-                                <div> {factura.IdFactura} </div>
-                                <div> {factura.fecha}  </div>
-                                <div> {factura.vendedor}  </div>
-                                <div> {factura.nombreCliente}  </div>
-                                <div> {factura.precioTotal}  </div>
-                                <div> {factura.totalDescontado}  </div>
-                                <div> {factura.cancelado}  </div>
+                        <div className="ver">
+                            <div >
+                               <p className="name">N Factura: <label className="verfactura"> {factura.IdFactura} </label></p>
+                                <p className="name">Fecha: <label className="verfactura"> {factura.fecha}  </label></p>
+                               <p className="name">Vendedor: <label className="verfactura"> {factura.vendedor}  </label></p>
+                               <p className="name">Cliente: <label className="verfactura"> {factura.nombreCliente}  </label> </p>
+                               <p className="name">Total: <label className="verfactura"> {factura.precioTotal}  </label></p>
+                               <p className="name">Descuento: <label className="verfactura"> {factura.totalDescontado}  </label></p> 
+                               <p className="name">Cancelado: <label className="verfactura"> {factura.cancelado}  </label></p> 
                             </div>
                             <div>
-                                Menu
-                                <Zelda href="/Factura/ver/1"> Ver Detalle</Zelda>
+                                <span className="detalle">
+                                <Zelda className="nosee" href="/Factura/ver/1">Ver Detalle</Zelda> </span>
                                 {permisoFactura[1] == '1' ? <Zelda href='/Factura/actualizar'>Actualizar Data</Zelda> : null}
                                 {permisoFactura[0] == '1' ? <Zelda href={`/Factura/borrar/${factura.IdFactura}`}>Actualizar Data</Zelda> : null}
 
@@ -72,7 +68,11 @@ const FacturaView = ({ store }) => {
 
             </div>
         </div>
+        </>
     )
 }
+
+
+
 
 export default addStore(FacturaView)
