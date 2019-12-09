@@ -24,7 +24,7 @@ const FacturaInsertar = (props) => {
         const detalleAIngresar = {
             ...platillo,
             cantidad: cantidadPlatillo,
-            cantidadAPagar : cantidadPlatillo * platillo.precio,
+            subTotal : cantidadPlatillo * platillo.precio,
            // valorDescontado: platillo.precio * cantidadPlatillo * ((platillo.porcentajeDescuento / 100) || 1)
         }
         const nuevoDetalleFactura = [...detalleFactura, detalleAIngresar]
