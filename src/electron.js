@@ -291,11 +291,12 @@ ipcMain.on('get-platillos', async (event, args) => {
 
 
 ipcMain.on('create-factura', async (event, args) => {
+  const response = { ok : false }
   try {
     const conexion = connecionDb.getConeccion()
     await conexion
     const { detalleFactura, ...factura } = args
-    const insertFacturaQuery = `Insert into Factura values(${factura.IdUsuario},${factura.nombreCliente},${factura.precioTotal}, ${factura.totalDescontado } ,GETDATE(),${factura.cancelado ? 1 : 0});Select SCOPE_IDENTITY() as idFactura `
+    const insertFacturaQuery = `Insert into Factura values(${factura.IdUsuario},'${factura.nombreCliente}',${factura.precioTotal}, ${factura.totalDescontado } ,GETDATE(),${factura.cancelado ? 1 : 0});Select SCOPE_IDENTITY() as idFactura `
     console.log(insertFacturaQuery)
     const insertFactura = await conexion.request().query(insertFacturaQuery)
     const idFactura = insertFactura.recordset[0].idFactura
@@ -307,9 +308,11 @@ ipcMain.on('create-factura', async (event, args) => {
     }
     await Promise.all(resultDetalle)
     console.log('Enviando')
-    event.reply('create-factura-reply', 'Ingresada Exitosamente')
+    response.ok = true
+    event.reply('create-factura-reply',response )
   } catch (e) {
-    event.reply('create-factura-reply', e)
+    response.error = e
+    event.reply('create-factura-reply', response)
     console.log(e)
   }
 })
