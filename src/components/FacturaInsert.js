@@ -89,26 +89,34 @@ const FacturaInsertar = ({store}) => {
                     <div className="agregar" onClick= {addPlatillo}>Agregar </div>
                 </div>
             </form>
-            <div>
-                
-                <div className="morir">
-                        <h2 className="morirh2">Detalle Factura</h2>
-                        {/* Header de la tabla ?  */}
-                    {detalleFactura[0] ?Object.keys(detalleFactura[0]).map((key) => <div>{key}</div>) : null}
-                {/** Valores de los detalles Factura */}
-                {detalleFactura.map((detalle) => (
-                    <div>
-                        {Object.values(detalle).map(val => (<div>{val} </div>))}
-                    </div>
-                ))}
-
-                
-                <p>Total: <label>{facturaData.precioTotal}</label></p>
-
-                <div className="ingresarf" onClick={sendFactura}>Ingresar</div>
-                </div>
-            </div>
             
+            <table className="tablefactura">
+                
+                      
+                        {/* Header de la tabla ?  */}
+                        <thead>
+                    <tr  >{detalleFactura[0] ?Object.keys(detalleFactura[0]).map((key) =>  <th >{key}</th> ) : null}
+                    </tr>
+                    </thead>
+                {/** Valores de los detalles Factura */}
+                <tbody>
+                {detalleFactura.map((detalle) => (
+                    <tr>
+                        {Object.values(detalle).map(val => ( <td>{val} </td> ))}
+                    </tr>
+                ))}
+                    </tbody>
+                
+            
+            </table>
+
+            <table className="tablefactura">
+                <tr className="totalfa">
+            <th><span className="totalfact">Total</span></th>
+            <td><span className="totalito"> {facturaData.precioTotal}</span></td>
+            </tr>
+            </table>
+            <div className="ingresarf" onClick={sendFactura}>Ingresar</div>
         </div>
         </>
     )
