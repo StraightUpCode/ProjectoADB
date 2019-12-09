@@ -22,7 +22,6 @@ const FacturaInsertar = ({store}) => {
     const addPlatillo = () => { 
         const cantidadPlatillo = parseInt(formData.cantidad)
         const platillo = platillos[parseInt(formData.indexPlatillo)]
-        console.log(platillo)
         const detalleAIngresar = {
             ...platillo,
             cantidad: cantidadPlatillo,
@@ -30,26 +29,24 @@ const FacturaInsertar = ({store}) => {
             valorDescontado: platillo.precio * cantidadPlatillo * (platillo.porcentajeDescuento / 100)
         }
         const nuevoDetalleFactura = [...detalleFactura, detalleAIngresar]
-        console.log(nuevoDetalleFactura)
         setDetalleFactura(nuevoDetalleFactura)
         resetForm()
-        console.log(detalleFactura)
     }
-    console.log(platillos)
     const listenerPlatillos = createListener('get-platillos', (event, respuesta) => {
         setPlatillo(respuesta)
     })
     const createFactura = createListener('create-factura', (event, respuesta) => { 
-        console.log(respuesta)
-        resetFactura()
-        resetForm()
+        if (respuesta.ok) {
+            resetFactura()
+            resetForm()
+            setDetalleFactura([])
+        }
+        
     })
     const sendFactura = () => {
         console.log(store)
         const IdUsuario = store.user.IdUsuario
-        console.log(IdUsuario)
         const data = { IdUsuario, ...facturaData, detalleFactura }
-        console.log(data)
         createFactura.send(data)
     }
     useListener(createFactura)
