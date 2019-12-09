@@ -3,8 +3,7 @@ import useListener from './hooks/useListener'
 import { createListener } from '../utils/events'
 import useForm from './hooks/useForm'
 import { addStore } from '../utils/store'
-import Navbar from './Navbar'
-
+import { withNavbar } from './Navbar'
 
 
 const FacturaInsertar = ({store}) => { 
@@ -64,7 +63,6 @@ const FacturaInsertar = ({store}) => {
     },[formData.precioTotal])
     return ( 
         <>
-        <Navbar></Navbar>
         <div> 
             <form className="insertar"> 
             <div >
@@ -94,9 +92,10 @@ const FacturaInsertar = ({store}) => {
             <div>
                 
                 <div className="morir">
-                    <h2 className="morirh2">Detalle Factura</h2>
+                        <h2 className="morirh2">Detalle Factura</h2>
+                        {/* Header de la tabla ?  */}
                     {detalleFactura[0] ?Object.keys(detalleFactura[0]).map((key) => <div>{key}</div>) : null}
-                
+                {/** Valores de los detalles Factura */}
                 {detalleFactura.map((detalle) => (
                     <div>
                         {Object.values(detalle).map(val => (<div>{val} </div>))}
@@ -117,4 +116,4 @@ const FacturaInsertar = ({store}) => {
 
 }
 
-export default addStore(FacturaInsertar)
+export default withNavbar(addStore(FacturaInsertar))

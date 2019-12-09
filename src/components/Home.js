@@ -1,6 +1,6 @@
 import React from 'react'
 import { addStore } from '../utils/store'
-import Navbar from './Navbar'
+import { withNavbar } from './Navbar'
 import "../home.css"
 
 
@@ -11,9 +11,6 @@ const Home = ({ store, ...props }) => {
     return (
         
         <>
-    
-        <Navbar></Navbar>
-        
            <h1 className="homeh1">Bienvenido {nombre }</h1> 
        
           
@@ -28,4 +25,4 @@ const Home = ({ store, ...props }) => {
 
 
 
-export default addStore(Home)
+export default withNavbar(addStore(Home))

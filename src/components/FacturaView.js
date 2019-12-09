@@ -3,7 +3,7 @@ import { createListener } from '../utils/events'
 import useListener from './hooks/useListener'
 import { addStore } from '../utils/store'
 import Zelda from '../utils/Zelda'
-import Navbar from './Navbar'
+import Navbar, { withNavbar } from './Navbar'
 
 
 
@@ -37,7 +37,6 @@ const FacturaView = ({ store }) => {
     
     return (
       <>
-      <Navbar></Navbar>
         <div>
             <div><h1 className="facturah1">Factura</h1></div>
 
@@ -75,4 +74,4 @@ const FacturaView = ({ store }) => {
 
 
 
-export default addStore(FacturaView)
+export default withNavbar(addStore(FacturaView))

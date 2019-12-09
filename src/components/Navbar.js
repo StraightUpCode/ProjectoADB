@@ -116,5 +116,5 @@ export const createNavbar = (permisos) => {
   
   
 }
-
+export const withNavbar = (Component) => () => <>{navbarComposed(rutas)()} <Component/> </>
 export default navbarComposed(rutas); 
