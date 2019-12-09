@@ -2,7 +2,8 @@ import React from "react"
 import Zelda from "../utils/Zelda";
 import {esquema} from '../esquemaDb'
 import { setPermisos } from "../utils/store"
-import {Alert, Moda, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import {Alert, Moda, ModalHeader, ModalBody, ModalFooter} from 'reactstrap'
+
 
 
 const rutas = []
@@ -18,7 +19,7 @@ const sa = Object.keys(esquema).map((val) => ({
 
 
 const navbarComposed = (rutas) => () => (
- <>
+
 
 
 <div className="wrapper">
@@ -26,7 +27,7 @@ const navbarComposed = (rutas) => () => (
   <div className="sidebar">
   
     <h2 className="permisito">Permisos</h2>
-    <a  onClick={this.toggleModal.modal.bind(this)} href="#" className="logout" title="Cerrar sesion">
+    <a   href="#" className="logout" title="Cerrar sesion">
       <i class="fas fa-sign-out-alt"></i>
     </a>
       
@@ -37,12 +38,7 @@ const navbarComposed = (rutas) => () => (
   </div>
   
  
-  
-
- </>
-  
-
-
+ 
 )
 
 
