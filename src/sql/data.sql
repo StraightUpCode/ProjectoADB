@@ -26,7 +26,7 @@ insert into Permiso values('Unidad',1),
 ('Unidad',12),
 ('Unidad',13),
 ('Unidad',14),
-('Usuario',15),
+('Unidad',15),
 --
 ('Usuario',1),
 ('Usuario',2),
