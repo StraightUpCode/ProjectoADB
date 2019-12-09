@@ -266,9 +266,30 @@ ipcMain.on('get-facturas', async (event, args) => {
     const conexion = connecionDb.getConeccion()
     await conexion
     const result = await conexion.request().query(`Select * from vFactura`)
+    console.log(result)
     event.reply('get-facturas-reply', result.recordset)
   } catch (e) { 
     event.reply('get-facturas-reply',e)
+    console.log(e)
+  }
+
+})
+
+
+ipcMain.on('get-factura-detalle', async (event, idFactura) => { 
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const factura = await conexion.request().query(`Select * from vFactura where IdFactura = ${idFactura}`)
+    const detalleFactura = await conexion.request().query(`Select * from vDetalleFactura`)
+    const response = {
+      ...factura.recordset[0],
+      detalleFactura : detalleFactura.recordset
+    }
+    console.log(response)
+    event.reply('get-facturas-detalle-reply', response)
+  } catch (e) { 
+    event.reply('get-factura-detalle-reply',e)
     console.log(e)
   }
 

@@ -1,13 +1,23 @@
 import React from "react"
+import {useHistory} from 'react-router-dom'
 import Zelda from "../utils/Zelda";
 import {esquema} from '../esquemaDb'
-import { setPermisos } from "../utils/store"
+import {  addPermisos } from "../utils/store"
 import {Alert, Moda, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 
 const rutas = []
 
 
+const BackButton = (props) => { 
+  const history = useHistory()
+  return (
+    <a onClick={history.goBack} href="#" className="back" title="Cerrar sesion">
+      go Gack
+      <i class="fas fa-sign-out-alt"></i>
+    </a>
+  )
+}
 
 const sa = Object.keys(esquema).map((val) => ({
   tabla: val,
@@ -25,7 +35,8 @@ const navbarComposed = (rutas) => () => (
 
   <div className="sidebar">
   
-    <h2 className="permisito">Permisos</h2>
+        <h2 className="permisito">Permisos</h2>
+        <BackButton></BackButton>
     <a   href="#" className="logout" title="Cerrar sesion">
       <i class="fas fa-sign-out-alt"></i>
     </a>
@@ -53,7 +64,8 @@ export const createNavbar = (permisos) => {
   if (permisos.find(el => el.tabla == 'sa')) {
     console.log(permisos)
     console.log(sa)
-    permisosFinal = [ ...permisos, ...sa]
+    permisosFinal = [...permisos, ...sa]
+    addPermisos(permisosFinal)
     
   } else {
     permisosFinal = permisos

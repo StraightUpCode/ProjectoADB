@@ -9,9 +9,13 @@ import Navbar, { withNavbar } from './Navbar'
 
 
 
-const FacturaView = ({ store }) => { 
+const FacturaView = ({ store, addPermisos }) => { 
     console.log(store.user)
-    const permisoFactura = store.user.permisos.find( el=> el.tabla = 'Factura').crud.toString(2).padStart(4,'0')
+    const  permisoPermicial = {}
+   // const permisoPermicial = store.user.permisos.find(el => el.tabla == 'Factura')
+    //addPermisos([{tabla: 'Factura', crud: 15}])
+    permisoPermicial.crud = 15
+    const permisoFactura = permisoPermicial.crud.toString(2).padStart(4,'0')
     console.log(permisoFactura)
     const [facturas, setFacturas] = useState([
         {
@@ -34,7 +38,7 @@ const FacturaView = ({ store }) => {
     useEffect(() => {
        listener.send()
     }, [])
-    
+    console.log(permisoFactura)
     return (
       <>
         <div>
@@ -57,7 +61,7 @@ const FacturaView = ({ store }) => {
                             <div>
                                 <span className="detalle">
                                 <Zelda className="nosee" href="/Factura/ver/1">Ver Detalle</Zelda> </span>
-                                {permisoFactura[1] == '1' ? <Zelda href='/Factura/actualizar'>Actualizar Data</Zelda> : null}
+                                {permisoFactura[1] == '1' ? <Zelda href={`/Factura/actualizar/${factura.IdFactura}`}>Actualizar Data</Zelda> : null}
                                 {permisoFactura[0] == '1' ? <Zelda href={`/Factura/borrar/${factura.IdFactura}`}>Actualizar Data</Zelda> : null}
 
                             </div>
