@@ -80,11 +80,11 @@ body {
 
 }
 
-.check{
+.check, .checkl{
   position: relative;
   cursor: pointer;
 }
-.check:after {
+.check:after, .checkl:after{
   content: '\00D7';
   display: block;
   background: white;
@@ -111,7 +111,7 @@ body {
 }
 
 
-.check + .labelcheck{
+.check + .labelcheck, .checkl + .insertlabel{
  margin-right: 3px;
   padding-left: 16px;
 
@@ -119,10 +119,10 @@ body {
 }
 
 
-.check:checked:after {
+.check:checked:after, .checkl:checked:after{
   background-color: mediumseagreen;
   background-position: 0 0;
 }
-.check:hover:after{
+.check:hover:after, .checkl:hover:after{
   border-color: mediumseagreen;
 }
