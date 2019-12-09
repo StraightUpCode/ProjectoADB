@@ -26,7 +26,7 @@ const navbarComposed = (rutas) => () => (
   <div className="sidebar">
   
     <h2 className="permisito">Permisos</h2>
-    <a  onClick={this.toggleModal.modal.bind(this)} href="#" className="logout" title="Cerrar sesion">
+    <a   href="#" className="logout" title="Cerrar sesion">
       <i class="fas fa-sign-out-alt"></i>
     </a>
       

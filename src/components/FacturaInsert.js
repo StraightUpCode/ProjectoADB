@@ -92,9 +92,10 @@ const FacturaInsertar = ({store}) => {
             <div>
                 
                 <div className="morir">
-                    <h2 className="morirh2">Detalle Factura</h2>
+                        <h2 className="morirh2">Detalle Factura</h2>
+                        {/* Header de la tabla ?  */}
                     {detalleFactura[0] ?Object.keys(detalleFactura[0]).map((key) => <div>{key}</div>) : null}
-                
+                {/** Valores de los detalles Factura */}
                 {detalleFactura.map((detalle) => (
                     <div>
                         {Object.values(detalle).map(val => (<div>{val} </div>))}
