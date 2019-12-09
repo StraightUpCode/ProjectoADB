@@ -28,7 +28,7 @@ const sa = Object.keys(esquema).map((val) => ({
 
 
 const navbarComposed = (rutas) => () => (
- <>
+
 
 
 <div className="wrapper">
@@ -48,12 +48,7 @@ const navbarComposed = (rutas) => () => (
   </div>
   
  
-  
-
- </>
-  
-
-
+ 
 )
 
 
