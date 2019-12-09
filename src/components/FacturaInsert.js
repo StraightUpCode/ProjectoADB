@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react'
 import useListener from './hooks/useListener'
 import { createListener } from '../utils/events'
 import useForm from './hooks/useForm'
-import { parse } from 'path'
+
+
 
 const FacturaInsertar = (props) => { 
     const [nombreCliente, setNombreCliente] = useState('')
     const [platillos, setPlatillo] = useState([])
     const [detalleFactura, setDetalleFactura] = useState([])
-    const [formData, handleChange] = useForm({
+    const [formData, handleChange, resetForm] = useForm({
         indexPlatillo: 0,
         cantidad: 0
     })
-    console.log
 
     const addPlatillo = () => { 
         const cantidadPlatillo = parseInt(formData.cantidad)
@@ -27,6 +27,7 @@ const FacturaInsertar = (props) => {
         const nuevoDetalleFactura = [...detalleFactura, detalleAIngresar]
         console.log(nuevoDetalleFactura)
         setDetalleFactura(nuevoDetalleFactura)
+        resetForm()
         console.log(detalleFactura)
     }
     console.log(platillos)
@@ -69,9 +70,10 @@ const FacturaInsertar = (props) => {
                 ))}
                 <div>Total : {detalleFactura.reduce((acc, cur) => { 
 
-                    return acc + (curr.cantidadAPagar)
+                    return acc + (cur.cantidadAPagar)
                 },0)}</div>
             </div>
+            <div>Ingresar</div>
         </div>
     )
     
