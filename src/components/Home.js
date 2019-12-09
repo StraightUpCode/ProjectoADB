@@ -1,6 +1,6 @@
 import React from 'react'
 import { addStore } from '../utils/store'
-import Navbar, { withNavbar } from './Navbar'
+import { withNavbar } from './Navbar'
 import "../home.css"
 
 
