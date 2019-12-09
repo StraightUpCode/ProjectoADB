@@ -287,7 +287,7 @@ ipcMain.on('get-factura-detalle', async (event, idFactura) => {
       detalleFactura : detalleFactura.recordset
     }
     console.log(response)
-    event.reply('get-facturas-detalle-reply', response)
+    event.reply('get-factura-detalle-reply', response)
   } catch (e) { 
     event.reply('get-factura-detalle-reply',e)
     console.log(e)

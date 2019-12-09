@@ -14,7 +14,9 @@ const FacturaUpdate = (props) => {
         precioTotal: 0,
         totalDescontado: 0
     })
-    const [detalleFactura, setDetalleFactura] = useState([])
+    const [detalleFactura, setDetalleFactura] = useState([{
+
+    }])
 
     const [platillos, setPlatillo] = useState([])
     const [opcionesPlatillo, setOpcionesPlatillo] = useState([])
@@ -48,12 +50,14 @@ const FacturaUpdate = (props) => {
         setPlatillo(respuesta)
     })
     const listenerFacturaDetalle = createListener('get-factura-detalle', (event, respuesta) => {
+        console.log(respuesta)
         const { detalleFactura, ...factura } = respuesta
         setDetalleFactura(detalleFactura)
         setFactura(factura)
     })
     //Efeccts
-
+    useListener(listenerPlatillos)
+    useListener(listenerFacturaDetalle)
     useEffect(() => { listenerPlatillos.send() }, [])
     useEffect(() => { listenerFacturaDetalle.send(id) }, [])
 
@@ -87,7 +91,7 @@ const FacturaUpdate = (props) => {
                                     <div>
                                         <select onChange={updateDetalleFactura(index)} value={detalleFactura.IdPlatillo}>
                                             {platillos.map((platillo) => 
-                                                (<opciones value={platillo.IdPlatillo}>{platillo.nombre}</opciones>)
+                                                (<opciones value={platillo.IdPlatillo}>{platillo.platillo}</opciones>)
                                             )}
                                         </select>
                                         <input type='number' value={detalle.cantidad}></input>
