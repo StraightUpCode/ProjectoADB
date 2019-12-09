@@ -10,7 +10,6 @@ const useForm = (estadoInicial) => {
             [e.target.name]: value
         }
         changeData(newData)
-        console.log(newData)
     }
     const resetForm = () => changeData(estadoInicial)
     return [formData , handleChange, resetForm]
