@@ -6,7 +6,10 @@ import useForm from './hooks/useForm'
 
 
 const FacturaInsertar = (props) => { 
-    const [nombreCliente, setNombreCliente] = useState('')
+    const [facturaData, handleFactura, resetFactura] = useForm({
+        nombreCliente: '',
+        cancelado: false
+    })
     const [platillos, setPlatillo] = useState([])
     const [detalleFactura, setDetalleFactura] = useState([])
     const [formData, handleChange, resetForm] = useForm({
@@ -36,14 +39,19 @@ const FacturaInsertar = (props) => {
     })
  
     useListener(listenerPlatillos, platillos)
-    useEffect(() => { listenerPlatillos.send()},[])
+    useEffect(() => { listenerPlatillos.send() }, [])
     return ( 
         <div> 
             <form> 
                 <label> 
                     Cliente
-                    <input type='text'></input>
+                    <input name='nombreCliente' value={facturaData.nombreCliente} onChange={handleFactura} type='text'></input>
                 </label>
+                <label>
+                    Cancelado
+                    <input name='cancelado' checked={facturaData.cancelado} onChange={handleFactura} type='checkbox'></input>
+                </label>
+
                 <div>
                     <label>
                         Platillo

@@ -3,18 +3,14 @@ import { useState } from 'react'
 
 const useForm = (estadoInicial) => {
     const [formData, changeData] = useState(estadoInicial)
-
-    const handleChange = e => { 
-        console.log(e.target.name, e.target.value)
+    const handleChange = (e) => { 
+        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         const newData = {
             ...formData,
-            [e.target.name]: e.target.value
+            [e.target.name]: value
         }
+        changeData(newData)
         console.log(newData)
-        changeData(
-           newData
-        )
-        console.log(formData)
     }
     const resetForm = () => changeData(estadoInicial)
     return [formData , handleChange, resetForm]
