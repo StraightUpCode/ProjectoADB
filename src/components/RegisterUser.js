@@ -3,6 +3,7 @@ import useForm from './hooks/useForm'
 import useListener from './hooks/useListener'
 import Permisos from './Permisos'
 import {createListener} from '../utils/events'
+import { withNavbar } from './Navbar'
 
 const registrarUsuarioListener = createListener('registrar-usuario', (event, respuesta) => {
     console.log(respuesta)
@@ -63,4 +64,4 @@ const RegistrarUsuario = (props) => {
 
 }
 
-export default RegistrarUsuario
+export default withNavbar(RegistrarUsuario)

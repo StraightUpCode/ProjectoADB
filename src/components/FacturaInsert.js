@@ -3,6 +3,7 @@ import useListener from './hooks/useListener'
 import { createListener } from '../utils/events'
 import useForm from './hooks/useForm'
 import { addStore } from '../utils/store'
+import { withNavbar } from './Navbar'
 
 
 const FacturaInsertar = ({store}) => { 
@@ -106,4 +107,4 @@ const FacturaInsertar = ({store}) => {
 
 }
 
-export default addStore(FacturaInsertar)
+export default withNavbar(addStore(FacturaInsertar))
