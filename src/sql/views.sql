@@ -51,8 +51,6 @@ go
 
 
 -- Procedimiento
-drop PROCEDURE sp_MiData
-go
 create procedure sp_MiData 
    @username nvarchar(50),
    @password NVARCHAR(64)
@@ -76,8 +74,3 @@ where Usuario.IdUsuario = @IdUsuario
 go
 
 
-drop login lmao
-drop user lmao
-select  * from Usuario
-delete from Usuario where IdUsuario > 5
-execute sp_MiData 'lmao', 'd88d772e4b185786ce705a3ed811d421826cda03cfce94b25de7da679f00b007'

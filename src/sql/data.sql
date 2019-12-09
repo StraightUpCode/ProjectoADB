@@ -9,16 +9,7 @@ insert into Unidad values ('L')
 insert into Unidad values ('tsp')
 insert into Unidad values ('Tbsp')
 insert into Unidad values ('Taza')
---Factura
 
-
---Usuario
-insert into Usuario 
-values
-('alex','SaladoPescado10', 'Alex','Cuadra'),
-('rodolfo','SaladoPescado10', 'Rodolfo','Andrino'),
-('jacobo','SaladoPescado10', 'Jacobo','Amador'),
-('roberto','SaladoPescado10', 'Roberto','Sanchez')
 
 --Permiso
 insert into Permiso values('Unidad',1),
@@ -35,6 +26,22 @@ insert into Permiso values('Unidad',1),
 ('Unidad',12),
 ('Unidad',13),
 ('Unidad',14),
+('Usuario',15),
+--
+('Usuario',1),
+('Usuario',2),
+('Usuario',3),
+('Usuario',4),
+('Usuario',5),
+('Usuario',6),
+('Usuario',7),
+('Usuario',8),
+('Usuario',9),
+('Usuario',10),
+('Usuario',11),
+('Usuario',12),
+('Usuario',13),
+('Usuario',14),
 ('Usuario',15),
 --
 ('Usuario_Permiso',1),
@@ -135,27 +142,55 @@ insert into Permiso values('Unidad',1),
 go
 
 
--- Usuario_Permiso
-Select * from Usuario_Permiso
---Inventario
-insert into Inventario values('Tomate',1,2)
+--Usuario
+insert into Usuario 
+values
+('alex','SaladoPescado10', 'Alex','Cuadra'),
+('rodolfo','SaladoPescado10', 'Rodolfo','Andrino'),
+('jacobo','SaladoPescado10', 'Jacobo','Amador'),
+('roberto','SaladoPescado10', 'Roberto','Sanchez')
+go
 
+--Inventario
+insert into Inventario values('Tomate',1,2),
+('Queso',1,25),
+('Harina',1,25),
+('Levadura',2,50),
+('Jamon',1,20)
+go
 --Platillo
-insert into Platillo values('Pizza',25,0)
+insert into Platillo values('Pizza Jamon',25,0),
+('Pizza Tomate',25,0),
+('Pizza Queso',25,0)
+go
 
 -- Platilo_Ingrediente
-INSERT into Platillo_Ingrediente values(1,1,2,25)
-
-
+INSERT into Platillo_Ingrediente 
+-- idInventario, idPlatilo, Unidad ,Cantidad
+values(1,1,2,25),
+(2,1,2,100),
+(3,1,2,100),
+(4,1,2,5),
+(5,1,2,100),
+(1,2,2,40),
+(2,2,2,100),
+(3,2,2,100),
+(4,2,2,5),
+(1,3,2,25),
+(2,3,2,200),
+(3,3,2,200),
+(4,3,2,5)
+go
 --Factura
 Insert into Factura
 VALUES
-(1,'roberto',123,0,'2019-11-07',1),
-(1,'alex',500,0,'2019-11-07',1),
-(2,'rodolfo',420,0,'2019-11-11',0),
-(2,'jacobo',333,0,'2019-1-30',0),
-(3,'josue',75,0,'2019-11-15',1),
-(4,'carlos',100,0,'2019-11-08',0),
-(3,'marco',120,0,'2019-11-06',1)
+(1,'roberto',100,0,'2019-11-07',1)
+go
+-- Detalle Factura 
 
+--Piza Jsmon 1 25, Tomate 2 25 , Queso 3 25
+Insert into DetalleFactura
+values (1,1,3,75, 0),
+(2,1,1,25,0)
 
+go
