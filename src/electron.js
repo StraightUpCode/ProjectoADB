@@ -145,8 +145,13 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     const conexion = connecionDb.getConeccion()
     await conexion
     const solicitudesPermisos = []
+    console.log(permisos)
     for (const [tabla, permiso] of Object.entries(permisos)) {
-      if(permiso == 0 ) continue
+      if (permiso == 0) continue
+      console.log(`
+      Select IdPermiso
+      from Permiso
+      where tabla = '${tabla}' and crud = ${permiso}`)
       solicitudesPermisos.push(conexion.request().query(`
       Select IdPermiso
       from Permiso
@@ -154,7 +159,8 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
       
     }
     const results = await Promise.all(solicitudesPermisos)
-    console.log(results)
+    console.log(results.recordset)
+    console.log('Resultado de los select Permisos')
     await conexion.request().query(`Create Login ${username} with password = '${password}'`)// Crea Login
     await conexion.request().query(`Create User ${username} for login ${username} `)// 
     const createUserString = `Insert into Usuario values
@@ -165,14 +171,20 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
     console.log(await conexion.request().query(`Select * from Usuario where Usuario.IdUsuario = ${createUserInTable.recordset[0].id} `))
     const insertQueue = []
     for (const permiso of results) {
+      console.log('Loop permiso')
+      console.log(permiso)
       if (permiso.recordset.length == 1) {
         const idPermiso = permiso.recordset[0].IdPermiso
-        insertQueue.push(conexion.request().query(`Insert into Usuario_Permiso 
-        values(${createUserInTable.recordset[0].id}, ${idPermiso})`))
+        const resultInsert = await conexion.request().query(`Insert into Usuario_Permiso 
+        values(${createUserInTable.recordset[0].id}, ${idPermiso})`)
+        console.log('Acabo de Insertart en usuario_permiso')
+        console.log(resultInsert)
       }
+
     }
     try {
-      await Promise.all(insertQueue)
+   
+      console.log('Termino de hacer todas los insert in Usuario_Permiso')
     } catch (e) {
       throw e
     }
@@ -218,16 +230,16 @@ ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
         await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
         const tablasIntermedia = esquemaDb.esquema[tabla]
         for (const tablaIntermedia of tablasIntermedia) {
+          if(tablaIntermedia.length === 0) continue
           console.log('Agregando Select Vistas a tablas intermedia', tablaIntermedia)
-          conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${username}`)
-
+         await conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${username}`)
+          console.log('Termino Tablas Intermedias')
         }
       }
-
-      await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
-      await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
-
     }
+    await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
+    await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
+    console.log('Termino el Registro')
   } catch (e) {
     console.log(e)
   }
@@ -273,6 +285,31 @@ ipcMain.on('get-platillos', async (event, args) => {
     event.reply('get-platillos-reply', result.recordset)
   } catch (e) {
     event.reply('get-platillos-reply', e)
+    console.log(e)
+  }
+})
+
+
+ipcMain.on('create-factura', async (event, args) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const { detalleFactura, ...factura } = args
+    const insertFacturaQuery = `Insert into Factura values(${factura.IdUsuario},${factura.nombreCliente},${factura.precioTotal}, ${factura.totalDescontado } ,GETDATE(),${factura.cancelado ? 1 : 0});Select SCOPE_IDENTITY() as idFactura `
+    console.log(insertFacturaQuery)
+    const insertFactura = await conexion.request().query(insertFacturaQuery)
+    const idFactura = insertFactura.recordset[0].idFactura
+    const resultDetalle = []
+    for (const orden of detalleFactura) { 
+      const ordenQuery = `Insert into DetalleFactura values(${orden.IdPlatillo},${idFactura},${orden.cantidad},${orden.subTotal},${orden.valorDescontado || 0})`
+      console.log(ordenQuery)
+      resultDetalle.push(conexion.request().query(ordenQuery))
+    }
+    await Promise.all(resultDetalle)
+    console.log('Enviando')
+    event.reply('create-factura-reply', 'Ingresada Exitosamente')
+  } catch (e) {
+    event.reply('create-factura-reply', e)
     console.log(e)
   }
 })
