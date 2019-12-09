@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import useListener from './hooks/useListener'
 import { createListener } from '../utils/events'
 import useForm from './hooks/useForm'
+import { addStore } from '../utils/store'
 
 
-
-const FacturaInsertar = (props) => { 
+const FacturaInsertar = ({store}) => { 
     const [facturaData, handleFactura, resetFactura] = useForm({
         nombreCliente: '',
-        cancelado: false
+        cancelado: false,
+        precioTotal: 0,
+        totalDescontado : 0
     })
     const [platillos, setPlatillo] = useState([])
     const [detalleFactura, setDetalleFactura] = useState([])
@@ -25,7 +27,7 @@ const FacturaInsertar = (props) => {
             ...platillo,
             cantidad: cantidadPlatillo,
             subTotal : cantidadPlatillo * platillo.precio,
-           // valorDescontado: platillo.precio * cantidadPlatillo * ((platillo.porcentajeDescuento / 100) || 1)
+            valorDescontado: platillo.precio * cantidadPlatillo * (platillo.porcentajeDescuento / 100)
         }
         const nuevoDetalleFactura = [...detalleFactura, detalleAIngresar]
         console.log(nuevoDetalleFactura)
@@ -37,9 +39,30 @@ const FacturaInsertar = (props) => {
     const listenerPlatillos = createListener('get-platillos', (event, respuesta) => {
         setPlatillo(respuesta)
     })
- 
+    const createFactura = createListener('create-factura', (event, respuesta) => { 
+        console.log(respuesta)
+        resetFactura()
+        resetForm()
+    })
+    const sendFactura = () => {
+        console.log(store)
+        const IdUsuario = store.user.IdUsuario
+        console.log(IdUsuario)
+        const data = { IdUsuario, ...facturaData, detalleFactura }
+        console.log(data)
+        createFactura.send(data)
+    }
+    useListener(createFactura)
     useListener(listenerPlatillos, platillos)
     useEffect(() => { listenerPlatillos.send() }, [])
+    useEffect(() => {
+        const total = detalleFactura.reduce((acc, cur) => acc + cur.subTotal, 0)
+        handleFactura({ target: { name: 'precioTotal', value: total } })        
+    }, [detalleFactura])
+    useEffect(() => {
+        const totalDescuento = detalleFactura.reduce((acc, cur) => acc + cur.valorDescontado, 0)
+        handleFactura({ target: { name: 'totalDescontado', value: totalDescuento } })
+    },[formData.precioTotal])
     return ( 
         <div> 
             <form> 
@@ -76,16 +99,13 @@ const FacturaInsertar = (props) => {
                         {Object.values(detalle).map(val => (<div>{val} </div>))}
                     </div>
                 ))}
-                <div>Total : {detalleFactura.reduce((acc, cur) => { 
-
-                    return acc + (cur.cantidadAPagar)
-                },0)}</div>
+                <div>Total : {facturaData.precioTotal}</div>
             </div>
-            <div>Ingresar</div>
+            <div onClick={sendFactura}>Ingresar</div>
         </div>
     )
     
 
 }
 
-export default FacturaInsertar
+export default addStore(FacturaInsertar)
