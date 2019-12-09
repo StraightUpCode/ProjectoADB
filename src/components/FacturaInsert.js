@@ -65,7 +65,8 @@ const FacturaInsertar = ({store}) => {
     },[formData.precioTotal])
     return ( 
         <div> 
-            <form> 
+            <form className="insertar"> 
+            <div>
                 <label> 
                     Cliente
                     <input name='nombreCliente' value={facturaData.nombreCliente} onChange={handleFactura} type='text'></input>
@@ -75,7 +76,7 @@ const FacturaInsertar = ({store}) => {
                     <input name='cancelado' checked={facturaData.cancelado} onChange={handleFactura} type='checkbox'></input>
                 </label>
 
-                <div>
+                
                     <label>
                         Platillo
                             <select name='indexPlatillo' onChange={handleChange}>
