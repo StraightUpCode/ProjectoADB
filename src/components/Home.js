@@ -11,7 +11,9 @@ const Home = ({ store, ...props }) => {
     return (
         
         <>
+    
         <Navbar></Navbar>
+        
            <h1 className="homeh1">Bienvenido {nombre }</h1> 
        
           

@@ -79,10 +79,11 @@ body{
 
 
 .logout{
-    display: block;
+    display: inline-block;
     font-size: 25px;
     color: #fff;
     margin-left: 160px;
+    transform: rotate(180deg);
 }
 
 .homeh1{
@@ -307,7 +308,7 @@ border-radius: 5px 5px 0 0;
  
  .insertar{
     background-color: #fff;
-    width: 500px;
+    width: 450px;
     max-width: 100%;
     margin: auto;
     margin-top: 30px;
@@ -316,3 +317,64 @@ border-radius: 5px 5px 0 0;
     box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
     position: relative;
  }
+
+ .agregar, .ingresarf{
+    border-radius: 5px 5px 5px 5px;
+     cursor: pointer;
+     width: 100px;
+     text-align: center;
+     background: rgba(0, 0, 0, 0.7);
+     color: #E9EBED;
+     padding: 8px 10px;
+     margin: 8px auto;
+     text-decoration: none;
+   
+ }
+
+
+ .insertlabel, .insertinput,.checkl{
+    font-size: 1em;
+    margin: 3px 3px;
+ }
+
+ .checkl{
+     margin: 0 -2px;
+ }
+
+.numero{
+    width: 125px;
+    font-size: 1em;
+}
+ 
+.insertlabel{
+    font-weight: bold;
+}
+.insertinput{
+    
+  border: 1px solid rgba(0, 0, 0, 0.3);
+
+  
+}
+
+.insertinput:focus{
+    outline: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+.numero:focus{
+    outline: 1px solid rgba(0, 0, 0, 0.7);
+}
+
+.morir{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 10px 10px 20px 10px;
+    margin: 10px auto;
+    box-shadow: 2px 2px 3px #DADADA;
+    width: 30%;
+    background-color: #FFF;
+    border-radius: 5px 5px 5px 5px;
+    
+}
+
+.morirh2{
+    text-align: center;
+}
