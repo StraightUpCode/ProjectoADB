@@ -4,9 +4,10 @@ Select IdFactura ,F.fecha, U.nombre + ' ' + U.apellido as vendedor, nombreClient
 From Factura as F
 inner join Usuario as U on U.IdUsuario = F.idUsuario
 go
+
 create view vDetalleFactura
 as
-Select DF.IdDetalleFactura, P.IdPlatillo, P.nombre as platillo, DF.cantidad , P.precio, DF.subTotal , DF.valorDescontado
+Select DF.IdDetalleFactura, DF.idPlatillo , P.nombre as platillo, DF.cantidad , P.precio, DF.subtotal , DF.valorDescontado
 from DetalleFactura as DF
 inner join Platillo as P on P.idPlatillo = DF.idPlatillo
 go
