@@ -5,7 +5,7 @@ import { esquema } from '../esquemaDb'
 console.log(esquema)
 const Permisos = ({ setPermisos }) => {
    const esquemaDb = Object.keys(esquema).reduce((acc, cur) => {
-        acc[cur] = 0
+        acc[cur] = 15
         return acc
     }, {}) 
     const [permisosTablas, cambiarPermisos] = useState(esquemaDb)
