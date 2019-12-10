@@ -43,6 +43,7 @@ const UsuarioUpdate = () => {
     }
 
     useListener(listenerInformacionUsuario)
+    useListener(listnerUpdateUsuario)
     useEffect(()=> { listenerInformacionUsuario.send(26)},[])
     return (
         <div> 

@@ -3,7 +3,6 @@ const isDev = require("electron-is-dev");
 const path = require("path");
 const crypto = require('crypto')
 
-
 const DB_DAO = require('./db')
 const connecionDb = new DB_DAO()
 const store = require('./store')
@@ -422,7 +421,9 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
     const { nombreUsuario, contrasena } = currentUserData.recordset[0]
     console.log(`Nombres de Usuario ${infoUsuario.nombreUsuario} = ${nombreUsuario} `, infoUsuario.nombreUsuario != nombreUsuario)
     console.log(`Contrase;as ${infoUsuario.contrasena} = ${contrasena} :`, infoUsuario.contrasena != contrasena)
-    const recrearUsuario = infoUsuario.nombreUsuario != nombreUsuario || infoUsuario.contrasena != contrasena
+    const nombreUsuarioIguales = ! infoUsuario.nombreUsuario != nombreUsuario
+    const contrasenasIguales = !infoUsuario.contrasena != contrasena
+    const recrearUsuario =  !nombreUsuarioIguales|| !contrasenasIguales
     console.log('Recrear Usuario ',recrearUsuario)
     if (recrearUsuario) {
       await conexion.request().query(`Drop login ${nombreUsuario}`)
@@ -431,6 +432,11 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
       console.log('User Dropped')
       await conexion.request().query(`Create Login ${infoUsuario.nombUsuario} with password = '${infoUsuario.contrasena}'`)// Crea Login
       await conexion.request().query(`Create User ${infoUsuario.nombUsuario} for login ${infoUsuario.nombUsuario} `)// 
+      if (!nombreUsuarioIguales) await conexion.request().query(`Update Usuario set nombreUsuario = '${infoUsuario.nombUsuario}' where IdUsuario = ${infoUsuario.IdUsuario}`)
+      if (!contrasenasIguales) {
+        const hash = crypto.createHash('sha256')
+        await conexion.request().query(`Update Usuario set contrasena = '${hash.update(password).digest('hex')}' where IdUsuario = ${infoUsuario.IdUsuario}`)
+      }
     }
 
     const solicitudesPermisos = []
@@ -516,13 +522,16 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
         }
         console.log('Termino Tablas Intermedias')
       }
-      console.log('Termino las tablas')
     }
+    console.log('Termino las tablas')
+
     evento.reply('update-usuario-permisos-reply',{ok:true})
   } catch (e) {
     evento.reply('update-usuario-permisos-reply', e)
   }
 })
+
+
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 

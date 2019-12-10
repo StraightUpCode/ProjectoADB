@@ -4,7 +4,8 @@ Select IdFactura ,F.fecha, U.nombre + ' ' + U.apellido as vendedor, nombreClient
 From Factura as F
 inner join Usuario as U on U.IdUsuario = F.idUsuario
 go
-
+drop view vDetalleFactura
+go
 create view vDetalleFactura
 as
 Select F.IdFactura, DF.IdDetalleFactura, DF.idPlatillo , P.nombre as platillo, DF.cantidad , P.precio, DF.subtotal , DF.valorDescontado
@@ -12,7 +13,8 @@ from DetalleFactura as DF
 inner join Platillo as P on P.idPlatillo = DF.idPlatillo
 inner join Factura as F on F.IdFactura = DF.IdFactura
 go
-
+Grant select on vDetalleFactura to lmao
+go
 create view vPlatillo 
 as 
 Select *  from Platillo
@@ -45,11 +47,10 @@ select * from Unidad
 go
 create view vInventario 
 as
-Select I.ingrediente, I.cantidad,  U.unidad 
+Select I.IdInventario,I.ingrediente, I.cantidad,  U.unidad 
 from Inventario as I 
 inner join Unidad as U on U.IdUnidad = I.idUnidad
 go
-
 
 -- Procedimiento
 create procedure sp_MiData 
@@ -74,4 +75,7 @@ inner join Usuario on Usuario.IdUsuario = Usuario_Permiso.idUsuario
 where Usuario.IdUsuario = @IdUsuario
 go
 
-
+Select * from Factura
+Select * from DetalleFactura
+Select * from vUsuario where IdUsuario =26
+Select * from Usuario_Permiso

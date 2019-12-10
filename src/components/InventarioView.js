@@ -51,7 +51,7 @@ const InventarioView= ({ store, addPermisos }) => {
                             <div >
                                <p className="name"> IdInventario: <label className="verinventario"> {inventario.IdInventario} </label></p>
                                <p className="name">Ingrediente: <label className="verinventario"> {inventario.ingrediente}  </label></p>
-                               <p className="name">idUnidad: <label className="verinventario"> {inventario.idUnidad}  </label></p>
+                               <p className="name">Unidad: <label className="verinventario"> {inventario.unidad}  </label></p>
                                <p className="name">Cantidad: <label className="verinventario"> {inventario.cantidad}  </label> </p>
                             </div>
                             <div>
