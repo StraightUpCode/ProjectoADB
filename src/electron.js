@@ -63,7 +63,106 @@ const getDatabaseConfig= () => {
 const setConfig = (objeto) => { 
   store.set(objeto)
 }
+//Registrar Usuario 
+const registrarUsuario = async (event, nuevoUsuario) => {
+  const { permisos, ...infoUsuario } = nuevoUsuario
+  const { username, password } = infoUsuario
+  const hash = crypto.createHash('sha256')
+  try {
+    console.log(infoUsuario)
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const solicitudesPermisos = []
+    console.log(permisos)
+    for (const [tabla, permiso] of Object.entries(permisos)) {
+      if (permiso == 0) continue
+      solicitudesPermisos.push(conexion.request().query(`
+      Select IdPermiso
+      from Permiso
+      where tabla = '${tabla}' and crud = ${permiso}`))
 
+    }
+    const results = await Promise.all(solicitudesPermisos)
+    console.log(results.recordset)
+    console.log('Resultado de los select Permisos')
+    await conexion.request().query(`Create Login ${username} with password = '${password}'`)// Crea Login
+    await conexion.request().query(`Create User ${username} for login ${username} `)// 
+    const createUserString = `Insert into Usuario values
+    ('${username}','${hash.update(password).digest('hex')}', '${infoUsuario.nombre}','${infoUsuario.apellido}' );
+    Select SCOPE_IDENTITY() as id`
+    console.log(createUserString)
+    const createUserInTable = await conexion.request().query(createUserString)
+    console.log(await conexion.request().query(`Select * from Usuario where Usuario.IdUsuario = ${createUserInTable.recordset[0].id} `))
+    const insertQueue = []
+    for (const permiso of results) {
+      console.log('Loop permiso')
+      console.log(permiso)
+      if (permiso.recordset.length == 1) {
+        const idPermiso = permiso.recordset[0].IdPermiso
+        const resultInsert = await conexion.request().query(`Insert into Usuario_Permiso 
+        values(${createUserInTable.recordset[0].id}, ${idPermiso})`)
+        console.log('Acabo de Insertart en usuario_permiso')
+        console.log(resultInsert)
+      }
+
+    }
+    // if(array.includes('Select')) => Grant Select on v${tabla}
+    // if(array.includes('Insert')) => Grant execture on spInsert${tabla}
+    for (const [tabla, permiso] of Object.entries(permisos)) {
+      if (permiso == 0) continue
+      const permisosSQL = []
+      const permisoBinario = permiso.toString(2).padStart(4, '0')
+      for (let index = 0; index < permisoBinario.length; index += 1) {
+        if (permisoBinario.charAt(index) == '1') {
+          switch (index) {
+            case 0: {
+              permisosSQL.push('Delete')
+              break;
+            }
+            case 1: {
+              permisosSQL.push('Update')
+              break;
+            }
+            case 2: {
+              permisosSQL.push('Insert')
+              break;
+            }
+            case 3: {
+              permisosSQL.push('Select')
+              break;
+            }
+          }
+        }
+      }
+      console.log(tabla, permisosSQL)
+      await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${username}`)
+      if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
+        console.log(tabla)
+        const tablasIntermedia = esquemaDb.esquema[tabla]
+        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablasIntermedia[0]} to ${username}`)
+
+
+      }
+      if (permisosSQL.includes('Select')) {
+        console.log('Agregar Select Vista Tabla', tabla)
+        await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
+        const tablasIntermedia = esquemaDb.esquema[tabla]
+        for (const tablaIntermedia of tablasIntermedia) {
+          if (tablaIntermedia.length === 0) continue
+          console.log('Agregando Select Vistas a tablas intermedia', tablaIntermedia)
+          await conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${username}`)
+          console.log('Termino Tablas Intermedias')
+        }
+      }
+    }
+    await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
+    await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
+    console.log('Termino el Registro')
+  } catch (e) {
+    console.log(e)
+    event.reply(e)
+  }
+}
 //Set up
 connecionDb.setUp(store.get('db_host'), store.get('db_name'))
 console.log(connecionDb)
@@ -136,114 +235,7 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
   }
 })
 
-ipcMain.on('registrar-usuario', async (event, nuevoUsuario) => {
-  const { permisos, ...infoUsuario } = nuevoUsuario
-  const { username, password } = infoUsuario
-  const hash = crypto.createHash('sha256')
-  try {
-    console.log(infoUsuario)
-    const conexion = connecionDb.getConeccion()
-    await conexion
-    const solicitudesPermisos = []
-    console.log(permisos)
-    for (const [tabla, permiso] of Object.entries(permisos)) {
-      if (permiso == 0) continue
-      console.log(`
-      Select IdPermiso
-      from Permiso
-      where tabla = '${tabla}' and crud = ${permiso}`)
-      solicitudesPermisos.push(conexion.request().query(`
-      Select IdPermiso
-      from Permiso
-      where tabla = '${tabla}' and crud = ${permiso}`))
-      
-    }
-    const results = await Promise.all(solicitudesPermisos)
-    console.log(results.recordset)
-    console.log('Resultado de los select Permisos')
-    await conexion.request().query(`Create Login ${username} with password = '${password}'`)// Crea Login
-    await conexion.request().query(`Create User ${username} for login ${username} `)// 
-    const createUserString = `Insert into Usuario values
-    ('${username}','${hash.update(password).digest('hex')}', '${infoUsuario.nombre}','${infoUsuario.apellido}' );
-    Select SCOPE_IDENTITY() as id`
-    console.log(createUserString)
-    const createUserInTable = await conexion.request().query(createUserString)
-    console.log(await conexion.request().query(`Select * from Usuario where Usuario.IdUsuario = ${createUserInTable.recordset[0].id} `))
-    const insertQueue = []
-    for (const permiso of results) {
-      console.log('Loop permiso')
-      console.log(permiso)
-      if (permiso.recordset.length == 1) {
-        const idPermiso = permiso.recordset[0].IdPermiso
-        const resultInsert = await conexion.request().query(`Insert into Usuario_Permiso 
-        values(${createUserInTable.recordset[0].id}, ${idPermiso})`)
-        console.log('Acabo de Insertart en usuario_permiso')
-        console.log(resultInsert)
-      }
-
-    }
-    try {
-   
-      console.log('Termino de hacer todas los insert in Usuario_Permiso')
-    } catch (e) {
-      throw e
-    }
-    // if(array.includes('Select')) => Grant Select on v${tabla}
-    // if(array.includes('Insert')) => Grant execture on spInsert${tabla}
-    for (const [tabla, permiso] of Object.entries(permisos)) {
-      if (permiso == 0) continue
-      const permisosSQL = []
-      const permisoBinario = permiso.toString(2).padStart(4, '0')
-      for (let index = 0; index < permisoBinario.length; index+= 1){
-        if (permisoBinario.charAt(index) == '1') {
-          switch (index) {
-            case 0: {
-              permisosSQL.push('Delete')
-              break;
-            }
-            case 1: {
-              permisosSQL.push('Update')
-              break;
-            }
-            case 2: {
-              permisosSQL.push('Insert')
-              break;
-            }
-            case 3: {
-              permisosSQL.push('Select') 
-              break;
-            }
-          }
-        }
-      }
-      console.log(tabla, permisosSQL)
-      await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${username}`)
-      if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
-        console.log(tabla)
-        const tablasIntermedia = esquemaDb.esquema[tabla]
-        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablasIntermedia[0]} to ${username}`)
-   
-        
-      }
-      if (permisosSQL.includes('Select')) {
-        console.log('Agregar Select Vista Tabla', tabla)
-        await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
-        const tablasIntermedia = esquemaDb.esquema[tabla]
-        for (const tablaIntermedia of tablasIntermedia) {
-          if(tablaIntermedia.length === 0) continue
-          console.log('Agregando Select Vistas a tablas intermedia', tablaIntermedia)
-         await conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${username}`)
-          console.log('Termino Tablas Intermedias')
-        }
-      }
-    }
-    await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
-    await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
-    console.log('Termino el Registro')
-  } catch (e) {
-    console.log(e)
-  }
-})
+ipcMain.on('registrar-usuario', registrarUsuario )
 ipcMain.on("rootCommand", async (event, args) => {
   try {
   // Se consigue la coneccion al db
@@ -340,6 +332,31 @@ ipcMain.on('get-platillos', async (event, args) => {
   }
 })
 
+ipcMain.on('get-unidad', async (event, args) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Select * from vUnidad`)
+    console.log('Enviando', result.recordset)
+    event.reply('get-unidad-reply', result.recordset)
+  } catch (e) {
+    event.reply('get-unidad-reply', e)
+    console.log(e)
+  }
+})
+ipcMain.on('get-inventario', async (event, args) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Select * from vInventario`)
+    console.log('Enviando', result.recordset)
+    event.reply('get-inventario-reply', result.recordset)
+  } catch (e) {
+    event.reply('get-inventario-reply', e)
+    console.log(e)
+  }
+})
+
 
 ipcMain.on('create-factura', async (event, args) => {
   const response = { ok : false }
@@ -365,6 +382,145 @@ ipcMain.on('create-factura', async (event, args) => {
     response.error = e
     event.reply('create-factura-reply', response)
     console.log(e)
+  }
+})
+
+ipcMain.on('get-usuario-permisos', async (evento, idUsuario) => {
+  try {
+    
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const infoUsuarioRecordset = await conexion.request().query(`Select * from vUsuario where IdUsuario = ${idUsuario}`)
+    const infoUsuario = infoUsuarioRecordset.recordset[0]
+    const permisosUsuarioRecordet = await conexion.request().query(`Select * from vUsuario_Permiso where idUsuario = ${infoUsuario.IdUsuario}`)
+    const permisosUsuario = permisosUsuarioRecordet.recordset.reduce((acc, current) => {
+      console.log('Before ', acc)
+      acc[current.tabla] = current.crud
+     return acc
+    }, {})
+    console.log({ ...infoUsuario, permisos: permisosUsuario })
+    evento.reply('get-usuario-permisos-reply',{...infoUsuario, permisos : permisosUsuario})
+
+
+  } catch (e) {
+    console.log(e)
+    evento.reply('get-usuario-permisos-reply',e)
+  }
+
+})
+
+ipcMain.on('update-usuario-permisos', async (evento, arg) => {
+  try {
+    console.log('Args ',arg)
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const { permisosUsuario, ...infoUsuario } = arg
+    console.log(permisosUsuario)
+    console.log(infoUsuario);
+    
+    const currentUserData = await conexion.request().query(`Select * from vUsuario where IdUsuario = ${infoUsuario.IdUsuario}`)
+    const { nombreUsuario, contrasena } = currentUserData.recordset[0]
+    console.log(`Nombres de Usuario ${infoUsuario.nombreUsuario} = ${nombreUsuario} `, infoUsuario.nombreUsuario != nombreUsuario)
+    console.log(`Contrase;as ${infoUsuario.contrasena} = ${contrasena} :`, infoUsuario.contrasena != contrasena)
+    const recrearUsuario = infoUsuario.nombreUsuario != nombreUsuario || infoUsuario.contrasena != contrasena
+    console.log('Recrear Usuario ',recrearUsuario)
+    if (recrearUsuario) {
+      await conexion.request().query(`Drop login ${nombreUsuario}`)
+      console.log('Login Dropped')
+      await conexion.request().query(`Drop user ${nombreUsuario}`)
+      console.log('User Dropped')
+      await conexion.request().query(`Create Login ${infoUsuario.nombUsuario} with password = '${infoUsuario.contrasena}'`)// Crea Login
+      await conexion.request().query(`Create User ${infoUsuario.nombUsuario} for login ${infoUsuario.nombUsuario} `)// 
+    }
+
+    const solicitudesPermisos = []
+    console.log(permisosUsuario)
+    //Se consiguen los permisos
+    for (const [tabla, permiso] of Object.entries(permisosUsuario)) {
+      if (permiso == 0) continue
+      solicitudesPermisos.push(conexion.request().query(`
+      Select IdPermiso
+      from Permiso
+      where tabla = '${tabla}' and crud = ${permiso}`))
+
+    }
+    // Los permisos como tal
+    const results = await Promise.all(solicitudesPermisos)
+    console.log(results.recordset)
+    console.log('Resultado de los select Permisos')
+    await conexion.request().query(`Delete from Usuario_Permiso where IdUsuario = ${infoUsuario.IdUsuario}`)
+    for (const permiso of results) {
+      console.log('Loop permiso')
+      console.log(permiso)
+      if (permiso.recordset.length == 1) {
+        const idPermiso = permiso.recordset[0].IdPermiso
+        const resultInsert = await conexion.request().query(`Insert into Usuario_Permiso 
+        values(${infoUsuario.IdUsuario}, ${idPermiso})`)
+        console.log('Acabo de Insertart en usuario_permiso')
+        console.log(resultInsert)
+      }
+    }
+
+    // Realiza los permisos de SQL server
+    for (const [tabla, permiso] of Object.entries(permisosUsuario)) {
+      const revokeQuery = `Revoke Select, Insert, Update, Delete on ${tabla} to ${infoUsuario.nombreUsuario}`
+      console.log(revokeQuery);
+      await conexion.request().query(revokeQuery)
+      if (permiso == 0) continue
+      const permisosSQL = []
+      const permisoBinario = permiso.toString(2).padStart(4, '0')
+      for (let index = 0; index < permisoBinario.length; index += 1) {
+        if (permisoBinario.charAt(index) == '1') {
+          switch (index) {
+            case 0: {
+              permisosSQL.push('Delete')
+              break;
+            }
+            case 1: {
+              permisosSQL.push('Update')
+              break;
+            }
+            case 2: {
+              permisosSQL.push('Insert')
+              break;
+            }
+            case 3: {
+              permisosSQL.push('Select')
+              break;
+            }
+          }
+        }
+      }
+      console.log(tabla, permisosSQL)
+
+      
+      const granQuery = `GRANT ${permisosSQL.join(',')} on ${tabla} to ${infoUsuario.nombreUsuario}`
+      console.log(granQuery);
+      await conexion.request().query(granQuery)
+      if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
+        console.log(tabla)
+        const tablasIntermedia = esquemaDb.esquema[tabla]
+        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablasIntermedia[0]} to ${infoUsuario.nombreUsuario}`)
+
+
+      }
+      if (permisosSQL.includes('Select')) {
+        console.log('Agregar Select Vista Tabla', tabla)
+        await conexion.request().query(`GRANT Select on v${tabla} to ${infoUsuario.nombreUsuario}`)
+        const tablasIntermedia = esquemaDb.esquema[tabla]
+        for (const tablaIntermedia of tablasIntermedia) {
+          if (tablaIntermedia.length === 0) continue
+          console.log('Agregando Select Vistas a tablas intermedia', tablaIntermedia)
+          await conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${infoUsuario.nombreUsuario}`)
+          
+        }
+        console.log('Termino Tablas Intermedias')
+      }
+      console.log('Termino las tablas')
+    }
+    evento.reply('update-usuario-permisos-reply',{ok:true})
+  } catch (e) {
+    evento.reply('update-usuario-permisos-reply', e)
   }
 })
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL

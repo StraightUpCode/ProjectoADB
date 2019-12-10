@@ -13,6 +13,9 @@ import FacturaInsertar from "./components/FacturaInsert";
 import FacturaUpdate from "./components/FacturaUpdate";
 import PlatilloView from './components/PlatilloView'
 import FacturaViewDetalle from "./components/FacturaViewDetalle";
+import InventarioView from "./components/InventarioView";
+import UnidadView from "./components/UnidadView";
+import UsuarioUpdate from "./components/UsuarioUpdate";
 
 const RequireValidDB = ({ validDb, children, ...rest }) => {
   return (
@@ -67,6 +70,16 @@ const App = () => {
           <RequireLogin isLogged={session} path='/Platillo/ver' >
             <PlatilloView></PlatilloView>
           </RequireLogin>
+          <RequireLogin isLogged={session} path='/Inventario/ver' >
+            <InventarioView></InventarioView>
+          </RequireLogin>
+          <RequireLogin isLogged={session} path='/Unidad/ver' >
+            <UnidadView></UnidadView>
+          </RequireLogin>
+          <RequireLogin isLogged={session} path='/Usuario/actualizar' >
+            <UsuarioUpdate></UsuarioUpdate>
+          </RequireLogin>
+
           <RequireLogin isLogged={session}  path='/' >
             <>
               <Home />

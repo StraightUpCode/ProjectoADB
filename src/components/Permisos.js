@@ -2,27 +2,55 @@ import React, {useState, useEffect} from 'react'
 import { esquema } from '../esquemaDb'
 
 
-console.log(esquema)
-const Permisos = ({ setPermisos }) => {
+const Permisos = ({ setPermisos, permisos }) => {
    const esquemaDb = Object.keys(esquema).reduce((acc, cur) => {
-        acc[cur] = 15
+        acc[cur] = 0
         return acc
-    }, {}) 
-    const [permisosTablas, cambiarPermisos] = useState(esquemaDb)
-
+   }, {}) 
+    console.log(permisos)
+    const [permisosTablas, cambiarPermisos] = useState({ ...esquemaDb })
+    useEffect(() => {
+        let shouldUpdate = false
+        for (const key of Object.keys(permisosTablas)){
+            if (permisos[key] && permisos[key] != permisosTablas[key]) {
+                shouldUpdate = true
+                break;
+            }
+        }
+        if (shouldUpdate) {
+            cambiarPermisos({ ...esquemaDb ,...permisos})
+        }
+    },[permisos])
     const handleChange = e => {
         const tabla = e.target.name
-        let valor = parseInt(e.target.value)
-        if (permisosTablas[tabla] % 2 == 0 && valor >=  4) {
-            valor += 1
-        }
+        const temp = parseInt(e.target.value)
+        if (temp > 0) {
+            const valor = permisosTablas[tabla] % 2 == 0 && temp >= 4 ? temp + 1 : temp
+            const permisoActualBinario = valor.toString(2).padStart(4, '0')
+            const permisoViejoBinario = permisosTablas[tabla].toString(2).padStart(4, '0')
+            const permiso = []
+            for (let i = 0; i <= 3; i++) {
+                if (permisoActualBinario[i] == permisoViejoBinario[i]) {
+                    permiso.push('0')
+                } else {
+                    permiso.push('1')
+                }
+            }
+            if (permiso[0] == '1' || permiso[1] == '1') {
+                permiso[3] = '1'
+            }
+            console.log('Current ', permisoActualBinario)
+            console.log('Old ', permisoViejoBinario)
+            console.log('Result Binario', permiso.join(''))
+            const nuevoValor = parseInt(permiso.join(''), 2)
+            console.log('Result ', nuevoValor)
+            cambiarPermisos({ ...permisosTablas, [tabla]: nuevoValor })
+        } else {
+            cambiarPermisos({ ...permisosTablas, [tabla]: 0 })
 
-        const nuevoValor = permisosTablas[tabla] + valor
-        if ( nuevoValor <= 15 && valor != 0) {
-            cambiarPermisos({ ...permisosTablas,[tabla]: nuevoValor })
-        } else if(valor == 0) {
-            cambiarPermisos({ ...permisosTablas,[tabla]: valor })
         }
+        
+       
     }
 
     useEffect(() => {
