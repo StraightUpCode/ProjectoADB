@@ -376,7 +376,51 @@ span.eliminar{
 
 
 
+.tablefacturaupdate{
+    border-radius: 5px 5px 5px 5px;
+    overflow: hidden;
+    
+  margin: 25px auto;
+  font-size: 0.9em;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+.tablefacturaupdate thead tr{
+    background-color: #40798C;
+    color: #fff;
+    text-align: left;
+    font-weight: bold;
 
+}
+.tablefacturaupdate tr td{
+    
+    text-align: right;
+}
+
+.tablefacturaupdate th, .tablefacturaupdate td{
+    padding: 12px 15px;
+
+
+}
+
+.tablefacturaupdate tbody tr{
+    border-bottom: 1px solid #dddddd;
+    
+}
+
+.tablefacturaupdate tbody tr:nth-of-type(even){
+    background-color: #f3f3f3;
+    width:500px
+}
+
+.tablefacturaupdate tbody tr:last-of-type{
+    border-bottom: 2px solid #40798C;
+}
+
+.tablefacturaupdate th{
+    background-color: #40798C;
+    color: #ffff;
+}
 
 /*Table factura insertar*/
 .tablefactura{
@@ -434,7 +478,7 @@ span.eliminar{
     
     font-size: 25px;
     color: #fff;
-    background-color: #ffff;
+
     text-decoration: none;
     float: right;
     
@@ -445,4 +489,21 @@ span.eliminar{
     color: #000;
 }
 
+.updates{
+    background-color: #fff;
+    width: 450px;
+    max-width: 100%;
+    margin: auto;
+    margin-top: 10px;
+    padding: 20px;
+    font-size: 1.1em;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
 
+
+.updateDetalle{
+    text-align: center;
+    
+}

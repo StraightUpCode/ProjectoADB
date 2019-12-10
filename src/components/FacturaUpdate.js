@@ -110,23 +110,28 @@ const FacturaUpdate = (props) => {
     return (
         <>
             <div className="update"> 
-                <p>Factura : {id}</p>
+            
+                
                 <form>
+                    <div className="insertar">
+                <p>Factura : {id}</p>
                     <label>
                         Cliente: <input name='nombreCliente' type='text' value={facturaData.nombreCliente} onChange={updateFactura}></input>
                     </label>
                     <label>
-                        Cancelado: <input name='cancelado' type='checkbox' checked={facturaData.cancelado} onChange={updateFactura} ></input>
-                    </label>
+                        Cancelado: <input name='cancelado' type='checkbox' className="checkl" checked={facturaData.cancelado} onChange={updateFactura} ></input>
+                    </label></div>
                     <br></br>
                         <div>
-                            Detalle Factura
+                        <h2 className="updateDetalle">Detalle Factura</h2>
                             {
                             detalleFactura.map((detalle, index) => {
                                 console.log('Detalle ',detalle)
                                 return (
-                                    <div>
-                                        <label>
+                                    
+                                    <div >
+                                
+                                        <div className="updates">
                                             Platillo:
                                             <select name='idPlatillo' value={detalle.idPlatillo} onChange={updateDetalleFactura(index)} >
                                                 {platillos.map((platillo) => {
@@ -135,22 +140,37 @@ const FacturaUpdate = (props) => {
 
                                                 )}
                                             </select>
-                                       </label>
+                                       
                                         <input name='cantidad' type='number' value={detalle.cantidad} onChange={updateDetalleFactura(index)}></input>
-                                        <div>{detalle.subtotal}</div>
-                                        <div>{detalle.valorDescontado}</div>
+                                        <br></br>
+                                        <label>SubTotal: {detalle.subtotal}</label>
+                                        <br></br>
+                                        <label>Valor Descontado: {detalle.valorDescontado}</label>
+                                        </div>
 
                                     </div>
                                 )
                             })
                             }
 
+                          
                     </div>
-                    <div>
-                        Total: {facturaData.precioTotal}
-                        Descuento: {facturaData.totalDescontado}
-                    </div>
+
+                   
                 </form>
+                <table className="tablefacturaupdate">   
+                        <tr className="totalfa">
+                            <th><span className="totalfact">Total</span></th>
+                            <td><span className="totalito"> {facturaData.precioTotal} </span></td>
+                            
+                        </tr>
+                        <tr className="totalfa">
+
+                       <th><span className="totalfact">Descuento</span> </th>
+                       <td><span className="totalito">{facturaData.totalDescuento}</span></td>
+                       </tr>
+                       </table>  
+
             </div>
             <div onClick={setUpdate}>
                 Guardar
