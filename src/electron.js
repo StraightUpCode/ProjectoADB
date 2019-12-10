@@ -308,7 +308,7 @@ ipcMain.on('update-factura-detalle', async (event, facturaRecibida) => {
       
       })
     }`
-    const factura = await conexion.request().query()
+    
   } catch (e) {
     event.reply('update-factura-detalle', e)
   }
