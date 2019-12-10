@@ -319,6 +319,18 @@ span.eliminar{
 
 
  /* Factura Ingresar */
+
+.insertarinvi{
+    background-color: #fff;
+    width: 380px;
+    max-width: 100%;
+    margin: auto;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
+    position: relative; 
+}
  
  .insertar{
     background-color: #fff;
@@ -345,6 +357,21 @@ span.eliminar{
    
  }
 
+ .insertinvl{
+       font-size: 1em;
+    margin: 3px 3px;
+    font-weight: bold;
+ }
+
+ .selectito{
+    font-size: 1em;
+    margin: 3px 3px; 
+    margin-left: 42px;
+ }
+
+ .invih1{
+     text-align: center;
+ }
 
  .insertlabel, .insertinput,.checkl{
     font-size: 1em;
@@ -354,6 +381,12 @@ span.eliminar{
  .checkl{
      margin: 0 -2px;
  }
+
+.numerooto{
+    width: 125px;
+    font-size: 1em;
+    margin-left: 28px;
+}
 
 .numero{
     width: 125px;

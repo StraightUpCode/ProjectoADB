@@ -2,6 +2,18 @@ import React,{useState, useEffect} from 'react'
 import  useForm  from './hooks/useForm'
 import { createListener } from '../utils/events'
 import useListener  from './hooks/useListener'
+import { withNavbar } from './Navbar'
+import {useHistory} from 'react-router-dom'
+import { addStore } from '../utils/store'
+
+const BackButton = (props) => { 
+    const history = useHistory()
+    return (
+      <a onClick={history.goBack} href="#" className="back" title="Regresar">
+        <i class="fas fa-arrow-circle-left"></i>
+      </a>
+    )
+  }
 
 
 const InventarioInsert = () => {
@@ -33,26 +45,31 @@ const InventarioInsert = () => {
         listenerInventario.send(inventarioData)
     }
     return ( 
+        <>
+        <div className="backi">
+        <BackButton></BackButton></div>
         <div>
-            <div> Nuevo Item de Inventario</div>
-            <form> 
-                <label>Ingrediente :
-                    <input name='ingrediente' type='text' value={inventarioData.ingrediente} onChange={handleChange} />
-                </label>
-                <label>Unidad :
-                    <select name='idUnidad' onChange={handleChange}>
+            <h1 className="invih1"> Nuevo Item de Inventario</h1>
+            <form className="insertarinvi"> 
+                <label className="insertinvl">Ingrediente: </label>
+                    <input className="insertinput"name='ingrediente' type='text' value={inventarioData.ingrediente} onChange={handleChange} />
+                <br></br>
+                <label className="insertinvl">Unidad: 
+                    <select className="selectito" name='idUnidad' onChange={handleChange}>
                         <option value={'something'}>Escoja una de las unidades</option>
                         {unidades.map((unidad) => (<option value={unidad.IdUnidad}>{unidad.unidad}</option>))}
                     </select>
-                </label>
-                <label>Cantidad :
-                    <input name='cantidad' type='number' value={inventarioData.cantidad} onChange={handleChange} />
-                </label>
-
+                    </label>
+                    <br></br>
+                <label className="insertinvl">Cantidad:
+                    <input className="numerooto" name='cantidad' type='number' value={inventarioData.cantidad} onChange={handleChange} />
+                    </label>
+                    <div className="agregar" onClick={sendInvetario}> Enviar </div>
             </form>
-            <div onClick={sendInvetario}> Enviar </div>
+           
         </div>
+        </>
     )
 }
 
-export default InventarioInsert
+export default withNavbar(addStore(InventarioInsert))
