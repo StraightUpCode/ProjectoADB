@@ -4,7 +4,18 @@ import useListener from './hooks/useListener'
 import { addStore } from '../utils/store'
 import Zelda from '../utils/Zelda'
 import Navbar, { withNavbar } from './Navbar'
+import {useHistory} from 'react-router-dom'
 
+
+
+const BackButton = (props) => { 
+    const history = useHistory()
+    return (
+      <a onClick={history.goBack} href="#" className="back" title="Regresar">
+        <i class="fas fa-arrow-circle-left"></i>
+      </a>
+    )
+  }
 
 
 
@@ -41,11 +52,13 @@ const FacturaView = ({ store, addPermisos }) => {
     console.log(permisoFactura)
     return (
       <>
+      <div className="backi">
+       <BackButton></BackButton></div>
         <div>
             <div><h1 className="facturah1">Factura</h1></div>
 
             <div>
-                
+           
                 {
                     facturas.map((factura) => (
                         <div className="ver">
@@ -56,13 +69,16 @@ const FacturaView = ({ store, addPermisos }) => {
                                <p className="name">Cliente: <label className="verfactura"> {factura.nombreCliente}  </label> </p>
                                <p className="name">Total: <label className="verfactura"> {factura.precioTotal}  </label></p>
                                <p className="name">Descuento: <label className="verfactura"> {factura.totalDescontado}  </label></p> 
-                               <p className="name">Cancelado: <label className="verfactura"> {factura.cancelado}  </label></p> 
+                               <p className="namecan">Cancelado: <label className="verfactura"> {factura.cancelado}  </label></p> 
                             </div>
                             <div>
+                              
                                 <span className="detalle">
                                 <Zelda className="nosee" href="/Factura/ver/1">Ver Detalle</Zelda> </span>
-                                {permisoFactura[1] == '1' ? <Zelda href={`/Factura/actualizar/${factura.IdFactura}`}>Actualizar Data</Zelda> : null}
-                                {permisoFactura[0] == '1' ? <Zelda href={`/Factura/borrar/${factura.IdFactura}`}>Actualizar Data</Zelda> : null}
+                                <span className="actualizar">
+                                {permisoFactura[1] == '1' ? <Zelda className="nosee" href={`/Factura/actualizar/${factura.IdFactura}`}>Actualizar Factura</Zelda> : null}</span>
+                                <span className="eliminar"> {permisoFactura[0] == '1' ? <Zelda className="nosee" href={`/Factura/borrar/${factura.IdFactura}`}>Borrar Factura</Zelda> : null}</span>
+                               
 
                             </div>
                         </div>

@@ -271,28 +271,38 @@ border-radius: 5px 5px 0 0;
      display: inline-block; 
  }
 
- .name{
+ .name, .namecan{
     font-weight: bold;
     font-family: 'Bebas Neue', cursive;
     
 
  }
+
+ .namecan{
+     margin-bottom: 20px;
+ }
 .verfactura{    
     font-weight: normal;
 }
- span.detalle{
+ span.detalle, span.actualizar, span.eliminar{
     border-radius: 5px 5px 5px 5px;
      cursor: pointer;
      background: rgba(0, 0, 0, 0.7);
      color: #E9EBED;
      padding: 8px 10px;
-     margin: 0 auto;
+     margin: 20px; 
      text-decoration: none;
-
-     
-
+     position: relative;
  }
 
+ span.actualizar{
+     background-color: #087E8B;
+ }
+
+span.eliminar{
+    background-color: #FE5F55;
+
+}
  .nosee{
 
      color: #FFFF;
@@ -419,4 +429,20 @@ border-radius: 5px 5px 0 0;
 .tablefactura td:first-child{
     font-weight: bolder;
 }
+
+.backi{
+    
+    font-size: 25px;
+    color: #fff;
+    background-color: #ffff;
+    text-decoration: none;
+    float: right;
+    
+}
+
+.back{
+    font-size: 40px;
+    color: #000;
+}
+
 
