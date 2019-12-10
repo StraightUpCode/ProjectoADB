@@ -59,6 +59,14 @@ const getDatabaseConfig= () => {
   return config
 }
 
+const compareStrings = (str1, str2) => {
+  if (str1.length !== str2.length) return false
+  for (let index = 0; index < str1.length; index++){
+    if(str1[index] !== str2[index]) return false
+  }
+  return true
+}
+
 const setConfig = (objeto) => { 
   store.set(objeto)
 }
@@ -436,10 +444,12 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
     const { nombreUsuario, contrasena } = currentUserData.recordset[0]
     console.log(`Nombres de Usuario ${infoUsuario.nombreUsuario} = ${nombreUsuario} `, infoUsuario.nombreUsuario != nombreUsuario)
     console.log(`Contrase;as ${infoUsuario.contrasena} = ${contrasena} :`, infoUsuario.contrasena != contrasena)
-    const nombreUsuarioIguales = ! infoUsuario.nombreUsuario != nombreUsuario
-    const contrasenasIguales = !infoUsuario.contrasena != contrasena
-    const recrearUsuario =  !nombreUsuarioIguales|| !contrasenasIguales
-    console.log('Recrear Usuario ',recrearUsuario)
+    const nombreUsuarioIguales = compareStrings(infoUsuario.nombreUsuario, nombreUsuario)
+    console.log('Nombre Iguales ', nombreUsuarioIguales)
+    const contrasenasIguales = compareStrings(infoUsuario.contrasena ,contrasena)
+      console.log('Contrasena Iguales ', contrasenasIguales)
+    const recrearUsuario = (! nombreUsuarioIguales) ||( ! contrasenasIguales)
+    console.log('Recrear Usuario ', recrearUsuario)
     if (recrearUsuario) {
       await conexion.request().query(`Drop login ${nombreUsuario}`)
       console.log('Login Dropped')
@@ -447,7 +457,11 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
       console.log('User Dropped')
       await conexion.request().query(`Create Login ${infoUsuario.nombUsuario} with password = '${infoUsuario.contrasena}'`)// Crea Login
       await conexion.request().query(`Create User ${infoUsuario.nombUsuario} for login ${infoUsuario.nombUsuario} `)// 
-      if (!nombreUsuarioIguales) await conexion.request().query(`Update Usuario set nombreUsuario = '${infoUsuario.nombUsuario}' where IdUsuario = ${infoUsuario.IdUsuario}`)
+      if (!nombreUsuarioIguales) {
+       console.log('Los nombres no son iguales') 
+        await conexion.request().query(`Update Usuario set nombreUsuario = '${infoUsuario.nombUsuario}' where IdUsuario = ${infoUsuario.IdUsuario}`)
+        console.log('Nombre Actualizado')
+      }
       if (!contrasenasIguales) {
         const hash = crypto.createHash('sha256')
         await conexion.request().query(`Update Usuario set contrasena = '${hash.update(password).digest('hex')}' where IdUsuario = ${infoUsuario.IdUsuario}`)
@@ -543,6 +557,22 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
     evento.reply('update-usuario-permisos-reply',{ok:true})
   } catch (e) {
     evento.reply('update-usuario-permisos-reply', e)
+  }
+})
+ipcMain.on('delete-usuario', async (evento, idUsuario) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const infoUsuarioRecord = await conexion.request().query(`Select nombreUsuario from Usuario where IdUsuario = ${idUsuario}`)
+    const deleted = await conexion.request().query(`Delete from Usuario where IdUsuario = ${idUsuario}`)
+    const infoUsuario = infoUsuarioRecord.recordset[0]
+    await conexion.request().query(`Drop Login ${infoUsuario.nombreUsuario}`)
+    await conexion.request().query(`Drop user ${infoUsuario.nombreUsuario}`)
+    evento.reply('delete-usuario-reply',{ok: true})
+
+  } catch (e) {
+    console.log(e)
+    event.reply('delete-usuario-reply',e)
   }
 })
 
