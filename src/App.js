@@ -11,6 +11,7 @@ import FacturaView from "./components/FacturaView";
 import { getDbConfig } from "./utils/events";
 import FacturaInsertar from "./components/FacturaInsert";
 import FacturaUpdate from "./components/FacturaUpdate";
+import PlatilloView from './components/PlatilloView'
 
 const RequireValidDB = ({ validDb, children, ...rest }) => {
   return (
@@ -58,6 +59,9 @@ const App = () => {
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Factura/actualizar/:id' >
             <FacturaUpdate></FacturaUpdate>
+          </RequireLogin>
+          <RequireLogin isLogged={session} path='/Platillo/ver' >
+            <PlatilloView></PlatilloView>
           </RequireLogin>
           <RequireLogin isLogged={session}  path='/' >
             <>

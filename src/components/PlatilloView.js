@@ -4,20 +4,20 @@ import useListener from './hooks/useListener'
 import { addStore } from '../utils/store'
 import Zelda from '../utils/Zelda'
 import Navbar, { withNavbar } from './Navbar'
-import Dialog from './components/Dialog';
+import Dialog from './Dialog';
 
 
 
 
 
-const PlatilloView= ({ store, addPermisos }) => { 
+const PlatilloView= ({ store }) => { 
     console.log(store.user)
     const  permisoPermicial = {}
    // const permisoPermicial = store.user.permisos.find(el => el.tabla == 'Factura')
     //addPermisos([{tabla: 'Factura', crud: 15}])
     permisoPermicial.crud = 15
-    const permisoFactura = permisoPermicial.crud.toString(2).padStart(4,'0')
-    console.log(permisoPlatilo)
+    const permisoPlatillo = permisoPermicial.crud.toString(2).padStart(4,'0')
+    console.log(permisoPlatillo)
     const [platillo, setPlatillo] = useState([
         {
             IdPlatillo: 1,
@@ -49,10 +49,18 @@ const PlatilloView= ({ store, addPermisos }) => {
                     platillo.map((platillo) => (
                         <div className="ver">
                             <div >
-                               <p className="name"> IdPlatillo: <label className="verplatillo"> {factura.IdPlatillo} </label></p>
-                               <p className="name">Nombre: <label className="verplatillo"> {factura.nombre}  </label></p>
-                               <p className="name">Precio: <label className="verplatillo"> {factura.precio}  </label></p>
-                               <p className="name">% Descuento: <label className="verplatillo"> {factura.porcentajeDescuento}  </label> </p>
+                                <p className="name"> IdPlatillo: <label className="verplatillo"> {platillo.IdPlatillo} </label></p>
+                                <p className="name">Nombre: <label className="verplatillo"> {platillo.nombre}  </label></p>
+                                <p className="name">Precio: <label className="verplatillo"> {platillo.precio}  </label></p>
+                                <p className="name">% Descuento: <label className="verplatillo"> {platillo.porcentajeDescuento}  </label> </p>
+                            </div>
+                            <div>
+
+                                <span className="actualizar">
+                                    {permisoPlatillo[1] == '1' ? <Zelda className="nosee" href={`/Platillo/actualizar/${platillo.IdFactura}`}>Actualizar Platillo</Zelda> : null}</span>
+                                <span className="eliminar"> {permisoPlatillo[0] == '1' ? <Zelda className="nosee" href={`/Platillo/borrar/${platillo.IdFactura}`}>Borrar Platillo</Zelda> : null}</span>
+
+
                             </div>
                         </div>
                     ))
@@ -63,3 +71,6 @@ const PlatilloView= ({ store, addPermisos }) => {
         </>
     )
 }
+
+
+export default withNavbar(addStore(PlatilloView))
