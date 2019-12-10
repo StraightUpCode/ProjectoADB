@@ -266,6 +266,21 @@ ipcMain.on('get-facturas', async (event, args) => {
 
 })
 
+ipcMain.on('delete-factura', async (event, idFactura) => {
+  try {
+    console.log('IdFactura ' , idFactura)
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Delete from Factura where IdFactura = ${idFactura}`)
+    event.reply('delete-factura-reply', {ok: true})
+  } catch (e) {
+    event.reply('delete-factura-reply', e)
+    console.log(e)
+  }
+
+})
+
+
 
 ipcMain.on('get-factura-detalle', async (event, idFactura) => { 
   try {

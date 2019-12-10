@@ -42,16 +42,23 @@ const FacturaView = ({ store, addPermisos }) => {
         }
     ])
     const listener = createListener('get-facturas', (event, data) => {
-        
         setFacturas(data)
-        
-        
+    })
+  const deleteListener = createListener('delete-factura', (evento, respuesta) => {
+    if (respuesta.ok) {
+      listener.send()
+      }
+     
     })
     useListener(listener,facturas)
     useEffect(() => {
        listener.send()
     }, [])
-    console.log(permisoFactura)
+    useListener(deleteListener)
+    const deleteFactura = (id) => () => {
+      console.log('Delete Factura', id)
+      deleteListener.send(id)
+    }
     return (
       <>
       <div className="backi">
@@ -87,7 +94,7 @@ const FacturaView = ({ store, addPermisos }) => {
         
         
                         {/*Coso para borrar la cosa*/}
-        <span className="Cerrar">{permisoFactura[0] == '1' ? <Zelda className="nosee" href={`/Factura/borrar/${factura.IdFactura}`}>Si</Zelda> : null}</span>
+                              <span><button onClick={deleteFactura(factura.IdFactura)} className="Cerrar">{permisoFactura[0] == '1' ? <Zelda  className="nosee" href={`/Factura/borrar/${factura.IdFactura}`}>Si</Zelda> : null}</button></span>
 
         
         <span className="nocer"><a className="noCerrar" href="#">No</a></span>
