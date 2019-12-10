@@ -23,7 +23,7 @@ const InventarioView= ({ store, addPermisos }) => {
             IdInventario: 1,
             ingrediente: '',
             idUnidad: '',
-            cantidad : '',
+            cantidad : ''
 
         }
     ])
@@ -41,7 +41,7 @@ const InventarioView= ({ store, addPermisos }) => {
     return (
       <>
         <div>
-            <div><h1 className="InventarioH1">Factura</h1></div>
+            <h1 className="InventarioH1">Inventario</h1>
 
             <div>
                 
@@ -52,13 +52,13 @@ const InventarioView= ({ store, addPermisos }) => {
                                <p className="name"> IdInventario: <label className="verinventario"> {inventario.IdInventario} </label></p>
                                <p className="name">Ingrediente: <label className="verinventario"> {inventario.ingrediente}  </label></p>
                                <p className="name">idUnidad: <label className="verinventario"> {inventario.idUnidad}  </label></p>
-                               <p className="name">Cantidad: <label className="verinventario"> {inventario.cantidad}  </label> </p>
+                               <p className="namecan">Cantidad: <label className="verinventario"> {inventario.cantidad}  </label> </p>
                             </div>
                             <div>
 
-                            <span className="actualizar">
-                                    {permisoInventario[1] == '1' ? <Zelda className="dunno" href={`/Inventario/actualizar/${inventario.IdInventario}`}>Actualizar Inventario</Zelda> : null}</span>
-                                <span className="eliminar"> {permisoInventario[0] == '1' ? <Zelda className="nosee" href={`/Inventario/borrar/${inventario.IdInventario}`}>Borrar Inventario</Zelda> : null}</span>
+                            <span className="actuinv">
+                                    {permisoInventario[1] == '1' ? <Zelda className="nosee" href={`/Inventario/actualizar/${inventario.IdInventario}`}>Actualizar Inventario</Zelda> : null}</span>
+                                <span className="actubor"> {permisoInventario[0] == '1' ? <Zelda className="nosee" href={`/Inventario/borrar/${inventario.IdInventario}`}>Borrar Inventario</Zelda> : null}</span>
                             </div>          
                         </div>
                     ))

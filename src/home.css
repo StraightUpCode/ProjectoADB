@@ -682,3 +682,29 @@ span.eliminar{
     font-size: 40px;
     color: #000;
   }
+
+
+span.actuinv, span.actubor{
+    border-radius: 5px 5px 5px 5px;
+     cursor: pointer;
+     background: rgba(0, 0, 0, 0.7);
+     color: #E9EBED;
+     padding: 8px 10px;
+     margin: 20px ; 
+     text-decoration: none;
+     position: relative;
+}
+
+span.actubor{
+    margin-left: 70px;
+    background-color: #FE5F55;
+}
+
+span.actuinv{
+    margin-left:50px;
+    background-color: #087E8B;
+}
+
+.InventarioH1{
+    text-align: center;
+}
