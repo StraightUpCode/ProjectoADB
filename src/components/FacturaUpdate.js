@@ -27,12 +27,15 @@ const FacturaUpdate = (props) => {
 
     const [platillos, setPlatillo] = useState([])
     //Funciones
-    const updateFactura = (event) => { // actualiza la factura como tal
+    const updateFactura = (e) => { // actualiza la factura como tal
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         const newData = {
             ...facturaData,
             [e.target.name]: value
         }
+
+        console.log(newData)
+
         setFactura(newData)
     } 
     const updateDetalleFactura = (index) => (e) => {
@@ -65,12 +68,7 @@ const FacturaUpdate = (props) => {
         setDetalleFactura(newDetaleFactura)
         
     }
-    const setUpdate = () => {
-        console.log({
-            ...facturaData,
-            detalleFactura
-        })
-    }
+     
 
     //Listeners
     const listenerPlatillos = createListener('get-platillos', (event, respuesta) => {
@@ -80,8 +78,20 @@ const FacturaUpdate = (props) => {
         const { detalleFactura, ...factura } = respuesta
         setFactura(factura)
         setDetalleFactura(detalleFactura)
-        
+
     })
+    const listenerUpdateFactura = createListener('update-factura-detalle', (event, respuesta) => { 
+        console.log(respuesta)
+    })
+
+    const setUpdate = () => {
+        const requestData = {
+            ...facturaData,
+            detalleFactura
+        }
+        console.log(requestData)
+        listenerUpdateFactura.send(requestData)
+    } 
     //Efeccts
     useListener(listenerPlatillos)
     useListener(listenerFacturaDetalle)
@@ -103,10 +113,10 @@ const FacturaUpdate = (props) => {
                 <p>Factura : {id}</p>
                 <form>
                     <label>
-                        Cliente: <input type='text' value={facturaData.nombreCliente} onChange={updateFactura}></input>
+                        Cliente: <input name='nombreCliente' type='text' value={facturaData.nombreCliente} onChange={updateFactura}></input>
                     </label>
                     <label>
-                        Cancelado: <input type='checkbox' checked={facturaData.cancelado} onChange={updateFactura} ></input>
+                        Cancelado: <input name='cancelado' type='checkbox' checked={facturaData.cancelado} onChange={updateFactura} ></input>
                     </label>
                     <br></br>
                         <div>
@@ -118,7 +128,7 @@ const FacturaUpdate = (props) => {
                                     <div>
                                         <label>
                                             Platillo:
-                                            <select name='' onChange={updateDetalleFactura(index)} >
+                                            <select name='idPlatillo' value={detalle.idPlatillo} onChange={updateDetalleFactura(index)} >
                                                 {platillos.map((platillo) => {
                                                     return (<option value={platillo.IdPlatillo}>{platillo.nombre}</option>)
                                                 }
@@ -138,7 +148,7 @@ const FacturaUpdate = (props) => {
                     </div>
                     <div>
                         Total: {facturaData.precioTotal}
-                        Decuento: {facturaData.totalDescuento}
+                        Descuento: {facturaData.totalDescontado}
                     </div>
                 </form>
             </div>

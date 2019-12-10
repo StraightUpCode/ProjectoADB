@@ -4,7 +4,7 @@ import useListener from './hooks/useListener'
 import { addStore } from '../utils/store'
 import Zelda from '../utils/Zelda'
 import Navbar, { withNavbar } from './Navbar'
-import Dialog from './components/Dialog';
+import Dialog from './Dialog';
 
 
 
