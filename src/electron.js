@@ -354,6 +354,34 @@ ipcMain.on('get-platillos', async (event, args) => {
   }
 })
 
+ipcMain.on('create-platillo', async (evento, request) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const { ingredientes, ...platillo } = request
+    console.log('Request', request)
+    console.log('Ingredientes', ingredientes)
+    console.log('Platillo', platillo);
+    
+
+    const platilloInsertRecorset = await conexion.request().query(`Insert into Platillo values('${platillo.nombre}',${platillo.precio},${platillo.porcentajeDescuento}); Select SCOPE_IDENTITY() as id`)
+    const platilloId = platilloInsertRecorset.recordset[0].id
+    const platilloIngredienteQuerys = []
+    for (const ingrediente of ingredientes) {
+      platilloIngredienteQuerys.push(
+        conexion.request().query(`Insert into Platillo_Ingrediente values
+        (${ingrediente.idInventario}, ${platilloId},${ingrediente.IdUnidad}, ${ingrediente.cantidad})`)
+      )
+    }
+    await Promise.all(platilloIngredienteQuerys)
+    console.log('Enviando', )
+    evento.reply('create-platillo-reply', {ok: true})
+  } catch (e) {
+    evento.reply('create-platillo-reply', e)
+    console.log(e)
+  }
+})
+
 ipcMain.on('get-unidad', async (event, args) => {
   try {
     const conexion = connecionDb.getConeccion()
@@ -456,7 +484,9 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
       await conexion.request().query(`Drop user ${nombreUsuario}`)
       console.log('User Dropped')
       await conexion.request().query(`Create Login ${infoUsuario.nombUsuario} with password = '${infoUsuario.contrasena}'`)// Crea Login
+      console.log('Login Created')
       await conexion.request().query(`Create User ${infoUsuario.nombUsuario} for login ${infoUsuario.nombUsuario} `)// 
+      console.log('User Created')
       if (!nombreUsuarioIguales) {
        console.log('Los nombres no son iguales') 
         await conexion.request().query(`Update Usuario set nombreUsuario = '${infoUsuario.nombUsuario}' where IdUsuario = ${infoUsuario.IdUsuario}`)
@@ -556,6 +586,7 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
 
     evento.reply('update-usuario-permisos-reply',{ok:true})
   } catch (e) {
+    console.log(e)
     evento.reply('update-usuario-permisos-reply', e)
   }
 })

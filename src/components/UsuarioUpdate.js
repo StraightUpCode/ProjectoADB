@@ -41,7 +41,7 @@ const UsuarioUpdate = () => {
         setPermisosUsuario(permisos)
     })
     const listnerUpdateUsuario = createListener('update-usuario-permisos', (event, respuesta) => {
-        console.log(respuesta.ok)
+        console.log(respuesta)
     })
 
     const handleInfoUsuario = (e) => {

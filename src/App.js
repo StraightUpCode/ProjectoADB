@@ -19,6 +19,7 @@ import UsuarioUpdate from "./components/UsuarioUpdate";
 import UsuarioView from "./components/UsuarioView";
 import UsuarioDetalle from "./components/UsuarioDetalle";
 import InventarioInsert from "./components/InventarioInsert";
+import PlatilloInsert from "./components/PlatilloInsert";
 
 const RequireValidDB = ({ validDb, children, ...rest }) => {
   return (
@@ -72,6 +73,9 @@ const App = () => {
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Platillo/ver' >
             <PlatilloView></PlatilloView>
+          </RequireLogin>
+          <RequireLogin isLogged={session} path='/Platillo/anadir' >
+            <PlatilloInsert></PlatilloInsert>
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Inventario/ver' >
             <InventarioView></InventarioView>

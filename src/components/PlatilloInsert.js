@@ -19,59 +19,66 @@ const BackButton = (props) => {
 }
 
 const PlatilloInsert = ({ store }) => {
-    const [facturaData, handleFactura, resetFactura] = useForm({
+    const [platilloData, handlePlatillo, resetPlatillo] = useForm({
         nombre: '',
         precio: 0,
         porcentajeDescuento: 0,
     })
     const [Ingredientes, setIngredientes] = useState([])
+    const [Unidades, setUnidades] = useState([])
     const [PlatilloIngrediente, setPlatilloIngrediente] = useState([])
     const [formData, handleChange, resetForm] = useForm({
         indexInventario: 0,
+        indexUnidad: 0,
         cantidad: 0,
     })
 
-    const addPlatillo = () => {
-        const cantidadPlatillo = parseInt(formData.cantidad)
-        const platillo = platillos[parseInt(formData.indexPlatillo)]
-        const detalleAIngresar = {
-            ...platillo,
-            cantidad: cantidadPlatillo,
-            subTotal: cantidadPlatillo * platillo.precio,
-            valorDescontado: platillo.precio * cantidadPlatillo * (platillo.porcentajeDescuento / 100)
-        }
-        const nuevoDetalleFactura = [...detalleFactura, detalleAIngresar]
-        setPlatilloIngrediente(nuevoDetalleFactura)
-        resetForm()
-    }
-    const listenerPlatillos = createListener('get-platillos', (event, respuesta) => {
-        setPlatillo(respuesta)
+    const listenerUnidades = createListener('get-unidad', (event, respuesta) => {
+        setUnidades(respuesta)
     })
-    const createFactura = createListener('create-factura', (event, respuesta) => {
+    const listenerInventario = createListener('get-inventario', (event, respuesta) => {
+        console.log(respuesta)
+        setIngredientes(respuesta)
+    })
+    const createPlatillo = createListener('create-platillo', (event, respuesta) => {
         if (respuesta.ok) {
-            resetFactura()
+            resetPlatillo()
             resetForm()
-            setDetalleFactura([])
+            setPlatilloIngrediente([])
         }
-
+        
     })
-    const sendFactura = () => {
-        console.log(store)
-        const IdUsuario = store.user.IdUsuario
-        const data = { IdUsuario, ...facturaData, detalleFactura }
-        createFactura.send(data)
+    const sendPlatillo = () => {
+        platilloData.precio = parseInt(platilloData.precio)
+        platilloData.porcentajeDescuento = parseInt(platilloData.porcentajeDescuento)
+        const request = {
+            ...platilloData,
+            ingredientes: PlatilloIngrediente
+        }
+        createPlatillo.send(request)
     }
-    useListener(createFactura)
-    useListener(listenerPlatillos, platillos)
-    useEffect(() => { listenerPlatillos.send() }, [])
+    const addPlatillo = () => {
+        console.log('Form data', formData)
+        const ingrediente = Ingredientes[parseInt(formData.indexInventario)]
+        const unidad = Unidades[parseInt(formData.indexUnidad)]
+        const cantidad = parseInt(formData.cantidad)
+        const nuevoIngrediente = {
+            idInventario: ingrediente.IdInventario,
+            ingrediente: ingrediente.ingrediente,
+            ...unidad,
+            cantidad
+        }
+        setPlatilloIngrediente([...PlatilloIngrediente, nuevoIngrediente])
+    
+    }
+    useListener(createPlatillo)
+    useListener(listenerInventario, Ingredientes)
+    useListener(listenerUnidades, Unidades)
     useEffect(() => {
-        const total = detalleFactura.reduce((acc, cur) => acc + cur.subTotal, 0)
-        handleFactura({ target: { name: 'precioTotal', value: total } })
-    }, [detalleFactura])
-    useEffect(() => {
-        const totalDescuento = detalleFactura.reduce((acc, cur) => acc + cur.valorDescontado, 0)
-        handleFactura({ target: { name: 'totalDescontado', value: totalDescuento } })
-    }, [formData.precioTotal])
+        listenerUnidades.send()
+        listenerInventario.send()
+    }, [])
+
     return (
         <>
             <div className="backi">
@@ -82,24 +89,32 @@ const PlatilloInsert = ({ store }) => {
                 <form className="insertar">
                     <div >
                         <label className="insertlabel">
-                            Cliente</label>
-                        <input className="insertinput" name='nombreCliente' value={facturaData.nombreCliente} onChange={handleFactura} type='text'></input>
+                            Nombre del Platillo</label>
+                        <input className="insertinput" name='nombre' value={platilloData.nombre} onChange={handlePlatillo} type='text'></input>
 
                         <label className="insertlabel">
-                            Cancelado </label>
-                        <input className="checkl" name='cancelado' checked={facturaData.cancelado} onChange={handleFactura} type='checkbox'></input>
+                            Precio </label>
+                        <input className="insertinput" name='precio' checked={platilloData.precio} onChange={handlePlatillo} type='number'></input>
+                        <label className="insertlabel">
+                            Descuento </label>
+                        <input className="insertinput" name='porcentajeDescuento' checked={platilloData.porcentajeDescuento} onChange={handlePlatillo} type='number'></input>
 
                     </div>
                     <div>
                         <label className="insertlabel">
-                            Platillo
-                            <select className="insertinput" name='indexPlatillo' onChange={handleChange}>
-                                <option value={'something'}>Escoja una de los platillos</option>
-                                {platillos.map((platillo, index) => (
-                                    <option value={index}>{platillo.nombre}</option>
+                            Ingredientes
+                            <select className="insertinput" name='indexInventario' onChange={handleChange}>
+                                <option value={'something'}>Escoja una de los ingredientes</option>
+                                {Ingredientes.map((ingrediente, index) => (
+                                    <option value={index}>{ingrediente.ingrediente}</option>
                                 ))}
                             </select>
                             <input className="numero" name='cantidad' type='number' value={formData.cantidad} onChange={handleChange}></input>
+                            <select className="insertinput" name='indexUnidad' onChange={handleChange}>
+                                {Unidades.map((unidad, index) => (
+                                    <option value={index}>{unidad.unidad}</option>
+                                ))}
+                            </select>
                         </label>
                         <div className="agregar" onClick={addPlatillo}>Agregar </div>
                     </div>
@@ -110,14 +125,25 @@ const PlatilloInsert = ({ store }) => {
 
                     {/* Header de la tabla ?  */}
                     <thead>
-                        <tr  >{detalleFactura[0] ? Object.keys(detalleFactura[0]).map((key) => <th >{key}</th>) : null}
+                        <tr  >
+                            <th >
+                            Ingrediente
+                            </th>
+                            <th >
+                                Cantidad
+                            </th>
+                            <th >
+                                Unidad
+                            </th>
                         </tr>
                     </thead>
                     {/** Valores de los detalles Factura */}
                     <tbody>
-                        {detalleFactura.map((detalle) => (
+                        {PlatilloIngrediente.map((ingrediente) => (
                             <tr>
-                                {Object.values(detalle).map(val => (<td>{val} </td>))}
+                                <td>{ingrediente.ingrediente}</td> 
+                                <td>{ingrediente.cantidad}</td> 
+                                <td>{ingrediente.unidad}</td> 
                             </tr>
                         ))}
                     </tbody>
@@ -125,13 +151,7 @@ const PlatilloInsert = ({ store }) => {
 
                 </table>
 
-                <table className="tablefactura">
-                    <tr className="totalfa">
-                        <th><span className="totalfact">Total</span></th>
-                        <td><span className="totalito"> {facturaData.precioTotal}</span></td>
-                    </tr>
-                </table>
-                <div className="ingresarf" onClick={sendFactura}>Ingresar</div>
+                <div className="ingresarf" onClick={sendPlatillo}>Ingresar</div>
             </div>
 
         </>
@@ -142,4 +162,4 @@ const PlatilloInsert = ({ store }) => {
 
 }
 
-export default withNavbar(addStore(PlatilloInsert))
+export default addStore(PlatilloInsert)
