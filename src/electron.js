@@ -298,17 +298,27 @@ ipcMain.on('update-factura-detalle', async (event, facturaRecibida) => {
   try {
     const conexion = connecionDb.getConeccion()
     await conexion
-    const { detalleFactura, ...factura } = facturaRecibida
+    const { detalleFactura,vendedor, IdFactura, ...factura } = facturaRecibida
     console.log(factura)
     console.log(detalleFactura)
-    
-    const facturaQuery = `Update Factura  SET ${
-      Object.entries(factura).map(([key, val] )=> {
-        
-      
-      })
-    }`
-    
+    factura.cancelado = factura.cancelado? 1 : 0
+    const facturaValues = Object.entries(factura).map(([key, val]) => {
+      const escapedValue = typeof val === 'string' ? `'${val}'` : val
+      return `${key} = ${escapedValue}`
+      }).join(',')
+    const facturaQuery = `Update Factura  SET ${facturaValues} where IdFactura = ${IdFactura}`
+    const detallesFacturaQuery = detalleFactura.map(detalle => {
+      const {IdFactura, platillo, IdDetalleFactura,precio , ...detalleCurado } = detalle
+      const detalleQuery = Object.entries(detalleCurado).map(([key, val]) => {
+        const escapedValue = typeof val === 'string' ? `'${val}'` : val
+        return `${key} = ${escapedValue}`
+      }).join(',')
+      return `Update DetalleFactura set ${detalleQuery} where IdDetalleFactura = ${IdDetalleFactura}`
+    })
+    console.log(facturaQuery)
+    console.log(detallesFacturaQuery)
+    const resultadoFactura = await conexion.request().query(facturaQuery)
+    const resultadoDetalleFactura = await conexion.request().query(detallesFacturaQuery.join(';'))
   } catch (e) {
     event.reply('update-factura-detalle', e)
   }
