@@ -51,11 +51,11 @@ const UnidadView= ({ store, addPermisos }) => {
                                <p className="namecan">Unidad: <label className="verfactura"> {unidad.unidad}  </label></p>
 
                             </div>
-                            <div>
+                            <div className className="botoncitosprueba">
 
-                            <span className="actualizar">
+                            <span className="pruebaact">
                                     {permisoUnidad[1] == '1' ? <Zelda className="nosee" href={`/Unidad/actualizar/${unidad.IdUnidad}`}>Actualizar Unidad</Zelda> : null}</span>
-                                <span className="eliminar"> {permisoUnidad[0] == '1' ? <Zelda className="nosee" href={`/Unidad/borrar/${unidad.IdUnidad}`}>Borrar Unidad</Zelda> : null}</span>
+                                <span className="pruebael"> {permisoUnidad[0] == '1' ? <Zelda className="nosee" href={`/Unidad/borrar/${unidad.IdUnidad}`}>Borrar Unidad</Zelda> : null}</span>
                             </div>          
                         </div>
                     ))

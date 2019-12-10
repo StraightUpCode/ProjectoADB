@@ -54,11 +54,11 @@ const InventarioView= ({ store, addPermisos }) => {
                                <p className="name">Unidad: <label className="verfactura"> {inventario.unidad}  </label></p>
                                <p className="namecan">Cantidad: <label className="verfactura"> {inventario.cantidad}  </label> </p>
                             </div>
-                            <div>
+                            <div className="botoncitosprueba">
 
-                            <span className="actuinv">
+                            <span className="pruebaact">
                                     {permisoInventario[1] == '1' ? <Zelda className="nosee" href={`/Inventario/actualizar/${inventario.IdInventario}`}>Actualizar Inventario</Zelda> : null}</span>
-                                <span className="actubor"> {permisoInventario[0] == '1' ? <Zelda className="nosee" href={`/Inventario/borrar/${inventario.IdInventario}`}>Borrar Inventario</Zelda> : null}</span>
+                                <span className="pruebael"> {permisoInventario[0] == '1' ? <Zelda className="nosee" href={`/Inventario/borrar/${inventario.IdInventario}`}>Borrar Inventario</Zelda> : null}</span>
                             </div>          
                         </div>
                     ))

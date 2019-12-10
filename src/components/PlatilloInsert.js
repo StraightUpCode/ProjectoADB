@@ -91,10 +91,11 @@ const PlatilloInsert = ({ store }) => {
                         <label className="insertlabel">
                             Nombre del Platillo</label>
                         <input className="insertinput" name='nombre' value={platilloData.nombre} onChange={handlePlatillo} type='text'></input>
-
+                        <br></br>
                         <label className="insertlabel">
                             Precio </label>
                         <input className="insertinput" name='precio' checked={platilloData.precio} onChange={handlePlatillo} type='number'></input>
+                        <br></br>
                         <label className="insertlabel">
                             Descuento </label>
                         <input className="insertinput" name='porcentajeDescuento' checked={platilloData.porcentajeDescuento} onChange={handlePlatillo} type='number'></input>
@@ -162,4 +163,4 @@ const PlatilloInsert = ({ store }) => {
 
 }
 
-export default addStore(PlatilloInsert)
+export default withNavbar(addStore(PlatilloInsert))
