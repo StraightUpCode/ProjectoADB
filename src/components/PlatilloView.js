@@ -55,7 +55,8 @@ const PlatilloView= ({ store }) => {
                                 <p className="namecan">% Descuento: <label className="verfactura"> {platillo.porcentajeDescuento}  </label> </p>
                             </div>
                             <div>
-
+                                <span className="detalle">
+                                    <Zelda className="nosee" href={`/Platillo/ver/${platillo.IdPlatillo}`}>Ver Detalle</Zelda> </span>
                                 <span className="actualizar">
                                     {permisoPlatillo[1] == '1' ? <Zelda className="nosee" href={`/Platillo/actualizar/${platillo.IdFactura}`}>Actualizar Platillo</Zelda> : null}</span>
                                 <span className="eliminar"> {permisoPlatillo[0] == '1' ? <Zelda className="nosee" href={`/Platillo/borrar/${platillo.IdFactura}`}>Borrar Platillo</Zelda> : null}</span>

@@ -353,7 +353,32 @@ ipcMain.on('get-platillos', async (event, args) => {
     console.log(e)
   }
 })
+ipcMain.on('get-platillo-detalle', async (evento, IdPlatillo) => {
+  try {
+    console.log('get-platillo-detalle')
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const platilloQuery =  conexion.request().query(`Select * from vPlatillo where IdPlatillo = ${IdPlatillo}`)
+    const ingredienteQuery = conexion.request().query(`Select * from vPlatillo_Ingrediente where IdPlatillo = ${IdPlatillo}`)
+    console.log('Destructurando el Promise')
+    const [platilloRecordet, ingredienteRecordset] = await Promise.all([platilloQuery, ingredienteQuery])
+    console.log(platilloRecordet)
+    console.log(ingredienteRecordset)
+    const platillo = platilloRecordet.recordset[0]
+    const ingredientes = ingredienteRecordset.recordset
+    const response = {
+      ...platillo,
+      ingredientes
+    }
 
+    console.log('Response' ,response)
+    evento.reply('get-platillo-detalle-reply', response)
+
+  } catch (e) {
+    console.log(e)
+    evento.reply('get-platillo-detalle-reply',e)
+  }
+})
 ipcMain.on('create-platillo', async (evento, request) => {
   try {
     const conexion = connecionDb.getConeccion()
