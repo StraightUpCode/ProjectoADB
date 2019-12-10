@@ -54,7 +54,8 @@ const UsuarioView = ({ store, addPermisos }) => {
     }, [])
 
     const deleteUsuario = id => () => {
-        deleteListener.send(id)
+        console.log(id)
+       deleteListener.send(id)
     }
     console.log('Permiso Usuario', permisoUsuario)
     return (
@@ -89,7 +90,7 @@ const UsuarioView = ({ store, addPermisos }) => {
 
 
 {/*Coso para borrar la cosa*/}
-<span ><button onClick={deleteUsuario(usuario.IdUsuario)} className="Cerrar">{permisoUsuario[0] == '1' ? <Zelda className="nosee" href={`/Usuario/borrar/${usuario.IdUsuario}`}>Si</Zelda> : null}</button></span>
+                                            <span ><button onClick={deleteUsuario(usuario.IdUsuario)} className="Cerrar">{permisoUsuario[0] == '1' ? <Zelda className="nosee" href={`/Usuario/borrar/${usuario.IdUsuario}`}>Si {`/Usuario/borrar/${usuario.IdUsuario}`}</Zelda> : null}</button></span>
 
 
 <span className="nocer"><a className="noCerrar" href="#">No</a></span>

@@ -563,16 +563,18 @@ ipcMain.on('delete-usuario', async (evento, idUsuario) => {
   try {
     const conexion = connecionDb.getConeccion()
     await conexion
+    console.log(idUsuario)
+    /*
     const infoUsuarioRecord = await conexion.request().query(`Select nombreUsuario from Usuario where IdUsuario = ${idUsuario}`)
     const deleted = await conexion.request().query(`Delete from Usuario where IdUsuario = ${idUsuario}`)
     const infoUsuario = infoUsuarioRecord.recordset[0]
     await conexion.request().query(`Drop Login ${infoUsuario.nombreUsuario}`)
     await conexion.request().query(`Drop user ${infoUsuario.nombreUsuario}`)
-    evento.reply('delete-usuario-reply',{ok: true})
+    evento.reply('delete-usuario-reply',{ok: true})*/
 
   } catch (e) {
     console.log(e)
-    event.reply('delete-usuario-reply',e)
+    evento.reply('delete-usuario-reply',e)
   }
 })
 

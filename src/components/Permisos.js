@@ -11,10 +11,13 @@ const Permisos = ({ setPermisos, permisos }) => {
     const [permisosTablas, cambiarPermisos] = useState({ ...esquemaDb })
     useEffect(() => {
         let shouldUpdate = false
-        for (const key of Object.keys(permisosTablas)){
-            if (permisos[key] && permisos[key] != permisosTablas[key]) {
-                shouldUpdate = true
-                break;
+        console.log(permisos)
+        if (permisos) {
+            for (const key of Object.keys(permisosTablas)) {
+                if (permisos[key] && permisos[key] != permisosTablas[key]) {
+                    shouldUpdate = true
+                    break;
+                }
             }
         }
         if (shouldUpdate) {
