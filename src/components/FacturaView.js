@@ -76,7 +76,7 @@ const FacturaView = ({ store, addPermisos }) => {
                             <div>
                               
                                 <span className="detalle">
-                                <Zelda className="nosee" href="/Factura/ver/1">Ver Detalle</Zelda> </span>
+                            <Zelda className="nosee" href={`/Factura/ver/${factura.IdFactura}`}>Ver Detalle</Zelda> </span>
                                 <span className="actualizar">
                                 {permisoFactura[1] == '1' ? <Zelda className="nosee" href={`/Factura/actualizar/${factura.IdFactura}`}>Actualizar Factura</Zelda> : null}</span>
                                 <span className="eliminar"> {permisoFactura[0] == '1' ? <Zelda className="nosee" href={`/Factura/borrar/${factura.IdFactura}`}>Borrar Factura</Zelda> : null}</span>
