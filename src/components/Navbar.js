@@ -6,18 +6,10 @@ import {  addPermisos } from "../utils/store"
 import {Alert, Moda, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 
+
+
 const rutas = []
 
-
-const BackButton = (props) => { 
-  const history = useHistory()
-  return (
-    <a onClick={history.goBack} href="#" className="back" title="Cerrar sesion">
-      go Gack
-      <i class="fas fa-sign-out-alt"></i>
-    </a>
-  )
-}
 
 const sa = Object.keys(esquema).map((val) => ({
   tabla: val,
@@ -30,16 +22,18 @@ const sa = Object.keys(esquema).map((val) => ({
 const navbarComposed = (rutas) => () => (
 
 
-
+  
 <div className="wrapper">
 
   <div className="sidebar">
   
         <h2 className="permisito">Permisos</h2>
-        <BackButton></BackButton>
-    <a   href="#" className="logout" title="Cerrar sesion">
+        
+    <a href="#" className="logout" title="Cerrar sesion">
       <i class="fas fa-sign-out-alt"></i>
+      
     </a>
+    
       
       {rutas}
 
@@ -54,6 +48,7 @@ const navbarComposed = (rutas) => () => (
 
 
 export const createNavbar = (permisos) => {
+  
   console.log(permisos)
   let permisosFinal 
   if (permisos.find(el => el.tabla == 'sa')) {

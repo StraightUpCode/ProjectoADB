@@ -4,7 +4,19 @@ import { createListener } from '../utils/events'
 import useForm from './hooks/useForm'
 import { addStore } from '../utils/store'
 import { withNavbar } from './Navbar'
+import {useHistory} from 'react-router-dom'
 
+
+
+
+const BackButton = (props) => { 
+    const history = useHistory()
+    return (
+      <a onClick={history.goBack} href="#" className="back" title="Regresar">
+        <i class="fas fa-arrow-circle-left"></i>
+      </a>
+    )
+  }
 
 const FacturaInsertar = ({store}) => { 
     const [facturaData, handleFactura, resetFactura] = useForm({
@@ -62,7 +74,11 @@ const FacturaInsertar = ({store}) => {
         handleFactura({ target: { name: 'totalDescontado', value: totalDescuento } })
     },[formData.precioTotal])
     return ( 
-        <>
+       <>
+        <div className="backi">
+            <BackButton></BackButton>
+        </div>
+        
         <div> 
             <form className="insertar"> 
             <div >
@@ -118,7 +134,10 @@ const FacturaInsertar = ({store}) => {
             </table>
             <div className="ingresarf" onClick={sendFactura}>Ingresar</div>
         </div>
+        
         </>
+        
+        
     )
     
 
