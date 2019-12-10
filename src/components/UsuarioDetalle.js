@@ -3,6 +3,19 @@ import {useParams} from 'react-router-dom'
 import { createListener } from '../utils/events'
 import useListener from './hooks/useListener'
 import { withNavbar } from './Navbar'
+import { addStore } from '../utils/store'
+import {useHistory} from 'react-router-dom'
+
+
+
+const BackButton = (props) => { 
+    const history = useHistory()
+    return (
+      <a onClick={history.goBack} href="#" className="back" title="Regresar">
+        <i class="fas fa-arrow-circle-left"></i>
+      </a>
+    )
+  }
 
 
 const UsuarioDetalle = (props) => {
@@ -30,39 +43,45 @@ const UsuarioDetalle = (props) => {
     useListener(userDataListener)
     return ( 
         <>
-            <div>
-                <div> Usuario</div>
+
+        <div className="backi"><BackButton></BackButton></div>
+            <div className="verdetallito" >
+               
                 <div>
-                    <p className="name"> IdUsuario: <label className="verinventario"> {usuarioData.IdUsuario} </label></p>
-                    <p className="name">Nombre de Usuario: <label className="verinventario"> {usuarioData.nombreUsuario}  </label></p>
-                    <p className="name">Nombre: <label className="verinventario"> {usuarioData.nombre}  </label></p>
-                    <p className="name">Apellido: <label className="verinventario"> {usuarioData.apellido}  </label> </p>
+                    <p className="name"> IdUsuario: <label className="verfactura"> {usuarioData.IdUsuario} </label></p>
+                    <p className="name">Nombre de Usuario: <label className="verfactura"> {usuarioData.nombreUsuario}  </label></p>
+                    <p className="name">Nombre: <label className="verfactura"> {usuarioData.nombre}  </label></p>
+                    <p className="namecan">Apellido: <label className="verfactura"> {usuarioData.apellido}  </label> </p>
                 </div>
-                <div>
-                    Permisos 
-                <div>
-                        <div>Tabla</div>
-                        <div>Lectura</div>
-                        <div>Escritura</div>
-                        <div>Actualizar</div>
-                        <div>Borrar</div>
-                </div>
+                <table className="tablefactura">
+                     
+                <thead>
+                    <tr>
+                        <th>Tabla</th>
+                        <th>Lectura</th>
+                        <th>Escritura</th>
+                        <th>Actualizar</th>
+                        <th>Borrar</th></tr>
+                </thead>
+                <tbody>
                     {Object.entries(usuarioData.permisos).map(([llave, valor]) => {
                         return (
-                            <div>
-                                <div>{llave}</div>
+                            <tr>
+                                <th>{llave}</th>
                                 {valor.toString(2).padStart(4, '0').split('').reverse().map((bit) => {
-                                   return( <div>{bit} </div>)
+                                   return( <td className="verfactura">{bit} </td>)
 
                                 })}
 
-                            </div>
+                            </tr>
                         )
                 })}
-                </div>
+
+</tbody>
+                </table>
             </div>
         </>
     )
 }
 
-export default UsuarioDetalle
+export default withNavbar(addStore(UsuarioDetalle))

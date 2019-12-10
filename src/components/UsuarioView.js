@@ -5,8 +5,16 @@ import { addStore } from '../utils/store'
 import Zelda from '../utils/Zelda'
 import Navbar, { withNavbar } from './Navbar'
 import Dialog from './Dialog';
+import {useHistory} from 'react-router-dom'
 
-
+const BackButton = (props) => { 
+    const history = useHistory()
+    return (
+      <a onClick={history.goBack} href="#" className="back" title="Regresar">
+        <i class="fas fa-arrow-circle-left"></i>
+      </a>
+    )
+  }
 
 
 
@@ -41,6 +49,8 @@ const UsuarioView = ({ store, addPermisos }) => {
     console.log('Permiso Usuario', permisoUsuario)
     return (
         <>
+
+        <div className="backi"><BackButton></BackButton></div>
             <div>
                 <h1 className="InventarioH1">Usuario</h1>
 
@@ -59,9 +69,9 @@ const UsuarioView = ({ store, addPermisos }) => {
                                     <span className="detalle">
                                         <Zelda className="nosee" href={`/Usuario/ver/${usuario.IdUsuario}`}>Ver Detalle</Zelda> </span>
 
-                                    <span className="actuinv">
+                                    <span className="actualizar">
                                         {permisoUsuario[1] == '1' ? <Zelda className="nosee" href={`/Usuario/actualizar/${usuario.IdUsuario}`}>Actualizar usuario</Zelda> : null}</span>
-                                    <span className="actubor"> {permisoUsuario[0] == '1' ? <Zelda className="nosee" href={`/Usuario/borrar/${usuario.IdUsuario}`}>Borrar usuario</Zelda> : null}</span>
+                                    <span className="eliminar"> {permisoUsuario[0] == '1' ? <Zelda className="nosee" href={`/Usuario/borrar/${usuario.IdUsuario}`}>Borrar usuario</Zelda> : null}</span>
                                 </div>
                             </div>
                         ))
