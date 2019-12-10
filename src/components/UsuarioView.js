@@ -71,7 +71,31 @@ const UsuarioView = ({ store, addPermisos }) => {
 
                                     <span className="actualizar">
                                         {permisoUsuario[1] == '1' ? <Zelda className="nosee" href={`/Usuario/actualizar/${usuario.IdUsuario}`}>Actualizar usuario</Zelda> : null}</span>
-                                    <span className="eliminar"> {permisoUsuario[0] == '1' ? <Zelda className="nosee" href={`/Usuario/borrar/${usuario.IdUsuario}`}>Borrar usuario</Zelda> : null}</span>
+                                        <div> <span className="eliminar"><a className="borrita"href="#popup1">Borrar Factura</a></span></div>
+
+<div id="popup1" className="overlay">
+<div className="popita">
+<h2 className="cerrarito">Quiere eliminar este usuario?</h2>
+
+
+{/*Coso para borrar la cosa*/}
+<span><button className="Cerrar">{permisoUsuario[0] == '1' ? <Zelda className="nosee" href={`/Usuario/borrar/${usuario.IdUsuario}`}>Si</Zelda> : null}</button></span>
+
+
+<span className="nocer"><a className="noCerrar" href="#">No</a></span>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+                                    
                                 </div>
                             </div>
                         ))
