@@ -5,6 +5,8 @@ import useListener from "./hooks/useListener";
 import useForm from './hooks/useForm'
 import { createNavbar } from "./Navbar";
 import { addUser } from "../utils/store";
+import ReactDOM from 'react-dom';
+
 
 
 const Login = ({setLoginStatus,...rest}) => {
@@ -38,7 +40,9 @@ const Login = ({setLoginStatus,...rest}) => {
   useListener(listeners)
   return (
     
+  
     <div className="ui container">
+  
       <h1 className="titulologin">Login</h1>
       <form className="formregister" onSubmit={submitLogin}>
         <label className="label">UserName</label>

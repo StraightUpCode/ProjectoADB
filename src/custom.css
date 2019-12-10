@@ -13,7 +13,7 @@ body {
   padding: 20px;
   border-radius: 5px 5px 5px 5px;
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
-  position: relative;
+  
 }
 
 .Root{
@@ -25,7 +25,7 @@ body {
   margin-top: 70px;
   padding: 20px;
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
-  position: relative;
+ 
 }
 
 .Root .labelinput{
