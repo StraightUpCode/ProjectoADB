@@ -4,6 +4,20 @@ import useListener from './hooks/useListener'
 import useForm from './hooks/useForm'
 import {createListener} from '../utils/events'
 import { withNavbar } from './Navbar'
+import {useHistory} from 'react-router-dom'
+import { addStore } from '../utils/store'
+
+
+
+const BackButton = (props) => { 
+    const history = useHistory()
+    return (
+      <a onClick={history.goBack} href="#" className="back" title="Regresar">
+        <i class="fas fa-arrow-circle-left"></i>
+      </a>
+    )
+  }
+
 
 const FacturaUpdate = (props) => {
     const {id} = useParams()
@@ -109,16 +123,20 @@ const FacturaUpdate = (props) => {
  
     return (
         <>
+       
+       <div className="backi">
+            <BackButton></BackButton></div>
             <div className="update"> 
             
                 
                 <form>
-                    <div className="insertar">
-                <p>Factura : {id}</p>
-                    <label>
-                        Cliente: <input name='nombreCliente' type='text' value={facturaData.nombreCliente} onChange={updateFactura}></input>
+                    <div className="insertarup">
+                <p className="insertlabel">Factura: {id} </p>
+                
+                    <label className="insertlabel">
+                        Cliente: <input className="insertinput" name='nombreCliente' type='text' value={facturaData.nombreCliente} onChange={updateFactura}></input>
                     </label>
-                    <label>
+                    <label className="insertlabel">
                         Cancelado: <input name='cancelado' type='checkbox' className="checkl" checked={facturaData.cancelado} onChange={updateFactura} ></input>
                     </label></div>
                     <br></br>
@@ -132,8 +150,8 @@ const FacturaUpdate = (props) => {
                                     <div >
                                 
                                         <div className="updates">
-                                            Platillo:
-                                            <select name='idPlatillo' value={detalle.idPlatillo} onChange={updateDetalleFactura(index)} >
+                                            <label className="insertlabel">Platillo:
+                                            <select className="platillito" name='idPlatillo' value={detalle.idPlatillo} onChange={updateDetalleFactura(index)} >
                                                 {platillos.map((platillo) => {
                                                     return (<option value={platillo.IdPlatillo}>{platillo.nombre}</option>)
                                                 }
@@ -141,11 +159,12 @@ const FacturaUpdate = (props) => {
                                                 )}
                                             </select>
                                        
-                                        <input name='cantidad' type='number' value={detalle.cantidad} onChange={updateDetalleFactura(index)}></input>
+                                        <input className="numbercito" name='cantidad' type='number' value={detalle.cantidad} onChange={updateDetalleFactura(index)}></input>
+                                        </label>
                                         <br></br>
-                                        <label>SubTotal: {detalle.subtotal}</label>
+                                        <label className="labeltit">SubTotal: {detalle.subtotal}</label>
                                         <br></br>
-                                        <label>Valor Descontado: {detalle.valorDescontado}</label>
+                                        <label className="labeltit">Valor Descontado: {detalle.valorDescontado}</label>
                                         </div>
 
                                     </div>
@@ -172,10 +191,11 @@ const FacturaUpdate = (props) => {
                        </table>  
 
             </div>
-            <div onClick={setUpdate}>
+            <div className="ingresarf" onClick={setUpdate}>
                 Guardar
             </div>
+        
         </>)
 }
 
-export default FacturaUpdate
+export default withNavbar(addStore(FacturaUpdate))
