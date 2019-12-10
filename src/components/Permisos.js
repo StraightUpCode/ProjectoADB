@@ -3,13 +3,12 @@ import { esquema } from '../esquemaDb'
 
 
 console.log(esquema)
-const Permisos = ({ setPermisos }) => {
+const Permisos = ({ setPermisos, permisosUsuario }) => {
    const esquemaDb = Object.keys(esquema).reduce((acc, cur) => {
-        acc[cur] = 15
+        acc[cur] = 0
         return acc
     }, {}) 
-    const [permisosTablas, cambiarPermisos] = useState(esquemaDb)
-
+    const [permisosTablas, cambiarPermisos] = useState( {...esquemaDb, ...permisosUsuario})
     const handleChange = e => {
         const tabla = e.target.name
         const temp = parseInt(e.target.value)
