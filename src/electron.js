@@ -544,6 +544,26 @@ ipcMain.on('get-usuarios', async (event, request) => {
   }
 })
 
+ipcMain.on('get-user-detalle', async (event, idUsuario) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const usuariosRecordset = await conexion.request().query(`Select * from vUsuario where IdUsuario = ${idUsuario}`)
+    console.log(usuariosRecordset)
+    const dataUsuario = usuariosRecordset.recordset[0]
+    const permisosUsuarioRecordet = await conexion.request().query(`Select * from vUsuario_Permiso where idUsuario = ${idUsuario}`)
+    const permisosUsuario = permisosUsuarioRecordet.recordset.reduce((acc, current) => {
+      console.log('Before ', acc)
+      acc[current.tabla] = current.crud
+      return acc
+    }, {})
+    const response = { ...dataUsuario, permisos: permisosUsuario }
+    
+    event.reply('get-user-detalle-reply', response)
+  } catch (e) {
+    event.reply('get-user-detalle-reply', e)
+  }
+})
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 

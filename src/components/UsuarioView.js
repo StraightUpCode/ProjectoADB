@@ -29,7 +29,7 @@ const UsuarioView = ({ store, addPermisos }) => {
     ])
     const listener = createListener('get-usuarios', (event, data) => {
         console.log(data)
-        
+
         setUsuarios(data)
 
 
@@ -38,6 +38,7 @@ const UsuarioView = ({ store, addPermisos }) => {
     useEffect(() => {
         listener.send()
     }, [])
+    console.log('Permiso Usuario', permisoUsuario)
     return (
         <>
             <div>
@@ -55,6 +56,8 @@ const UsuarioView = ({ store, addPermisos }) => {
                                     <p className="namecan">Apellido: <label className="verfactura"> {usuario.apellido}  </label> </p>
                                 </div>
                                 <div>
+                                    <span className="detalle">
+                                        <Zelda className="nosee" href={`/Usuario/ver/${usuario.IdUsuario}`}>Ver Detalle</Zelda> </span>
 
                                     <span className="actuinv">
                                         {permisoUsuario[1] == '1' ? <Zelda className="nosee" href={`/Usuario/actualizar/${usuario.IdUsuario}`}>Actualizar usuario</Zelda> : null}</span>
