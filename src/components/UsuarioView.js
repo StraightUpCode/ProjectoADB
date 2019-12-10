@@ -49,10 +49,10 @@ const UsuarioView = ({ store, addPermisos }) => {
                         usuarios.map((usuario) => (
                             <div className="ver">
                                 <div >
-                                    <p className="name"> IdUsuario: <label className="verinventario"> {usuario.IdUsuario} </label></p>
-                                    <p className="name">Nombre de Usuario: <label className="verinventario"> {usuario.nombreUsuario}  </label></p>
-                                    <p className="name">Nombre: <label className="verinventario"> {usuario.nombre}  </label></p>
-                                    <p className="name">Apellido: <label className="verinventario"> {usuario.apellido}  </label> </p>
+                                    <p className="name"> IdUsuario: <label className="verfactura"> {usuario.IdUsuario} </label></p>
+                                    <p className="name">Nombre de Usuario: <label className="verfactura"> {usuario.nombreUsuario}  </label></p>
+                                    <p className="name">Nombre: <label className="verfactura"> {usuario.nombre}  </label></p>
+                                    <p className="namecan">Apellido: <label className="verfactura"> {usuario.apellido}  </label> </p>
                                 </div>
                                 <div>
 
