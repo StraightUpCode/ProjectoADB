@@ -564,6 +564,18 @@ ipcMain.on('get-user-detalle', async (event, idUsuario) => {
     event.reply('get-user-detalle-reply', e)
   }
 })
+
+ipcMain.on('create-inventario', async (evento, request) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    await conexion.request().query(`Insert into Inventario values('${request.ingrediente}',${request.idUnidad}, ${request.cantidad})`)
+    evento.reply('create-inventario-reply',{ok:true})
+  } catch (e) {
+    console.log(e)
+    evento.reply('create-inventario-reply',{ok: false, e})
+  }
+})
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 

@@ -18,6 +18,7 @@ import UnidadView from "./components/UnidadView";
 import UsuarioUpdate from "./components/UsuarioUpdate";
 import UsuarioView from "./components/UsuarioView";
 import UsuarioDetalle from "./components/UsuarioDetalle";
+import InventarioInsert from "./components/InventarioInsert";
 
 const RequireValidDB = ({ validDb, children, ...rest }) => {
   return (
@@ -74,6 +75,9 @@ const App = () => {
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Inventario/ver' >
             <InventarioView></InventarioView>
+          </RequireLogin>
+          <RequireLogin isLogged={session} path='/Inventario/anadir' >
+            <InventarioInsert></InventarioInsert>
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Unidad/ver' >
             <UnidadView></UnidadView>
