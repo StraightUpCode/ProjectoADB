@@ -271,9 +271,7 @@ border-radius: 5px 5px 0 0;
      
  }
 
- .ver div{
-     display: inline-block; 
- }
+ 
 
  .name, .namecan{
     font-weight: bold;
@@ -298,6 +296,32 @@ border-radius: 5px 5px 0 0;
      text-decoration: none;
      
  }
+
+.botoncitosprueba{
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    
+    
+}
+
+.prueba, .pruebaact, .pruebael{
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.7);
+    color: #E9EBED;
+    padding: 8px 10px;
+    text-decoration: none;
+
+}
+ 
+.pruebaact{
+    background-color: #087E8B;
+}
+
+.pruebael{
+    background-color: #FE5F55;
+}
 
  span.actualizar{
      background-color: #087E8B;

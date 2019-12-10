@@ -76,13 +76,13 @@ const UsuarioView = ({ store, addPermisos }) => {
                                     <p className="name">Nombre: <label className="verfactura"> {usuario.nombre}  </label></p>
                                     <p className="namecan">Apellido: <label className="verfactura"> {usuario.apellido}  </label> </p>
                                 </div>
-                                <div>
-                                    <span className="detalle">
+                                <div className="botoncitosprueba">
+                                    <span className="prueba">
                                         <Zelda className="nosee" href={`/Usuario/ver/${usuario.IdUsuario}`}>Ver Detalle</Zelda> </span>
 
-                                    <span className="actualizar">
+                                    <span className="pruebaact">
                                         {permisoUsuario[1] == '1' ? <Zelda className="nosee" href={`/Usuario/actualizar/${usuario.IdUsuario}`}>Actualizar usuario</Zelda> : null}</span>
-                                        <div> <span className="eliminar"><a className="borrita"href="#popup1">Borrar Factura</a></span></div>
+                                         <span className="pruebael"><a className="borrita"href="#popup1">Borrar Usuario</a></span>
 
 <div id="popup1" className="overlay">
 <div className="popita">
