@@ -531,6 +531,18 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
   }
 })
 
+ipcMain.on('get-usuarios', async (event, request) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const usuariosRecordset = await conexion.request().query(`Select * from vUsuario`)
+    console.log(usuariosRecordset)
+    const response = usuariosRecordset.recordset
+    event.reply('get-usuarios-reply', response)
+  } catch (e) {
+    event.reply('get-usuarios-reply',e)
+  }
+})
 
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 

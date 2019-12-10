@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-dom'
 import { addStore } from '../utils/store'
 
 const UsuarioUpdate = () => {
+    const { id } = useParams()
     const [infoUsuario, setInfoUsuario] = useState(
         {
             nombreUsuario: '',
@@ -47,7 +48,7 @@ const UsuarioUpdate = () => {
 
     useListener(listenerInformacionUsuario)
     useListener(listnerUpdateUsuario)
-    useEffect(()=> { listenerInformacionUsuario.send(1)},[])
+    useEffect(()=> { listenerInformacionUsuario.send(id)},[])
     return (
         <div> 
             <h1 className="updateuser">Actualizar Usuario</h1>
