@@ -332,6 +332,31 @@ ipcMain.on('get-platillos', async (event, args) => {
   }
 })
 
+ipcMain.on('get-unidad', async (event, args) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Select * from vUnidad`)
+    console.log('Enviando', result.recordset)
+    event.reply('get-unidad-reply', result.recordset)
+  } catch (e) {
+    event.reply('get-unidad-reply', e)
+    console.log(e)
+  }
+})
+ipcMain.on('get-inventario', async (event, args) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Select * from vInventario`)
+    console.log('Enviando', result.recordset)
+    event.reply('get-inventario-reply', result.recordset)
+  } catch (e) {
+    event.reply('get-inventario-reply', e)
+    console.log(e)
+  }
+})
+
 
 ipcMain.on('create-factura', async (event, args) => {
   const response = { ok : false }
@@ -362,11 +387,11 @@ ipcMain.on('create-factura', async (event, args) => {
 
 ipcMain.on('get-usuario-permisos', async (evento, idUsuario) => {
   try {
-    const 
+    
     const conexion = connecionDb.getConeccion()
     await conexion
     const infoUsuarioRecordset = await conexion.request().query(`Select * from vUsuario where IdUsuario = ${idUsuario}`)
-    
+
 
 
   } catch (e) {

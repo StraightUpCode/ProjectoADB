@@ -4,7 +4,7 @@ import useListener from './hooks/useListener'
 import { addStore } from '../utils/store'
 import Zelda from '../utils/Zelda'
 import Navbar, { withNavbar } from './Navbar'
-import Dialog from './components/Dialog';
+import Dialog from './Dialog';
 
 
 
@@ -27,8 +27,8 @@ const InventarioView= ({ store, addPermisos }) => {
 
         }
     ])
-    const listener = createListener('get-Inventario', (event, data) => {
-        
+    const listener = createListener('get-inventario', (event, data) => {
+        console.log(data)
         setInventario(data)
         
         
@@ -57,8 +57,8 @@ const InventarioView= ({ store, addPermisos }) => {
                             <div>
 
                             <span className="actualizar">
-                            {permisoInventario[1] == '1' ? <Zelda className="dunno" href={`/Inventario/actualizar/${}`}>Actualizar Inventario</Zelda> : null}</span>
-                            <span className="eliminar"> {permisoInventario[0] == '1' ? <Zelda className="nosee" href={`/Inventario/borrar/${}`}>Borrar Inventario</Zelda> : null}</span>
+                                    {permisoInventario[1] == '1' ? <Zelda className="dunno" href={`/Inventario/actualizar/${inventario.IdInventario}`}>Actualizar Inventario</Zelda> : null}</span>
+                                <span className="eliminar"> {permisoInventario[0] == '1' ? <Zelda className="nosee" href={`/Inventario/borrar/${inventario.IdInventario}`}>Borrar Inventario</Zelda> : null}</span>
                             </div>          
                         </div>
                     ))
@@ -69,3 +69,5 @@ const InventarioView= ({ store, addPermisos }) => {
         </>
     )
 }
+
+export default withNavbar(addStore(InventarioView))
