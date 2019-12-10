@@ -2,13 +2,25 @@ import React, {useState, useEffect} from 'react'
 import { esquema } from '../esquemaDb'
 
 
-console.log(esquema)
-const Permisos = ({ setPermisos, permisosUsuario }) => {
+const Permisos = ({ setPermisos, permisos }) => {
    const esquemaDb = Object.keys(esquema).reduce((acc, cur) => {
         acc[cur] = 0
         return acc
-    }, {}) 
-    const [permisosTablas, cambiarPermisos] = useState( {...esquemaDb, ...permisosUsuario})
+   }, {}) 
+    console.log(permisos)
+    const [permisosTablas, cambiarPermisos] = useState({ ...esquemaDb })
+    useEffect(() => {
+        let shouldUpdate = false
+        for (const key of Object.keys(permisosTablas)){
+            if (permisos[key] && permisos[key] != permisosTablas[key]) {
+                shouldUpdate = true
+                break;
+            }
+        }
+        if (shouldUpdate) {
+            cambiarPermisos({ ...esquemaDb ,...permisos})
+        }
+    },[permisos])
     const handleChange = e => {
         const tabla = e.target.name
         const temp = parseInt(e.target.value)

@@ -391,24 +391,39 @@ ipcMain.on('get-usuario-permisos', async (evento, idUsuario) => {
     const conexion = connecionDb.getConeccion()
     await conexion
     const infoUsuarioRecordset = await conexion.request().query(`Select * from vUsuario where IdUsuario = ${idUsuario}`)
-
+    const infoUsuario = infoUsuarioRecordset.recordset[0]
+    const permisosUsuarioRecordet = await conexion.request().query(`Select * from vUsuario_Permiso where idUsuario = ${infoUsuario.IdUsuario}`)
+    const permisosUsuario = permisosUsuarioRecordet.recordset.reduce((acc, current) => {
+      console.log('Before ', acc)
+      acc[current.tabla] = current.crud
+     return acc
+    }, {})
+    console.log({ ...infoUsuario, permisos: permisosUsuario })
+    evento.reply('get-usuario-permisos-reply',{...infoUsuario, permisos : permisosUsuario})
 
 
   } catch (e) {
     console.log(e)
-    evento.reply(e)
+    evento.reply('get-usuario-permisos-reply',e)
   }
 
 })
 
 ipcMain.on('update-usuario-permisos', async (evento, arg) => {
   try {
+    console.log('Args ',arg)
     const conexion = connecionDb.getConeccion()
     await conexion
-    const { permisos, ...infoUsuario } = arg
+    const { permisosUsuario, ...infoUsuario } = arg
+    console.log(permisosUsuario)
+    console.log(infoUsuario);
+    
     const currentUserData = await conexion.request().query(`Select * from vUsuario where IdUsuario = ${infoUsuario.IdUsuario}`)
-    const { nombreUsuario, contrasena } = currentUserData.recordset
+    const { nombreUsuario, contrasena } = currentUserData.recordset[0]
+    console.log(`Nombres de Usuario ${infoUsuario.nombreUsuario} = ${nombreUsuario} `, infoUsuario.nombreUsuario != nombreUsuario)
+    console.log(`Contrase;as ${infoUsuario.contrasena} = ${contrasena} :`, infoUsuario.contrasena != contrasena)
     const recrearUsuario = infoUsuario.nombreUsuario != nombreUsuario || infoUsuario.contrasena != contrasena
+    console.log('Recrear Usuario ',recrearUsuario)
     if (recrearUsuario) {
       await conexion.request().query(`Drop login ${nombreUsuario}`)
       console.log('Login Dropped')
@@ -419,9 +434,9 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
     }
 
     const solicitudesPermisos = []
-    console.log(permisos)
+    console.log(permisosUsuario)
     //Se consiguen los permisos
-    for (const [tabla, permiso] of Object.entries(permisos)) {
+    for (const [tabla, permiso] of Object.entries(permisosUsuario)) {
       if (permiso == 0) continue
       solicitudesPermisos.push(conexion.request().query(`
       Select IdPermiso
@@ -447,7 +462,10 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
     }
 
     // Realiza los permisos de SQL server
-    for (const [tabla, permiso] of Object.entries(permisos)) {
+    for (const [tabla, permiso] of Object.entries(permisosUsuario)) {
+      const revokeQuery = `Revoke Select, Insert, Update, Delete on ${tabla} to ${infoUsuario.nombreUsuario}`
+      console.log(revokeQuery);
+      await conexion.request().query(revokeQuery)
       if (permiso == 0) continue
       const permisosSQL = []
       const permisoBinario = permiso.toString(2).padStart(4, '0')
@@ -474,8 +492,11 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
         }
       }
       console.log(tabla, permisosSQL)
-      await conexion.request().query(`Revoke Select, Insert, Update, Delete on ${tabla} to ${infoUsuario.nombreUsuario}`)
-      await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${infoUsuario.nombreUsuario}`)
+
+      
+      const granQuery = `GRANT ${permisosSQL.join(',')} on ${tabla} to ${infoUsuario.nombreUsuario}`
+      console.log(granQuery);
+      await conexion.request().query(granQuery)
       if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
         console.log(tabla)
         const tablasIntermedia = esquemaDb.esquema[tabla]
@@ -491,13 +512,15 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
           if (tablaIntermedia.length === 0) continue
           console.log('Agregando Select Vistas a tablas intermedia', tablaIntermedia)
           await conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${infoUsuario.nombreUsuario}`)
-          console.log('Termino Tablas Intermedias')
+          
         }
+        console.log('Termino Tablas Intermedias')
       }
+      console.log('Termino las tablas')
     }
-
+    evento.reply('update-usuario-permisos-reply',{ok:true})
   } catch (e) {
-    evento.reply('get-usuario-permisos-reply', e)
+    evento.reply('update-usuario-permisos-reply', e)
   }
 })
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
