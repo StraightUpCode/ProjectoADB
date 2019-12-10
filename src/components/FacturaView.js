@@ -73,7 +73,7 @@ const FacturaView = ({ store, addPermisos }) => {
                                <p className="name">Descuento: <label className="verfactura"> {factura.totalDescontado}  </label></p> 
                                <p className="namecan">Cancelado: <label className="verfactura"> {factura.cancelado}  </label></p> 
                             </div>
-                            <div>
+                            <div className="botoncitos">
                               
                                 <span className="detalle">
                             <Zelda className="nosee" href={`/Factura/ver/${factura.IdFactura}`}>Ver Detalle</Zelda> </span>
@@ -87,7 +87,7 @@ const FacturaView = ({ store, addPermisos }) => {
         
         
                         {/*Coso para borrar la cosa*/}
-        <span><button className="Cerrar">{permisoFactura[0] == '1' ? <Zelda className="nosee" href={`/Factura/borrar/${factura.IdFactura}`}>Si</Zelda> : null}</button></span>
+        <span className="Cerrar">{permisoFactura[0] == '1' ? <Zelda className="nosee" href={`/Factura/borrar/${factura.IdFactura}`}>Si</Zelda> : null}</span>
 
         
         <span className="nocer"><a className="noCerrar" href="#">No</a></span>

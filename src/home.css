@@ -754,3 +754,9 @@ span.actuinv{
     max-height: 30%;
     overflow: auto;
   }
+
+
+  .botoncitos{
+      display: flex;
+      justify-content: center;
+  }
