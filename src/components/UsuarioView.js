@@ -79,7 +79,7 @@ const UsuarioView = ({ store, addPermisos }) => {
 
 
 {/*Coso para borrar la cosa*/}
-<span className="nocer">{permisoUsuario[0] == '1' ? <Zelda className="nosee" href={`/Usuario/borrar/${usuario.IdUsuario}`}>Si</Zelda> : null}</span>
+<span ><button className="Cerrar">{permisoUsuario[0] == '1' ? <Zelda className="nosee" href={`/Usuario/borrar/${usuario.IdUsuario}`}>Si</Zelda> : null}</button></span>
 
 
 <span className="nocer"><a className="noCerrar" href="#">No</a></span>
