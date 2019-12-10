@@ -4,6 +4,9 @@ import { createListener } from '../utils/events'
 import { withNavbar } from './Navbar'
 import Permisos from './Permisos'
 import useListener from './hooks/useListener'
+import {useHistory} from 'react-router-dom'
+import { addStore } from '../utils/store'
+
 const UsuarioUpdate = () => {
     const [infoUsuario, setInfoUsuario] = useState(
         {
@@ -44,21 +47,23 @@ const UsuarioUpdate = () => {
 
     useListener(listenerInformacionUsuario)
     useListener(listnerUpdateUsuario)
-    useEffect(()=> { listenerInformacionUsuario.send(26)},[])
+    useEffect(()=> { listenerInformacionUsuario.send(1)},[])
     return (
         <div> 
-            <form>
-                <label>Nombre Usuario : <input name='nombreUsuario' type='text' onChange={handleInfoUsuario} value={infoUsuario.nombreUsuario}/></label>
-                <label>Contrase;a : <input name='contrasena' type='password' onChange={handleInfoUsuario} value={infoUsuario.contrasena}/></label>
-                <label>Nombre : <input name='nombre' type='text' onChange={handleInfoUsuario} value={infoUsuario.nombre} /></label>
-                <label>Apellido : <input name='apellido' type='text' onChange={handleInfoUsuario} value={infoUsuario.apellido} /></label>
+            <h1 className="updateuser">Actualizar Usuario</h1>
+            <form className="formregister">
+                <label className="label">Nombre Usuario <input className="labelinput" name='nombreUsuario' type='text' onChange={handleInfoUsuario} value={infoUsuario.nombreUsuario}/></label>
+                <label className="label">Contraseña <input className="labelinput" name='contrasena' type='password' onChange={handleInfoUsuario} value={infoUsuario.contrasena}/></label>
+                <label className="label">Nombre <input  className="labelinput" name='nombre' type='text' onChange={handleInfoUsuario} value={infoUsuario.nombre} /></label>
+                <label className="label">Apellido <input  className="labelinput" name='apellido' type='text' onChange={handleInfoUsuario} value={infoUsuario.apellido} /></label>
                 <Permisos setPermisos={setPermisosUsuario} permisos={permisosUsuario}></Permisos>
+                <div className="agregar" onClick={saveData}>Guardar</div> 
             </form>
-            <div onClick={saveData}>Guardar</div> 
+            
         </div>
     )
 
 
 }
 
-export default UsuarioUpdate
+export default withNavbar(addStore(UsuarioUpdate))
