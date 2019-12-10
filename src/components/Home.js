@@ -11,7 +11,21 @@ const Home = ({ store, ...props }) => {
     return (
         
         <>
+
            <h1 className="homeh1">Bienvenido {nombre }</h1> 
+      <div className="plsesteya" alt="Cerrar Sesion">  
+<a className="cierrita" href="#popup1" alt="Cerrar Sesion"><i class="fas fa-sign-out-alt"></i></a></div>   
+
+<div id="popup1" className="overlay">
+    <div className="popupcito">
+        <h2 className="cerrarito">Quiere cerrar Sesion?</h2>
+        
+
+        <span><button className="Cerrar">Si</button></span>
+        <span className="nocer"><a className="noCerrar" href="#">No</a></span>
+    </div>
+
+</div>
        
           
         </>
