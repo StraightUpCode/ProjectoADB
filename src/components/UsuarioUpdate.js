@@ -7,6 +7,18 @@ import useListener from './hooks/useListener'
 import {useHistory} from 'react-router-dom'
 import { addStore } from '../utils/store'
 
+
+
+const BackButton = (props) => { 
+    const history = useHistory()
+    return (
+      <a onClick={history.goBack} href="#" className="back" title="Regresar">
+        <i class="fas fa-arrow-circle-left"></i>
+      </a>
+    )
+  }
+
+
 const UsuarioUpdate = () => {
     const { id } = useParams()
     const [infoUsuario, setInfoUsuario] = useState(
@@ -50,6 +62,8 @@ const UsuarioUpdate = () => {
     useListener(listnerUpdateUsuario)
     useEffect(()=> { listenerInformacionUsuario.send(id)},[])
     return (
+        <>
+        <div className="backi"><BackButton></BackButton></div>
         <div> 
             <h1 className="updateuser">Actualizar Usuario</h1>
             <form className="formregister">
@@ -62,6 +76,7 @@ const UsuarioUpdate = () => {
             </form>
             
         </div>
+        </>
     )
 
 

@@ -47,14 +47,14 @@ const UnidadView= ({ store, addPermisos }) => {
                     unidad.map((unidad) => (
                         <div className="ver">
                             <div >
-                               <p className="name"> IdUnidad: <label className="verinventario"> {unidad.IdUnidad} </label></p>
-                               <p className="name">Unidad: <label className="verinventario"> {unidad.unidad}  </label></p>
+                               <p className="name"> IdUnidad: <label className="verfactura"> {unidad.IdUnidad} </label></p>
+                               <p className="namecan">Unidad: <label className="verfactura"> {unidad.unidad}  </label></p>
 
                             </div>
                             <div>
 
                             <span className="actualizar">
-                                    {permisoUnidad[1] == '1' ? <Zelda className="dunno" href={`/Unidad/actualizar/${unidad.IdUnidad}`}>Actualizar Unidad</Zelda> : null}</span>
+                                    {permisoUnidad[1] == '1' ? <Zelda className="nosee" href={`/Unidad/actualizar/${unidad.IdUnidad}`}>Actualizar Unidad</Zelda> : null}</span>
                                 <span className="eliminar"> {permisoUnidad[0] == '1' ? <Zelda className="nosee" href={`/Unidad/borrar/${unidad.IdUnidad}`}>Borrar Unidad</Zelda> : null}</span>
                             </div>          
                         </div>

@@ -296,7 +296,7 @@ border-radius: 5px 5px 0 0;
      padding: 8px 10px;
      margin: 20px; 
      text-decoration: none;
-     position: relative;
+     
  }
 
  span.actualizar{
@@ -712,3 +712,45 @@ span.actuinv{
 .updateuser{
     text-align: center;
 }
+
+.borrita{
+    text-decoration: none;
+    color: #ffff;
+}
+
+.popita{
+    margin: 200px 765px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 20%;
+
+
+    transition: all 5s ease-in-out;
+
+}
+
+
+  
+  .popita h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popita .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popita .close:hover {
+    color: #06D85F;
+  }
+  .popita {
+    max-height: 30%;
+    overflow: auto;
+  }
