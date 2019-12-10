@@ -5,6 +5,7 @@ import { withNavbar } from './Navbar'
 import Permisos from './Permisos'
 import useListener from './hooks/useListener'
 const UsuarioUpdate = () => {
+    const { id } = useParams()
     const [infoUsuario, setInfoUsuario] = useState(
         {
             nombreUsuario: '',
@@ -44,7 +45,7 @@ const UsuarioUpdate = () => {
 
     useListener(listenerInformacionUsuario)
     useListener(listnerUpdateUsuario)
-    useEffect(()=> { listenerInformacionUsuario.send(26)},[])
+    useEffect(()=> { listenerInformacionUsuario.send(id)},[])
     return (
         <div> 
             <form>
