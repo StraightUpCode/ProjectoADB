@@ -14,10 +14,18 @@ const FacturaUpdate = (props) => {
         precioTotal: 0,
         totalDescontado: 0
     })
-    const [detalleFactura, setDetalleFactura] = useState([])
+    const [detalleFactura, setDetalleFactura] = useState([{
+            IdDetalleFactura: 1,
+            IdFactura: 0,
+            cantidad: 0,
+            idPlatillo: 0,
+            platillo: "Algo ahi",
+            precio: 0,
+            subtotal: 0,
+            valorDescontado: 0
+    }])
 
     const [platillos, setPlatillo] = useState([])
-    const [opcionesPlatillo, setOpcionesPlatillo] = useState([])
     //Funciones
     const updateFactura = (event) => { // actualiza la factura como tal
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -27,13 +35,34 @@ const FacturaUpdate = (props) => {
         }
         setFactura(newData)
     } 
-    const updateDetalleFactura = (index) => (event) => {
+    const updateDetalleFactura = (index) => (e) => {
         const newDetaleFactura = [...detalleFactura]
-        const detalleAModificar = newDetaleFactura[index]
-        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        const detalleAModificar = detalleFactura[index]
+        const preValue = parseInt(e.target.value)
+        const value = isNaN(preValue)? 0 : preValue;
+        
+        const newData = {
+            ...detalleAModificar,
+            [e.target.name] : value
+        }
+        console.log(e.target.name)
+        console.log(detalleAModificar)
+        console.log(value)
+        const idPlatillo = e.target.name == 'idPlatilo' ? value : detalleAModificar.idPlatillo
+        const platilloSeleccionado = platillos.find((element) => {
+            return element.IdPlatillo == idPlatillo
+        })
+        newData.precio = platilloSeleccionado.precio
+        newData.subtotal = newData.cantidad * newData.precio
+        newData.valorDescontado = newData.subtotal * platilloSeleccionado.porcentajeDescuento
+        newDetaleFactura[index] = newData
+        
+        console.log(platilloSeleccionado)
+        console.log(newData)
     
        
-        //setDetalleFactura(newDetaleFactura)
+        console.log(newData)
+        setDetalleFactura(newDetaleFactura)
         
     }
     const setUpdate = () => {
@@ -49,22 +78,24 @@ const FacturaUpdate = (props) => {
     })
     const listenerFacturaDetalle = createListener('get-factura-detalle', (event, respuesta) => {
         const { detalleFactura, ...factura } = respuesta
-        setDetalleFactura(detalleFactura)
         setFactura(factura)
+        setDetalleFactura(detalleFactura)
+        
     })
     //Efeccts
-
+    useListener(listenerPlatillos)
+    useListener(listenerFacturaDetalle)
     useEffect(() => { listenerPlatillos.send() }, [])
     useEffect(() => { listenerFacturaDetalle.send(id) }, [])
 
     useEffect(() => {
-        const total = detalleFactura.reduce((acc, cur) => acc + cur.subTotal, 0)
+        const total = detalleFactura.reduce((acc, cur) => acc + cur.subtotal, 0)
         const totalDescuento = detalleFactura.reduce((acc, cur) => acc + cur.valorDescontado, 0)
         const nuevaFactura = { ...facturaData }
         nuevaFactura.precioTotal = total
         nuevaFactura.totalDescontado = totalDescuento
         setFactura(nuevaFactura)
-    }, [detalleFactura])
+    }, [detalleFactura]) 
  
     return (
         <>
@@ -72,26 +103,31 @@ const FacturaUpdate = (props) => {
                 <p>Factura : {id}</p>
                 <form>
                     <label>
-                        Cliente: <input type='text' value={facturaData.nombreCliente}></input>
+                        Cliente: <input type='text' value={facturaData.nombreCliente} onChange={updateFactura}></input>
                     </label>
                     <label>
-                        Cancelado: <input type='checkbox' checked={facturaData.cancelado}></input>
+                        Cancelado: <input type='checkbox' checked={facturaData.cancelado} onChange={updateFactura} ></input>
                     </label>
                     <br></br>
                         <div>
                             Detalle Factura
                             {
                             detalleFactura.map((detalle, index) => {
-                                
+                                console.log('Detalle ',detalle)
                                 return (
                                     <div>
-                                        <select onChange={updateDetalleFactura(index)} value={detalleFactura.IdPlatillo}>
-                                            {platillos.map((platillo) => 
-                                                (<opciones value={platillo.IdPlatillo}>{platillo.nombre}</opciones>)
-                                            )}
-                                        </select>
-                                        <input type='number' value={detalle.cantidad}></input>
-                                        <div>{detalle.subTotal}</div>
+                                        <label>
+                                            Platillo:
+                                            <select name='' onChange={updateDetalleFactura(index)} >
+                                                {platillos.map((platillo) => {
+                                                    return (<option value={platillo.IdPlatillo}>{platillo.nombre}</option>)
+                                                }
+
+                                                )}
+                                            </select>
+                                       </label>
+                                        <input name='cantidad' type='number' value={detalle.cantidad} onChange={updateDetalleFactura(index)}></input>
+                                        <div>{detalle.subtotal}</div>
                                         <div>{detalle.valorDescontado}</div>
 
                                     </div>
@@ -100,9 +136,16 @@ const FacturaUpdate = (props) => {
                             }
 
                     </div>
+                    <div>
+                        Total: {facturaData.precioTotal}
+                        Decuento: {facturaData.totalDescuento}
+                    </div>
                 </form>
+            </div>
+            <div onClick={setUpdate}>
+                Guardar
             </div>
         </>)
 }
 
-export default withNavbar(FacturaUpdate)
+export default FacturaUpdate
