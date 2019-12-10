@@ -4,6 +4,17 @@ import useListener from './hooks/useListener'
 import Permisos from './Permisos'
 import {createListener} from '../utils/events'
 import { withNavbar } from './Navbar'
+import {useHistory} from 'react-router-dom'
+
+
+const BackButton = (props) => { 
+    const history = useHistory()
+    return (
+      <a onClick={history.goBack} href="#" className="back" title="Regresar ">
+        <i class="fas fa-arrow-circle-left"></i>
+      </a>
+    )
+  }
 
 const registrarUsuarioListener = createListener('registrar-usuario', (event, respuesta) => {
     console.log(respuesta)
@@ -35,6 +46,10 @@ const RegistrarUsuario = (props) => {
         resetFormulario()
     }
     return (
+        <>
+        <div className="backi">
+            <BackButton></BackButton>
+        </div>
         <div>
             
             <h1 className="tituloRegistro">Registro</h1>
@@ -60,6 +75,7 @@ const RegistrarUsuario = (props) => {
             </form>
           
         </div>
+        </>
     )
 
 }

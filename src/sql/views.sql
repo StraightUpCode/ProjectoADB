@@ -7,9 +7,10 @@ go
 
 create view vDetalleFactura
 as
-Select DF.IdDetalleFactura, DF.idPlatillo , P.nombre as platillo, DF.cantidad , P.precio, DF.subtotal , DF.valorDescontado
+Select F.IdFactura, DF.IdDetalleFactura, DF.idPlatillo , P.nombre as platillo, DF.cantidad , P.precio, DF.subtotal , DF.valorDescontado
 from DetalleFactura as DF
 inner join Platillo as P on P.idPlatillo = DF.idPlatillo
+inner join Factura as F on F.IdFactura = DF.IdFactura
 go
 
 create view vPlatillo 
