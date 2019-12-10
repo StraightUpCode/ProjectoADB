@@ -281,7 +281,7 @@ ipcMain.on('get-factura-detalle', async (event, idFactura) => {
     const conexion = connecionDb.getConeccion()
     await conexion
     const factura = await conexion.request().query(`Select * from vFactura where IdFactura = ${idFactura}`)
-    const detalleFactura = await conexion.request().query(`Select * from vDetalleFactura`)
+    const detalleFactura = await conexion.request().query(`Select * from vDetalleFactura where IdFactura = ${idFactura}`)
     const response = {
       ...factura.recordset[0],
       detalleFactura : detalleFactura.recordset
@@ -291,6 +291,26 @@ ipcMain.on('get-factura-detalle', async (event, idFactura) => {
   } catch (e) { 
     event.reply('get-factura-detalle-reply',e)
     console.log(e)
+  }
+
+})
+ipcMain.on('update-factura-detalle', async (event, facturaRecibida) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const { detalleFactura, ...factura } = facturaRecibida
+    console.log(factura)
+    console.log(detalleFactura)
+    
+    const facturaQuery = `Update Factura  SET ${
+      Object.entries(factura).map(([key, val] )=> {
+        
+      
+      })
+    }`
+    const factura = await conexion.request().query()
+  } catch (e) {
+    event.reply('update-factura-detalle', e)
   }
 
 })
