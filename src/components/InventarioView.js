@@ -49,10 +49,10 @@ const InventarioView= ({ store, addPermisos }) => {
                     inventario.map((inventario) => (
                         <div className="ver">
                             <div >
-                               <p className="name"> IdInventario: <label className="verinventario"> {inventario.IdInventario} </label></p>
-                               <p className="name">Ingrediente: <label className="verinventario"> {inventario.ingrediente}  </label></p>
-                               <p className="name">Unidad: <label className="verinventario"> {inventario.unidad}  </label></p>
-                               <p className="name">Cantidad: <label className="verinventario"> {inventario.cantidad}  </label> </p>
+                               <p className="name"> IdInventario: <label className="verfactura"> {inventario.IdInventario} </label></p>
+                               <p className="name">Ingrediente: <label className="verfactura"> {inventario.ingrediente}  </label></p>
+                               <p className="name">Unidad: <label className="verfactura"> {inventario.unidad}  </label></p>
+                               <p className="namecan">Cantidad: <label className="verfactura"> {inventario.cantidad}  </label> </p>
                             </div>
                             <div>
 
