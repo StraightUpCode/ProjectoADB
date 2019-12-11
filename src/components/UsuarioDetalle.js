@@ -35,7 +35,9 @@ const UsuarioDetalle = (props) => {
     })
 
     const userDataListener = createListener('get-user-detalle', (evento, respuesta) => {
-        setData(respuesta)
+        if (respuesta.ok) {
+            setData(respuesta.response)
+        }
     })
     useEffect(() => {
         userDataListener.send(id)

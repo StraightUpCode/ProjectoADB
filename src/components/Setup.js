@@ -9,7 +9,7 @@ const testConeccionListener = (history, setValidDb) => createListener('set-conec
     console.log(coneccion)
     setValidDb(coneccion)
     console.log(coneccion)
-    if (coneccion) {
+    if (coneccion.ok) {
         history.push('/')
     }
 })

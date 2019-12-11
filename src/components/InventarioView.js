@@ -37,10 +37,10 @@ const InventarioView= ({ store, addPermisos }) => {
 
         }
     ])
-    const listener = createListener('get-inventario', (event, data) => {
-        console.log(data)
-        setInventario(data)
-        
+    const listener = createListener('get-inventario', (event, respuesta) => {
+        if (respuesta.ok) {
+            setInventario(respuesta.response)
+        }        
         
     })
 

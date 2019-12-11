@@ -5,8 +5,10 @@ import useListener from './hooks/useListener'
 
 const Root = (props) => {
   const [stat,fstat]= useState({recordset: []}) 
-  const listener = createListener('rootCommand', (event, toLog) => {
-    fstat(toLog)
+  const listener = createListener('rootCommand', (event, response) => {
+    if (response.ok && response.recordset) {
+      fstat(response.response)
+    }
     console.log(stat)
   })
 

@@ -39,7 +39,9 @@ const FacturaConDetalle = () => {
     })
 
     const listenerFacturaDetalle = createListener('get-factura-detalle', (event, respuesta) => {
-        setFactura(respuesta)
+        if (respuesta.ok) {
+            setFactura(respuesta.response)
+        }
 
 
     })

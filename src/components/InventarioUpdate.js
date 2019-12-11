@@ -49,15 +49,21 @@ const InventarioUpdate = (props) => {
 
     //Listeners
     const listenerUnidad = createListener('get-unidad', (event, respuesta) => {
-        setUnidad(respuesta)
+        if (respuesta.ok) {
+            setUnidad(respuesta.response)
+      }
     })
     const listenerInventario = createListener('get-inventario-id', (event, respuesta) => {
         console.log(respuesta)
-        setInventario(respuesta)
+        if (respuesta.ok) {
+            setInventario(respuesta.response)
 
+        }
     })
     const listenerUpdateInventario = createListener('update-inventario', (event, respuesta) => { 
-        console.log(respuesta)
+        if (respuesta.ok) {
+            //hacer algo
+        }
     })
 
     const setUpdate = () => {

@@ -46,7 +46,9 @@ const FacturaInsertar = ({store}) => {
         resetForm()
     }
     const listenerPlatillos = createListener('get-platillos', (event, respuesta) => {
-        setPlatillo(respuesta)
+        if (respuesta.ok) {
+            setPlatillo(respuesta.response)
+       }
     })
     const createFactura = createListener('create-factura', (event, respuesta) => { 
         if (respuesta.ok) {

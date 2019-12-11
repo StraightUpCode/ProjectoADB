@@ -76,17 +76,23 @@ const PlatilloUpdate = (props) => {
 
     //Listeners
     const listenerUnidades = createListener('get-unidad', (event, respuesta) => {
-        setUnidades(respuesta)
+        if (respuesta.ok) {
+            setUnidades(respuesta.response)
+        }
     })
     const listenerIngredientes = createListener('get-inventario', (event, respuesta) => {
-        setIngredientes(respuesta)
+        if (respuesta.ok) {
+            setIngredientes(respuesta.response)
+        }
     })
     const listenerPlatilloDetalle = createListener('get-platillo-detalle', (event, respuesta) => {
-        const { ingredientes, ...platillo } = respuesta
-        console.log('Recibir Ingredientes',ingredientes)
-        console.log('Recibir Platillos',platillo)
-        setPlatillo(platillo)
-        setIngredientePlatillo(ingredientes)
+        if (respuesta.ok) {
+            const { ingredientes, ...platillo } = respuesta.response
+            console.log('Recibir Ingredientes', ingredientes)
+            console.log('Recibir Platillos', platillo)
+            setPlatillo(platillo)
+            setIngredientePlatillo(ingredientes)
+        }
 
     })
     const listenerUpdateFactura = createListener('update-platillo-detalle', (event, respuesta) => {

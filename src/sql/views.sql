@@ -34,7 +34,6 @@ as
 Select *
 from Permiso
 go
-drop view vPlatillo_Ingrediente
 create view vPlatillo_Ingrediente
 as
 Select P_I.IdPlatilloIngrediente, I.IdInventario, U.IdUnidad,I.ingrediente, P_I.cantidad, U.unidad, P_I.idPlatillo

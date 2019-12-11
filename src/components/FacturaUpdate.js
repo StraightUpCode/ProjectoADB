@@ -86,16 +86,23 @@ const FacturaUpdate = (props) => {
 
     //Listeners
     const listenerPlatillos = createListener('get-platillos', (event, respuesta) => {
-        setPlatillo(respuesta)
+        if (respuesta.ok) {
+            setPlatillo(respuesta.response)
+        }
     })
     const listenerFacturaDetalle = createListener('get-factura-detalle', (event, respuesta) => {
-        const { detalleFactura, ...factura } = respuesta
-        setFactura(factura)
-        setDetalleFactura(detalleFactura)
+        if (respuesta.ok) {
+            
+            const { detalleFactura, ...factura } = respuesta.response
+            setFactura(factura)
+            setDetalleFactura(detalleFactura)
+        }
 
     })
     const listenerUpdateFactura = createListener('update-factura-detalle', (event, respuesta) => { 
-        console.log(respuesta)
+        if (respuesta.ok) {
+            //hacer algo
+        }
     })
 
     const setUpdate = () => {

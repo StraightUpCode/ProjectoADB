@@ -25,10 +25,10 @@ const UnidadView= ({ store, addPermisos }) => {
 
         }
     ])
-    const listener = createListener('get-unidad', (event, data) => {
-        
-        setUnidad(data)
-        
+    const listener = createListener('get-unidad', (event, respuesta) => {
+        if (respuesta.ok) {
+            setUnidad(respuesta.response)
+        }
         
     })
     useListener(listener,unidad)

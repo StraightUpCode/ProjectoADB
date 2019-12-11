@@ -44,8 +44,10 @@ const FacturaView = ({ store, addPermisos }) => {
             fecha: ''
         }
     ])
-    const listener = createListener('get-facturas', (event, data) => {
-        setFacturas(data)
+    const listener = createListener('get-facturas', (event, response) => {
+      if (response.ok) {
+        setFacturas(response.data)
+        }
     })
   const deleteListener = createListener('delete-factura', (evento, respuesta) => {
     if (respuesta.ok) {

@@ -33,7 +33,9 @@ const PlatilloDetalle = () => {
     })
 
     const listenerPlatilloDetalle = createListener('get-platillo-detalle', (event, respuesta) => {
-        setPlatillo(respuesta)
+        if (respuesta.ok) {
+            setPlatillo(respuesta.response)
+        }
 
     })
     useListener(listenerPlatilloDetalle)

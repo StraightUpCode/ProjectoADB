@@ -34,11 +34,16 @@ const PlatilloInsert = ({ store }) => {
     })
 
     const listenerUnidades = createListener('get-unidad', (event, respuesta) => {
-        setUnidades(respuesta)
+        if (respuesta.ok) {
+            setUnidades(respuesta.response)
+      }
     })
     const listenerInventario = createListener('get-inventario', (event, respuesta) => {
         console.log(respuesta)
-        setIngredientes(respuesta)
+        if (respuesta.ok) {
+            setIngredientes(respuesta.response)
+
+        }
     })
     const createPlatillo = createListener('create-platillo', (event, respuesta) => {
         if (respuesta.ok) {
