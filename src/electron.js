@@ -432,6 +432,32 @@ ipcMain.on('get-inventario', async (event, args) => {
     console.log(e)
   }
 })
+ipcMain.on('get-inventario-id', async (event, IdInventario) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Select * from vInventario where IdInventario = ${IdInventario}`)
+    console.log('Enviando', result.recordset)
+    event.reply('get-inventario-id-reply', result.recordset[0])
+  } catch (e) {
+    event.reply('get-inventario-id-reply', e)
+    console.log(e)
+  }
+})
+
+ipcMain.on('update-inventario', async (event, request) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Update Inventario set ingrediente='${request.ingrediente}'
+      ,idUnidad=${request.IdUnidad} , cantidad=${request.cantidad}
+    where IdInventario = ${request.IdInventario}`)
+    event.reply('get-inventario-id-reply', {ok: true})
+  } catch (e) {
+    event.reply('get-inventario-id-reply',{ok: false, e})
+    console.log(e)
+  }
+})
 
 
 ipcMain.on('create-factura', async (event, args) => {
@@ -621,13 +647,12 @@ ipcMain.on('delete-usuario', async (evento, idUsuario) => {
     const conexion = connecionDb.getConeccion()
     await conexion
     console.log(idUsuario)
-    /*
     const infoUsuarioRecord = await conexion.request().query(`Select nombreUsuario from Usuario where IdUsuario = ${idUsuario}`)
     const deleted = await conexion.request().query(`Delete from Usuario where IdUsuario = ${idUsuario}`)
     const infoUsuario = infoUsuarioRecord.recordset[0]
     await conexion.request().query(`Drop Login ${infoUsuario.nombreUsuario}`)
     await conexion.request().query(`Drop user ${infoUsuario.nombreUsuario}`)
-    evento.reply('delete-usuario-reply',{ok: true})*/
+    evento.reply('delete-usuario-reply',{ok: true})
 
   } catch (e) {
     console.log(e)

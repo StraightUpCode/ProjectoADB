@@ -38,8 +38,10 @@ const InventarioUpdate = (props) => {
             ...InventarioData,
             [e.target.name]: value
         }
+        if (e.target.name == 'cantidad') {
+            newData.cantidad = parseFloat(newData.cantidad)
+        }  
         console.log(newData)
-
         setInventario(newData)
     } 
    
@@ -49,8 +51,9 @@ const InventarioUpdate = (props) => {
     const listenerUnidad = createListener('get-unidad', (event, respuesta) => {
         setUnidad(respuesta)
     })
-    const listenerInventarioDetalle = createListener('get-inventario', (event, respuesta) => {
-        setInventario(factura)
+    const listenerInventario = createListener('get-inventario-id', (event, respuesta) => {
+        console.log(respuesta)
+        setInventario(respuesta)
 
     })
     const listenerUpdateInventario = createListener('update-inventario', (event, respuesta) => { 
@@ -58,17 +61,15 @@ const InventarioUpdate = (props) => {
     })
 
     const setUpdate = () => {
-        const requestData = {
-            ...facturaData
-        }
-        console.log(requestData)
-        listenerUpdateInventario.send(requestData)
+        console.log(InventarioData)
+        listenerUpdateInventario.send(InventarioData)
     } 
     //Efeccts
     useListener(listenerUnidad)
     useListener(listenerInventario)
-    useEffect(() => { listenerInventario.send() }, [])
-    useEffect(() => { listenerInventarioDetalle.send(id) }, [])
+    useListener(listenerUpdateInventario)
+    useEffect(() => { listenerInventario.send(id) }, [])
+    useEffect(() => { listenerUnidad.send() }, [])
 
     return (
         <>
@@ -83,13 +84,13 @@ const InventarioUpdate = (props) => {
                 <p className="insertlabel">Inventario: {id} </p>
                 
                     <label className="insertlabel">
-                            Ingrediente: <input className="insertinput" name='nombreCliente' type='text' value={InventarioData.ingrediente} onChange={updateInventario}></input>
+                            Ingrediente: <input className="insertinput" name='ingrediente' type='text' value={InventarioData.ingrediente} onChange={updateInventario}></input>
                     </label>
                     <label className="insertlabel">
-                            Cantidad: <input name='cancelado' type='number' className="checkl" onChange={updateInventario} ></input>
+                            Cantidad: <input name='cantidad' type='number' value={InventarioData.cantidad}className="checkl" onChange={updateInventario} ></input>
                         </label>
                         <label className="insertlabel">
-                            Unidad: <select value={InventarioData.IdUnidad} onChange={updateInventario} >
+                            Unidad: <select name='IdUnidad' value={InventarioData.IdUnidad} onChange={updateInventario} >
                                 {unidades.map(unidad => (<option value={unidad.IdUnidad}>{unidad.unidad}</option>))}
                             </select>
                         </label>
