@@ -24,7 +24,7 @@ import PlatilloDetalle from "./components/PlatilloDetalle";
 import PlatilloUpdate from "./components/PlatilloUpdate";
 import InventarioUpdate from "./components/InventarioUpdate";
 import SaView from "./components/SaView";
-
+import InventarioHistorico from "./components/InventarioHistorico"
 const RequireValidDB = ({ validDb, children, ...rest }) => {
   return (
     <Route {...rest}>
@@ -95,6 +95,9 @@ const App = () => {
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Inventario/actualizar/:id' >
             <InventarioUpdate></InventarioUpdate>
+          </RequireLogin>
+          <RequireLogin isLogged={session} path='/InventarioHistorico/ver' >
+            <InventarioHistorico></InventarioHistorico>
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Unidad/ver' >
             <UnidadView></UnidadView>

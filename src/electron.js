@@ -728,6 +728,19 @@ ipcMain.on('update-platillo-detalle', async (evento, request) => {
     evento.reply('update-platillo-detalle-reply', { ok: false, e })
   }
 })
+
+
+ipcMain.on('get-inventario-historico', async (evento, request) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const inventarioRecordset = await conexion.request().query(`
+    Select * from vInventarioHistorico`)
+    evento.reply('get-inventario-historico-reply', inventarioRecordset.recordset)
+  } catch (e) {
+    evento.reply('get-inventario-historico-reply',e)
+  }
+})
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 
