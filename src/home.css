@@ -936,3 +936,16 @@ span.actuinv{
     color: black;
     transition: 2s;
   }
+
+
+  .errors{
+      margin: 0 auto;
+      padding: 8px 10px;
+      color: black;
+      margin-top: 50px;
+      
+  }
+
+ .yeigh{
+     margin: 0 auto; 
+ }

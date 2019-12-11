@@ -3,15 +3,24 @@ import useForm from './hooks/useForm'
 import {createListener} from '../utils/events'
 import useListener from './hooks/useListener'
 import ErrorComponent from "./ErrorComponent";
+import Dialog from './Dialog'
+import useDialog from './hooks/useDialog'
 
 const Root = (props) => {
   const [stat, fstat] = useState({ recordset: [] }) 
   const [error, setError] = useState()
+  const [isOpen, toggleOpen] = useDialog()
   const listener = createListener('rootCommand', (event, response) => {
+
+    setError()
+
+
     if (response.ok) {
       fstat(response.response)
     }
+    
     else if (response.e) {
+      toggleOpen()
       setError(response.e)
       console.log(response.e)
     }
@@ -41,7 +50,7 @@ const Root = (props) => {
         <form className="Root" onSubmit={sendCommand} >
           <label className="label">Console</label>
           <textarea className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></textarea>
-          <input  type="submit" value="Submit" className="enter" />
+          <input href="#popup1" type="submit" value="Submit" className="enter" />
           
           
         </form>
@@ -71,7 +80,17 @@ const Root = (props) => {
               ) : null
         }
         </div>
-        {error ? <ErrorComponent error={error}></ErrorComponent> : null}
+       
+        
+       
+                <div className="errors">
+                <h2 className="cerrarito">{error ? <ErrorComponent error={error}></ErrorComponent> : null}</h2>
+             
+                </div>
+
+       
+
+
       </div>
     );
   };
