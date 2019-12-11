@@ -728,6 +728,24 @@ ipcMain.on('update-platillo-detalle', async (evento, request) => {
     evento.reply('update-platillo-detalle-reply', { ok: false, e })
   }
 })
+
+
+ipcMain.on('delete-platillo', async (event, idPlatillo) => {
+  try {
+    console.log('IdPlatillo ' , idPlatillo)
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Delete from Platillo where IdPlatillo = ${idPlatillo}`)
+    event.reply('delete-platillo-reply', {ok: true})
+  } catch (e) {
+    event.reply('delete-platillo-reply', e)
+    console.log(e)
+  }
+
+})
+
+
+
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 
