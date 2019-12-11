@@ -1,3 +1,5 @@
+
+
 -- Unidades de Masa
 insert into Unidad values ('Lb')
 insert into Unidad values ('gr')
@@ -202,6 +204,8 @@ Insert into Factura
 VALUES
 (1,'roberto',100,0,'2019-11-07',1)
 go
+
+Select * from Factura
 -- Detalle Factura 
 
 --Piza Jsmon 1 25, Tomate 2 25 , Queso 3 25
