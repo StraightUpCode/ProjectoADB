@@ -46,8 +46,8 @@ const navbarComposed = (rutas) => () => (
 
 const tablaConRutas = ['Factura', 'Inventario', 'InventarioHistorico', 'Usuario', 'Platillo', 'sa']
 export const createNavbar = (permisos) => {
-  
   console.log(permisos)
+  if(rutas.length > 0 ) rutas.length = 0
   let permisosFinal 
   if (permisos.find(el => el.tabla == 'sa')) {
     console.log(permisos)

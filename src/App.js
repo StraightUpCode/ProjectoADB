@@ -25,6 +25,8 @@ import PlatilloUpdate from "./components/PlatilloUpdate";
 import InventarioUpdate from "./components/InventarioUpdate";
 import SaView from "./components/SaView";
 import InventarioHistorico from "./components/InventarioHistorico"
+
+
 const RequireValidDB = ({ validDb, children, ...rest }) => {
   return (
     <Route {...rest}>
@@ -48,8 +50,6 @@ const App = () => {
   const [session, setSession] = useState(false)
   const [validDb , setValidDb] = useState(getDbConfig())
 
-
-  console.log(session)
   return (
     <>
       <Router>
