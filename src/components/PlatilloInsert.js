@@ -86,6 +86,7 @@ const PlatilloInsert = ({ store }) => {
             </div>
 
             <div>
+            <h1 className="invih1">Nuevo Platillo</h1>
                 <form className="insertar">
                     <div >
                         <label className="insertlabel">

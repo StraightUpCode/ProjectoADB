@@ -304,6 +304,14 @@ border-radius: 5px 5px 0 0;
     
     
 }
+.botoncitosprueba1{
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
 
 .prueba, .pruebaact, .pruebael{
     border-radius: 5px 5px 5px 5px;
@@ -314,6 +322,8 @@ border-radius: 5px 5px 0 0;
     text-decoration: none;
 
 }
+
+
  
 .pruebaact{
     background-color: #087E8B;
@@ -567,6 +577,19 @@ span.eliminar{
 .updateDetalle{
     text-align: center;
     
+}
+
+.platup{
+    background-color: #fff;
+    width: 350px;
+    max-width: 100%;
+    margin: auto;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
+    position: relative;
+    font-size: 1em;
 }
 
 .insertarup{
@@ -885,3 +908,5 @@ span.actuinv{
       display: flex;
       justify-content: center;
   }
+
+  

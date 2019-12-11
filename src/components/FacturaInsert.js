@@ -80,6 +80,7 @@ const FacturaInsertar = ({store}) => {
         </div>
         
         <div> 
+        <h1 className="invih1">Nueva Factura</h1>
             <form className="insertar"> 
             <div >
                 <label className="insertlabel"> 

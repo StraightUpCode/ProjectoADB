@@ -124,23 +124,25 @@ const PlatilloUpdate = (props) => {
             <div className="update">
 
 
-                <form>
-                    <div className="insertarup">
-                        <p className="insertlabel">Platillo: {id} </p>
+                <form >
+                    <div className="platup">
+                        <p className="insertlabel">Platillo:  {id} </p>
 
                         <label className="insertlabel">
-                            Nombre: <input className="insertinput" name='nombre' type='text' value={platilloData.nombre} onChange={updatePlatillo}></input>
+                            Nombre <input className="insertinput" name='nombre' type='text' value={platilloData.nombre} onChange={updatePlatillo}></input>
                         </label>
+                        <br></br>
                         <label className="insertlabel">
-                            Precio: <input name='precio' type='number' className="checkl" value={platilloData.precio} onChange={updatePlatillo} ></input>
+                            Precio <input name='precio' type='number' className="numbercito" value={platilloData.precio} onChange={updatePlatillo} ></input>
                         </label>
+                        <br></br>
                         <label className="insertlabel">
-                            Descuento %: <input name='porcentajeDescuento' type='number' className="checkl" value={platilloData.porcentajeDescuento} onChange={updatePlatillo} ></input>
+                            Descuento % <input name='porcentajeDescuento' type='number' className="numbercito" value={platilloData.porcentajeDescuento} onChange={updatePlatillo} ></input>
                         </label>
                     </div>
                     <br></br>
                     <div>
-                        <h2 className="updateDetalle">Ingredientes </h2>
+                        <h2 className="updateDetalle">Ingredientes</h2>
                         {
                             ingredientePlatillo.map((ingrediente, index) => {
                                 return (

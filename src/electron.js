@@ -755,6 +755,19 @@ ipcMain.on('delete-platillo', async (event, idPlatillo) => {
 
 })
 
+ipcMain.on('delete-inventario', async (event, idInventario) => {
+  try {
+    console.log('IdInventario ' , idInventario)
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Delete from Inventario where IdInventario = ${idInventario}`)
+    event.reply('delete-inventario-reply', {ok: true})
+  } catch (e) {
+    event.reply('delete-inventario-reply', e)
+    console.log(e)
+  }
+
+})
 
 
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL

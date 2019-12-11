@@ -28,6 +28,8 @@ const InventarioView= ({ store, addPermisos }) => {
     permisoPermicial.crud = 15
     const permisoInventario = permisoPermicial.crud.toString(2).padStart(4,'0')
     console.log(permisoInventario)
+    const [isOpen, toggleOpen] = useDialog()
+    const [deletedId, setDeleted] = useState()
     const [inventario, setInventario] = useState([
         {
             IdInventario: 1,
@@ -89,7 +91,7 @@ const InventarioView= ({ store, addPermisos }) => {
                                <p className="name">Unidad: <label className="verfactura"> {inventario.unidad}  </label></p>
                                <p className="namecan">Cantidad: <label className="verfactura"> {inventario.cantidad}  </label> </p>
                             </div>
-                            <div className="botoncitosprueba">
+                            <div className="botoncitosprueba1">
 
                             <span className="pruebaact">
                                     {permisoInventario[1] == '1' ? <Zelda className="nosee" href={`/Inventario/actualizar/${inventario.IdInventario}`}>Actualizar Inventario</Zelda> : null}</span>
@@ -99,20 +101,15 @@ const InventarioView= ({ store, addPermisos }) => {
                                                
                             </div>       
 
-                            
                                
                         </div>
 
-
-
-
-
-
                     ))
                 }
-                 <Dialog isOpen={isOpen}><div id="popup1" className="popuppadre">
+
+<Dialog isOpen={isOpen}><div id="popup1" className="popuppadre">
               <div className="botonhijo">
-                <h2 className="cerrarito">Quiere eliminar este inventario?</h2>
+                <h2 className="cerrarito">Quiere eliminar esta factura?</h2>
 
 
                 {/*Coso para borrar la cosa*/}
@@ -124,7 +121,7 @@ const InventarioView= ({ store, addPermisos }) => {
               </div>
 
             </div></Dialog>
-
+                 
             </div>
         </div>
         </>

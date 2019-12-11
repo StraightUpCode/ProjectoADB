@@ -86,8 +86,9 @@ const InventarioUpdate = (props) => {
                     <label className="insertlabel">
                             Ingrediente: <input className="insertinput" name='ingrediente' type='text' value={InventarioData.ingrediente} onChange={updateInventario}></input>
                     </label>
+                    <br></br>
                     <label className="insertlabel">
-                            Cantidad: <input name='cantidad' type='number' value={InventarioData.cantidad}className="checkl" onChange={updateInventario} ></input>
+                            Cantidad: <input name='cantidad' type='number' value={InventarioData.cantidad}className="numbercito" onChange={updateInventario} ></input>
                         </label>
                         <label className="insertlabel">
                             Unidad: <select name='IdUnidad' value={InventarioData.IdUnidad} onChange={updateInventario} >
