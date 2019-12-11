@@ -4,7 +4,7 @@ import useListener from './hooks/useListener'
 import { addStore } from '../utils/store'
 import Zelda from '../utils/Zelda'
 import Navbar, { withNavbar } from './Navbar'
-import Dialog from './components/Dialog';
+import Dialog from './Dialog';
 
 
 
@@ -25,7 +25,7 @@ const UnidadView= ({ store, addPermisos }) => {
 
         }
     ])
-    const listener = createListener('get-Unidad', (event, data) => {
+    const listener = createListener('get-unidad', (event, data) => {
         
         setUnidad(data)
         
@@ -47,15 +47,15 @@ const UnidadView= ({ store, addPermisos }) => {
                     unidad.map((unidad) => (
                         <div className="ver">
                             <div >
-                               <p className="name"> IdUnidad: <label className="verinventario"> {unidad.IdUnidad} </label></p>
-                               <p className="name">Unidad: <label className="verinventario"> {unidad.unidad}  </label></p>
+                               <p className="name"> IdUnidad: <label className="verfactura"> {unidad.IdUnidad} </label></p>
+                               <p className="namecan">Unidad: <label className="verfactura"> {unidad.unidad}  </label></p>
 
                             </div>
-                            <div>
+                            <div className className="botoncitosprueba">
 
-                            <span className="actualizar">
-                            {permisoUnidad[1] == '1' ? <Zelda className="dunno" href={`/Unidad/actualizar/${}`}>Actualizar Unidad</Zelda> : null}</span>
-                            <span className="eliminar"> {permisoInventario[0] == '1' ? <Zelda className="nosee" href={`/Unidad/borrar/${}`}>Borrar Unidad</Zelda> : null}</span>
+                            <span className="pruebaact">
+                                    {permisoUnidad[1] == '1' ? <Zelda className="nosee" href={`/Unidad/actualizar/${unidad.IdUnidad}`}>Actualizar Unidad</Zelda> : null}</span>
+                                <span className="pruebael"> {permisoUnidad[0] == '1' ? <Zelda className="nosee" href={`/Unidad/borrar/${unidad.IdUnidad}`}>Borrar Unidad</Zelda> : null}</span>
                             </div>          
                         </div>
                     ))
@@ -66,3 +66,5 @@ const UnidadView= ({ store, addPermisos }) => {
         </>
     )
 }
+
+export default withNavbar(addStore(UnidadView))

@@ -69,7 +69,7 @@ const RegistrarUsuario = (props) => {
                         <label className="label">Password</label>
                     <input type='password' placeholder="Password" className="labelinput" name="password" 
                     value={formData.password} onChange={handleChange}/>
-                        <Permisos setPermisos={handlePermisos}/>
+                    <Permisos setPermisos={handlePermisos} permiso={formData.permisos}/>
                 <input  type='submit' className="entercheck" ></input> 
           
             </form>

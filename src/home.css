@@ -37,9 +37,13 @@ body{
 
 }
 
+.permisito{
+    text-decoration: none;
+}
 
 
-.wrapper .sidebar .permisito{
+
+.wrapper .sidebar .permisote, .permisito{
     color: #fff;
     text-transform: uppercase;
     text-align: center;
@@ -267,9 +271,7 @@ border-radius: 5px 5px 0 0;
      
  }
 
- .ver div{
-     display: inline-block; 
- }
+ 
 
  .name, .namecan{
     font-weight: bold;
@@ -292,8 +294,34 @@ border-radius: 5px 5px 0 0;
      padding: 8px 10px;
      margin: 20px; 
      text-decoration: none;
-     position: relative;
+     
  }
+
+.botoncitosprueba{
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    
+    
+}
+
+.prueba, .pruebaact, .pruebael{
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.7);
+    color: #E9EBED;
+    padding: 8px 10px;
+    text-decoration: none;
+
+}
+ 
+.pruebaact{
+    background-color: #087E8B;
+}
+
+.pruebael{
+    background-color: #FE5F55;
+}
 
  span.actualizar{
      background-color: #087E8B;
@@ -315,6 +343,18 @@ span.eliminar{
 
 
  /* Factura Ingresar */
+
+.insertarinvi{
+    background-color: #fff;
+    width: 380px;
+    max-width: 100%;
+    margin: auto;
+    margin-top: 30px;
+    padding: 20px;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.3);
+    position: relative; 
+}
  
  .insertar{
     background-color: #fff;
@@ -341,6 +381,21 @@ span.eliminar{
    
  }
 
+ .insertinvl{
+       font-size: 1em;
+    margin: 3px 3px;
+    font-weight: bold;
+ }
+
+ .selectito{
+    font-size: 1em;
+    margin: 3px 3px; 
+    margin-left: 42px;
+ }
+
+ .invih1{
+     text-align: center;
+ }
 
  .insertlabel, .insertinput,.checkl{
     font-size: 1em;
@@ -350,6 +405,12 @@ span.eliminar{
  .checkl{
      margin: 0 -2px;
  }
+
+.numerooto{
+    width: 125px;
+    font-size: 1em;
+    margin-left: 28px;
+}
 
 .numero{
     width: 125px;
@@ -535,3 +596,236 @@ span.eliminar{
 .numbercito:focus{
     outline: 1px solid rgba(0, 0, 0, 0.7);
 }
+
+
+.popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0,0,0, 0.5);
+  }
+  .popup_inner {
+    position: absolute;
+    left: 25%;
+    right: 25%;
+    top: 25%;
+    bottom: 25%;
+    margin: auto;
+    background: white;
+  }
+
+  .verdetallito{
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 10px 10px 20px 10px;
+    margin: 10px auto;
+    box-shadow: 2px 2px 3px #DADADA;
+    width: 35%;
+    background-color: #FFF;
+    font-family: 'Bebas Neue', cursive;
+    border-radius: 5px 5px 5px 5px;
+    
+}
+
+.verdetallito div{
+    display: inline-block; 
+}
+
+
+.box {
+  margin-bottom: 20px;
+  }
+  
+  .plsesteya {
+    font-size: 50px;
+    color: #fff;
+    position: relative;
+    margin-bottom: 50px;
+    text-decoration: none;
+    float: right;
+    transform: rotate(180deg);
+    
+  }
+
+  
+ 
+  
+  .cerrarito{
+      text-align: center;
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .overlay:target {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .popupcito {
+    margin: 0px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 20%;
+   
+
+    transition: all 5s ease-in-out;
+  }
+  
+  .popupcito h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popupcito .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popupcito .close:hover {
+    color: #06D85F;
+  }
+  .popupcito {
+    max-height: 30%;
+    overflow: auto;
+  }
+
+.Cerraruser{
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.7);
+    color: #E9EBED;
+    padding: 8px 10px;
+    margin: 20px 24px; 
+    text-decoration: none;
+    position: relative;
+    width: 500px;
+}
+
+  .Cerrar{
+    border-radius: 5px 5px 5px 5px;
+     cursor: pointer;
+     background: rgba(0, 0, 0, 0.7);
+     color: #E9EBED;
+     padding: 8px 10px;
+     margin: 20px 24px; 
+     text-decoration: none;
+     position: relative;
+     width: 100px;
+    
+  }
+
+
+
+  .noCerrar{
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.7);
+    color: #E9EBED;
+    padding: 8px 42px;
+    margin: 20px 45px; 
+    text-decoration: none;
+    position: relative;
+    
+
+  }
+  .cierrita{
+    font-size: 40px;
+    color: #000;
+  }
+
+
+span.actuinv, span.actubor{
+    border-radius: 5px 5px 5px 5px;
+     cursor: pointer;
+     background: rgba(0, 0, 0, 0.7);
+     color: #E9EBED;
+     padding: 8px 10px;
+     margin: 20px ; 
+     text-decoration: none;
+     position: relative;
+}
+
+span.actubor{
+    margin-left: 70px;
+    background-color: #FE5F55;
+}
+
+span.actuinv{
+    margin-left:50px;
+    background-color: #087E8B;
+}
+
+.InventarioH1{
+    text-align: center;
+}
+
+.updateuser{
+    text-align: center;
+}
+
+.borrita{
+    text-decoration: none;
+    color: #ffff;
+}
+
+.popita{
+    margin: 200px 765px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 20%;
+
+
+    transition: all 5s ease-in-out;
+
+}
+
+
+  
+  .popita h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+  }
+  .popita .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popita .close:hover {
+    color: #06D85F;
+  }
+  .popita {
+    max-height: 30%;
+    overflow: auto;
+  }
+
+
+  .botoncitos{
+      display: flex;
+      justify-content: center;
+  }

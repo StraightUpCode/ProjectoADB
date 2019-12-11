@@ -1,3 +1,5 @@
+
+
 -- Unidades de Masa
 insert into Unidad values ('Lb')
 insert into Unidad values ('gr')
@@ -59,6 +61,22 @@ insert into Permiso values('Unidad',1),
 ('Usuario_Permiso',13),
 ('Usuario_Permiso',14),
 ('Usuario_Permiso',15),
+--
+('Permiso',1),
+('Permiso',2),
+('Permiso',3),
+('Permiso',4),
+('Permiso',5),
+('Permiso',6),
+('Permiso',7),
+('Permiso',8),
+('Permiso',9),
+('Permiso',10),
+('Permiso',11),
+('Permiso',12),
+('Permiso',13),
+('Permiso',14),
+('Permiso',15),
 --
 ('Inventario',1),
 ('Inventario',2),
@@ -186,6 +204,8 @@ Insert into Factura
 VALUES
 (1,'roberto',100,0,'2019-11-07',1)
 go
+
+Select * from Factura
 -- Detalle Factura 
 
 --Piza Jsmon 1 25, Tomate 2 25 , Queso 3 25

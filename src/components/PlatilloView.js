@@ -49,16 +49,17 @@ const PlatilloView= ({ store }) => {
                     platillo.map((platillo) => (
                         <div className="ver">
                             <div >
-                                <p className="name"> IdPlatillo: <label className="verplatillo"> {platillo.IdPlatillo} </label></p>
-                                <p className="name">Nombre: <label className="verplatillo"> {platillo.nombre}  </label></p>
-                                <p className="name">Precio: <label className="verplatillo"> {platillo.precio}  </label></p>
-                                <p className="name">% Descuento: <label className="verplatillo"> {platillo.porcentajeDescuento}  </label> </p>
+                                <p className="name"> IdPlatillo: <label className="verfactura"> {platillo.IdPlatillo} </label></p>
+                                <p className="name">Nombre: <label className="verfactura"> {platillo.nombre}  </label></p>
+                                <p className="name">Precio: <label className="verfactura"> {platillo.precio}  </label></p>
+                                <p className="namecan">% Descuento: <label className="verfactura"> {platillo.porcentajeDescuento}  </label> </p>
                             </div>
-                            <div>
-
-                                <span className="actualizar">
-                                    {permisoPlatillo[1] == '1' ? <Zelda className="nosee" href={`/Platillo/actualizar/${platillo.IdFactura}`}>Actualizar Platillo</Zelda> : null}</span>
-                                <span className="eliminar"> {permisoPlatillo[0] == '1' ? <Zelda className="nosee" href={`/Platillo/borrar/${platillo.IdFactura}`}>Borrar Platillo</Zelda> : null}</span>
+                            <div className="botoncitosprueba">
+                                <span className="prueba">
+                                    <Zelda className="nosee" href={`/Platillo/ver/${platillo.IdPlatillo}`}>Ver Detalle</Zelda> </span>
+                                <span className="pruebaact">
+                                    {permisoPlatillo[1] == '1' ? <Zelda className="nosee" href={`/Platillo/actualizar/${platillo.IdPlatillo}`}>Actualizar Platillo</Zelda> : null}</span>
+                                <span className="pruebael"> {permisoPlatillo[0] == '1' ? <Zelda className="nosee" href={`/Platillo/borrar/${platillo.IdFactura}`}>Borrar Platillo</Zelda> : null}</span>
 
 
                             </div>

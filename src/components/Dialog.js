@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 
 let dialogStyles = {
     width: '500px',
@@ -28,25 +28,12 @@ let dialogCloseButtonStyles = {
     alignSelf: 'flex-end'
 };
 
+const Dialog = ({ isOpen , children , ...props}) => {
 
-class Dialog extends Component {
-    render() {
-        let dialog = (
-            <div style={dialogStyles}>
-                <button style={dialogCloseButtonStyles} onClick={this.props.onClose}>x</button>
-
-                <div>{this.props.children}</div>
-            </div>
-        );
-
-        if (! this.props.isOpen) {
-            dialog = null;
-        }
-        return (
-            <div>
-                {dialog}
-            </div>
-        );
+    if (isOpen) {
+        return (<>{children}</>)
+    } else {
+        return null
     }
 }
 

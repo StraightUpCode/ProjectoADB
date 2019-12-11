@@ -1,9 +1,10 @@
-import React from "react"
+import React, { Fragment } from "react"
 import {useHistory} from 'react-router-dom'
 import Zelda from "../utils/Zelda";
 import {esquema} from '../esquemaDb'
 import {  addPermisos } from "../utils/store"
 import {Alert, Moda, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+
 
 
 
@@ -26,21 +27,19 @@ const navbarComposed = (rutas) => () => (
 <div className="wrapper">
 
   <div className="sidebar">
-  
-        <h2 className="permisito">Permisos</h2>
-        
-    <a href="#" className="logout" title="Cerrar sesion">
-      <i class="fas fa-sign-out-alt"></i>
-      
-    </a>
     
+  
+        <h2 className="permisito"><a className="permisote" href="#">Permisos</a></h2>
+        
+      
+
       
       {rutas}
 
   </div>
  
   </div>
-  
+
  
  
 )
