@@ -40,7 +40,7 @@ const UsuarioView = ({ store, addPermisos }) => {
         }
     ])
     const listener = createListener('get-usuarios', (event, respuesta) => {
-       
+        console.log(respuesta)
         if (respuesta.ok) {
 
             setUsuarios(respuesta.response)
