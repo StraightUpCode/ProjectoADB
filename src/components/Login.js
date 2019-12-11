@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { loginListener} from '../utils/events'
 import { useHistory } from 'react-router-dom'
 import useListener from "./hooks/useListener";
@@ -6,6 +6,7 @@ import useForm from './hooks/useForm'
 import { createNavbar } from "./Navbar";
 import { addUser } from "../utils/store";
 import ReactDOM from 'react-dom';
+import ErrorComponent from "./ErrorComponent";
 
 
 
@@ -15,6 +16,8 @@ const Login = ({setLoginStatus,...rest}) => {
     password: 'Roberto4$'
   })
   const history = useHistory()
+  const [stat, fstat] = useState({ recordset: [] }) 
+  const [error, setError] = useState()
   const checkLogin = (event, didLogIn) => {
     console.log(didLogIn)
     if (didLogIn.logged) {
@@ -24,8 +27,10 @@ const Login = ({setLoginStatus,...rest}) => {
       console.log('Loggin true')
       history.push('/')
     } else {
+      setError(response.e)
       console.log('Loggin false')
       setLoginStatus(false)
+      
     }
   }
   const listeners = loginListener(checkLogin)
@@ -51,6 +56,10 @@ const Login = ({setLoginStatus,...rest}) => {
         <input  type="submit" value="Submit" className="enter" />
       </form>
        
+      <div className="errors">
+                <h2 className="cerrarito">{error ? <ErrorComponent error={error}></ErrorComponent> : null}</h2>
+             
+                </div>
     </div>
   );
 };

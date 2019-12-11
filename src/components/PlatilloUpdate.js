@@ -18,7 +18,6 @@ const BackButton = (props) => {
     )
 }
 
-
 const PlatilloUpdate = (props) => {
     const { id } = useParams()
     console.log('Factura Update')
@@ -28,6 +27,10 @@ const PlatilloUpdate = (props) => {
         precio: 0,
         porcentajeDescuento: 0
     })
+
+    
+
+
 
     const [ingredientePlatillo, setIngredientePlatillo] = useState([{
         IdPlatilloIngrediente: 0,
@@ -95,11 +98,15 @@ const PlatilloUpdate = (props) => {
         }
 
     })
+    const [updated, setUpdated ]=useState()
     const listenerUpdateFactura = createListener('update-platillo-detalle', (event, respuesta) => {
         if (respuesta.ok) {
             console.log('Que tuani')
+            setUpdated(true)
         }  
+       
     })
+    
 
 
     const setUpdate = () => {
@@ -196,6 +203,10 @@ const PlatilloUpdate = (props) => {
             </div>
             <div className="ingresarf" onClick={setUpdate}>
                 Guardar
+            </div>
+
+            <div className="yeigh">
+            {updated ? <div> Guardado</div> : null }
             </div>
 
         </>)
