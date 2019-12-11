@@ -34,9 +34,10 @@ as
 Select *
 from Permiso
 go
+drop view vPlatillo_Ingrediente
 create view vPlatillo_Ingrediente
 as
-Select P_I.IdPlatilloIngrediente, I.ingrediente, P_I.cantidad, U.unidad, P_I.idPlatillo
+Select P_I.IdPlatilloIngrediente, I.IdInventario, U.IdUnidad,I.ingrediente, P_I.cantidad, U.unidad, P_I.idPlatillo
 from Platillo_Ingrediente as P_I
 inner join Inventario as I  on I.IdInventario = P_I.idInventario
 inner join Unidad as U on U.IdUnidad = P_I.idUnidad
@@ -47,7 +48,7 @@ select * from Unidad
 go
 create view vInventario 
 as
-Select I.IdInventario,I.ingrediente, I.cantidad,  U.unidad 
+Select I.IdInventario,I.ingrediente, I.cantidad,  U.unidad , U.IdUnidad
 from Inventario as I 
 inner join Unidad as U on U.IdUnidad = I.idUnidad
 go

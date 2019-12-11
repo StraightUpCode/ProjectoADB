@@ -23,12 +23,14 @@ const InventarioUpdate = (props) => {
     const {id} = useParams()
     console.log('Inventario update')
     const [InventarioData, setInventario] = useState({
+        IdInventario: 0,
         ingrediente: '',
-        cantidad: ''
+        cantidad: 0,
+        IdUnidad: 0
     })
 
 
-    const [unidad, setUnidad] = useState([])
+    const [unidades, setUnidad] = useState([])
     //Funciones
     const updateInventario = (e) => { // actualiza la factura como tal
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -36,57 +38,28 @@ const InventarioUpdate = (props) => {
             ...InventarioData,
             [e.target.name]: value
         }
-
         console.log(newData)
 
-        setFactura(newData)
+        setInventario(newData)
     } 
-    const updateInventarioUnidad= (index) => (e) => {
-        const newInventarioUpdate = [...detalleInventario]
-        const detalleAModificar = detalleInventario[index]
-        const preValue = parseInt(e.target.value)
-        const value = isNaN(preValue)? 0 : preValue;
-        
-        const newData = {
-            ...detalleAModificar,
-            [e.target.name] : value
-        }
-        console.log(e.target.name)
-        console.log(detalleAModificar)
-        console.log(value)
-        const idUnidad = e.target.name == 'idUnidad' ? value : detalleAModificar.idUnidad
-        const unidadSeleccionada = unidad.find((element) => {
-            return element.IdUnidad == idUnidad
-        })
-
-        
-        
-        console.log(newData)
-    
-       
-        console.log(newData)
-        setDetalleFactura(NewdetalleInventario)
-        
-    }
+   
      
 
     //Listeners
     const listenerUnidad = createListener('get-unidad', (event, respuesta) => {
         setUnidad(respuesta)
     })
-    const listenerInventarioDetalle = createListener('get-inventario-detalle', (event, respuesta) => {
-        conInventario(factura)
-        setDetalleInventario(detalleInventario)
+    const listenerInventarioDetalle = createListener('get-inventario', (event, respuesta) => {
+        setInventario(factura)
 
     })
-    const listenerUpdateInventario = createListener('update-Inventario-detalle', (event, respuesta) => { 
+    const listenerUpdateInventario = createListener('update-inventario', (event, respuesta) => { 
         console.log(respuesta)
     })
 
     const setUpdate = () => {
         const requestData = {
-            ...facturaData,
-            detalleUnidad
+            ...facturaData
         }
         console.log(requestData)
         listenerUpdateInventario.send(requestData)
@@ -96,16 +69,7 @@ const InventarioUpdate = (props) => {
     useListener(listenerInventario)
     useEffect(() => { listenerInventario.send() }, [])
     useEffect(() => { listenerInventarioDetalle.send(id) }, [])
-/*
-    useEffect(() => {
-        const total = detalleFactura.reduce((acc, cur) => acc + cur.subtotal, 0)
-        const totalDescuento = detalleFactura.reduce((acc, cur) => acc + cur.valorDescontado, 0)
-        const nuevaFactura = { ...facturaData }
-        nuevaFactura.precioTotal = total
-        nuevaFactura.totalDescontado = totalDescuento
-        setFactura(nuevaFactura)
-    }, [detalleFactura]) 
- */
+
     return (
         <>
        
@@ -119,60 +83,20 @@ const InventarioUpdate = (props) => {
                 <p className="insertlabel">Inventario: {id} </p>
                 
                     <label className="insertlabel">
-                        Cliente: <input className="insertinput" name='nombreCliente' type='text' value={facturaData.ingrediente} onChange={updateInventario}></input>
+                            Ingrediente: <input className="insertinput" name='nombreCliente' type='text' value={InventarioData.ingrediente} onChange={updateInventario}></input>
                     </label>
                     <label className="insertlabel">
-                        Cancelado: <input name='cancelado' type='checkbox' className="checkl" checked={facturaData.cantidad} onChange={updateInventario} ></input>
-                    </label></div>
-                    <br></br>
-                        <div>
-                        <h2 className="updateDetalle">Detalle Inventario</h2>
-                            {
-                            detalleInventario.map((detalle, index) => {
-                                console.log('Detalle ',detalle)
-                                return (
-                                    
-                                    <div >
-                                
-                                        <div className="updates">
-                                            <label className="insertlabel">Unidad:
-                                            <select className="platillito" name='idPlatillo' value={detalle.idUnidad} onChange={updateDetalleInventario(index)} >
-                                                {unidad.map((unidad) => {
-                                                    return (<option value={unidad.idUnidad}>{unidad.unidad}</option>)
-                                                }
-
-                                                )}
-                                            </select>
-                                       
-                                        </label>
-                                        <br></br>
-
-                                        <br></br>
-
-                                        </div>
-
-                                    </div>
-                                )
-                            })
-                            }
-
-                          
+                            Cantidad: <input name='cancelado' type='number' className="checkl" onChange={updateInventario} ></input>
+                        </label>
+                        <label className="insertlabel">
+                            Unidad: <select value={InventarioData.IdUnidad} onChange={updateInventario} >
+                                {unidades.map(unidad => (<option value={unidad.IdUnidad}>{unidad.unidad}</option>))}
+                            </select>
+                        </label>
                     </div>
-
                    
                 </form>
-                <table className="tablefacturaupdate">   
-                        <tr className="totalfa">
-                            <th><span className="totalfact">Total</span></th>
-                            <td><span className="totalito"> {facturaData.precioTotal} </span></td>
-                            
-                        </tr>
-                        <tr className="totalfa">
-
-                       <th><span className="totalfact">Descuento</span> </th>
-                       <td><span className="totalito">{facturaData.totalDescuento}</span></td>
-                       </tr>
-                       </table>  
+            
 
             </div>
             <div className="ingresarf" onClick={setUpdate}>
@@ -182,4 +106,4 @@ const InventarioUpdate = (props) => {
         </>)
 }
 
-export default withNavbar(addStore(FacturaUpdate))
+export default withNavbar(addStore(InventarioUpdate))
