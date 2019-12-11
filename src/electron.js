@@ -729,7 +729,6 @@ ipcMain.on('update-platillo-detalle', async (evento, request) => {
   }
 })
 
-
 ipcMain.on('get-inventario-historico', async (evento, request) => {
   try {
     const conexion = connecionDb.getConeccion()
@@ -738,9 +737,26 @@ ipcMain.on('get-inventario-historico', async (evento, request) => {
     Select * from vInventarioHistorico`)
     evento.reply('get-inventario-historico-reply', inventarioRecordset.recordset)
   } catch (e) {
-    evento.reply('get-inventario-historico-reply',e)
+    evento.reply('get-inventario-historico-reply', e)
   }
 })
+
+ipcMain.on('delete-platillo', async (event, idPlatillo) => {
+  try {
+    console.log('IdPlatillo ' , idPlatillo)
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const result = await conexion.request().query(`Delete from Platillo where IdPlatillo = ${idPlatillo}`)
+    event.reply('delete-platillo-reply', {ok: true})
+  } catch (e) {
+    event.reply('delete-platillo-reply', e)
+    console.log(e)
+  }
+
+})
+
+
+
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 

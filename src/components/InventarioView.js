@@ -6,7 +6,7 @@ import Zelda from '../utils/Zelda'
 import Navbar, { withNavbar } from './Navbar'
 import Dialog from './Dialog';
 import { useHistory } from 'react-router-dom'
-
+import useDialog from './hooks/useDialog'
 
 
 const BackButton = (props) => {
@@ -44,11 +44,14 @@ const InventarioView= ({ store, addPermisos }) => {
         
     })
 
+    
+
     const deleteListener = createListener('delete-inventario', (evento, respuesta) => {
         if (respuesta.ok) {
-            listener.send()
-        }
-    })
+          listener.send()
+          }
+         
+        })
     useListener(listener,inventario)
     useEffect(() => {
        listener.send()
@@ -59,6 +62,15 @@ const InventarioView= ({ store, addPermisos }) => {
         console.log(id)
        deleteListener.send(id)
     }
+    const preDelete = (id) => e => {
+        setDeleted(id)
+        toggleOpen()
+      }
+      const confirmarDelete = e => {
+        deleteListener.send(deletedId)
+        toggleOpen()
+    
+      }
     console.log(permisoInventario)
     return (
       <>
@@ -81,22 +93,9 @@ const InventarioView= ({ store, addPermisos }) => {
 
                             <span className="pruebaact">
                                     {permisoInventario[1] == '1' ? <Zelda className="nosee" href={`/Inventario/actualizar/${inventario.IdInventario}`}>Actualizar Inventario</Zelda> : null}</span>
-                                    <span className="pruebael"><a className="borrita"href="#popup1">Borrar Inventario</a></span>
-
-<div id="popup1" className="overlay">
-<div className="popita">
-<h2 className="cerrarito">Quiere eliminar este Inventario?</h2>
+                                    <span className="pruebael" onClick={preDelete(inventario.IdInventario)}><a className="borrita"href="#popup1">Borrar Inventario</a></span>
 
 
-{/*Coso para borrar la cosa*/}
-<span><button onClick={deleteInventario(inventario.IdInventario)} className="Cerrar">{permisoInventario[0] == '1' ? <Zelda  className="nosee" href={`/Inventario/borrar/${inventario.IdInventario}`}>Si</Zelda> : null}</button></span>
-
-
-<span className="nocer"><a className="noCerrar" href="#">No</a></span>
-</div>
-
-</div>
-        
                                                
                             </div>       
 
@@ -111,6 +110,20 @@ const InventarioView= ({ store, addPermisos }) => {
 
                     ))
                 }
+                 <Dialog isOpen={isOpen}><div id="popup1" className="popuppadre">
+              <div className="botonhijo">
+                <h2 className="cerrarito">Quiere eliminar este inventario?</h2>
+
+
+                {/*Coso para borrar la cosa*/}
+                <div className="centrado">
+                <span><button onClick={confirmarDelete} className="cambito">Si</button></span>
+
+
+                <span onClick={toggleOpen}><button className="cambito" >No</button></span></div>
+              </div>
+
+            </div></Dialog>
 
             </div>
         </div>
