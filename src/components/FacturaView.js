@@ -90,16 +90,16 @@ const FacturaView = ({ store, addPermisos }) => {
                                 {permisoFactura[1] == '1' ? <Zelda className="nosee" href={`/Factura/actualizar/${factura.IdFactura}`}>Actualizar Factura</Zelda> : null}</span>
                                 <span className="pruebael" onClick={toggleOpen}><a className="borrita"href="#popup1">Borrar Factura</a></span>
 
-                          <Dialog isOpen={isOpen}><div id="popup1" className="overlay">
-                            <div className="popita">
+                          <Dialog isOpen={isOpen}><div className="dialogito">
+                            <div className="dialogitohijo">
                               <h2 className="cerrarito">Quiere eliminar esta factura?</h2>
 
 
                               {/*Coso para borrar la cosa*/}
-                              <span><button onClick={deleteFactura(factura.IdFactura)} className="Cerrar">{permisoFactura[0] == '1' ? <Zelda className="nosee" href={`/Factura/borrar/${factura.IdFactura}`}>Si</Zelda> : null}</button></span>
+                              <span><button onClick={deleteFactura(factura.IdFactura)} className="Cerrar">{permisoFactura[0] == '1' ? <Zelda  href={`/Factura/borrar/${factura.IdFactura}`}>Si</Zelda> : null}</button></span>
 
 
-                              <span className="nocer" onClick={toggleOpen}><a className="noCerrar" href="#">No</a></span>
+                              <span className="nocer" onClick={toggleOpen}><button className="noCerrar" href="#">No</button></span>
                             </div>
 
                           </div></Dialog>
