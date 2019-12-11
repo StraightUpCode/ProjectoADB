@@ -12,7 +12,9 @@ const InventarioHistorico = (props) => {
     }])
 
     const listenerInventarioHistorico = createListener('get-inventario-historico', (evento, respuesto) => {
-        setInventarioHistorico(respuesta)
+        if (respuesto.ok) {
+            setInventarioHistorico(respuesta.response)
+        }
     })
     useListener(listenerInventarioHistorico)
     useEffect(() => {

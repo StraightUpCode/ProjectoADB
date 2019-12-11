@@ -35,13 +35,17 @@ const UsuarioUpdate = () => {
     })
 
     const listenerInformacionUsuario = createListener('get-usuario-permisos', (event, respuesta) => {
-        const { permisos, ...infoUsuario } = respuesta
-        setInfoUsuario(infoUsuario),
-            console.log('Update Permisos En Teoria')
-        setPermisosUsuario(permisos)
+        if (respuesta.ok) {
+            const { permisos, ...infoUsuario } = respuesta.response
+            setInfoUsuario(infoUsuario)
+                console.log('Update Permisos En Teoria')
+            setPermisosUsuario(permisos)
+        }
     })
     const listnerUpdateUsuario = createListener('update-usuario-permisos', (event, respuesta) => {
-        console.log(respuesta)
+        if (respuesta.ok) {
+            //hacer algo
+        }
     })
 
     const handleInfoUsuario = (e) => {

@@ -165,9 +165,11 @@ const registrarUsuario = async (event, nuevoUsuario) => {
     await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
     await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
     console.log('Termino el Registro')
+    event.reply('registrar-usuario-reply', { ok: true })
+
   } catch (e) {
     console.log(e)
-    event.reply(e)
+    event.reply('registrar-usuario-reply',{ok:false, e})
   }
 }
 //Set up
@@ -230,7 +232,7 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
     const result = await connecionDb.testConeccion(objetoConeccion)
     console.log(result)
     if (result) {
-      e.reply('set-conection-reply', true)
+      e.reply('set-conection-reply', {ok: true})
       store.set({
         db_host: objetoConeccion.server,
         db_name: objetoConeccion.database
@@ -238,7 +240,7 @@ ipcMain.on('set-conection', async (e, objetoConeccion) => {
     }
   } catch (error) {
     console.log(error)
-    e.reply('set-conection-reply', false)
+    e.reply('set-conection-reply', {ok: false})
   }
 })
 
@@ -253,9 +255,9 @@ ipcMain.on("rootCommand", async (event, args) => {
     const request = await conecion.request().query(args)
     // devuelve el valor al front end
     console.log(request)
-    event.reply('rootCommand-reply', request)
+    event.reply('rootCommand-reply', { ok: true, request})
   } catch (error) {
-    event.reply('rootCommand-reply',e)
+    event.reply('rootCommand-reply',{ok: false, e})
     console.log(error)
   }
 })
@@ -266,9 +268,9 @@ ipcMain.on('get-facturas', async (event, args) => {
     await conexion
     const result = await conexion.request().query(`Select * from vFactura`)
     console.log(result)
-    event.reply('get-facturas-reply', result.recordset)
+    event.reply('get-facturas-reply', { ok: true, data: result.recordset})
   } catch (e) { 
-    event.reply('get-facturas-reply',e)
+    event.reply('get-facturas-reply',{ok: false, e})
     console.log(e)
   }
 
@@ -282,7 +284,7 @@ ipcMain.on('delete-factura', async (event, idFactura) => {
     const result = await conexion.request().query(`Delete from Factura where IdFactura = ${idFactura}`)
     event.reply('delete-factura-reply', {ok: true})
   } catch (e) {
-    event.reply('delete-factura-reply', e)
+    event.reply('delete-factura-reply', {ok: false})
     console.log(e)
   }
 
@@ -301,9 +303,9 @@ ipcMain.on('get-factura-detalle', async (event, idFactura) => {
       detalleFactura : detalleFactura.recordset
     }
     console.log(response)
-    event.reply('get-factura-detalle-reply', response)
+    event.reply('get-factura-detalle-reply', { ok: true, response})
   } catch (e) { 
-    event.reply('get-factura-detalle-reply',e)
+    event.reply('get-factura-detalle-reply', { ok: false, e})
     console.log(e)
   }
 
@@ -333,8 +335,9 @@ ipcMain.on('update-factura-detalle', async (event, facturaRecibida) => {
     console.log(detallesFacturaQuery)
     const resultadoFactura = await conexion.request().query(facturaQuery)
     const resultadoDetalleFactura = await conexion.request().query(detallesFacturaQuery.join(';'))
+    event.reply('update-factura-detalle',{ok: true})
   } catch (e) {
-    event.reply('update-factura-detalle', e)
+    event.reply('update-factura-detalle',{ok: false, e})
   }
 
 })
@@ -347,9 +350,9 @@ ipcMain.on('get-platillos', async (event, args) => {
     await conexion
     const result = await conexion.request().query(`Select * from vPlatillo`)
     console.log('Enviando', result.recordset)
-    event.reply('get-platillos-reply', result.recordset)
+    event.reply('get-platillos-reply', { ok: true, response: result.recordset})
   } catch (e) {
-    event.reply('get-platillos-reply', e)
+    event.reply('get-platillos-reply', {ok: false, e})
     console.log(e)
   }
 })
@@ -373,11 +376,11 @@ ipcMain.on('get-platillo-detalle', async (evento, IdPlatillo) => {
     }
 
     console.log('Response' ,response)
-    evento.reply('get-platillo-detalle-reply', response)
+    evento.reply('get-platillo-detalle-reply', { ok: true, response})
 
   } catch (e) {
     console.log(e)
-    evento.reply('get-platillo-detalle-reply',e)
+    evento.reply('get-platillo-detalle-reply',{ok: false, e})
   }
 })
 ipcMain.on('create-platillo', async (evento, request) => {
@@ -403,7 +406,7 @@ ipcMain.on('create-platillo', async (evento, request) => {
     console.log('Enviando', )
     evento.reply('create-platillo-reply', {ok: true})
   } catch (e) {
-    evento.reply('create-platillo-reply', e)
+    evento.reply('create-platillo-reply', {ok:false , e})
     console.log(e)
   }
 })
@@ -414,9 +417,9 @@ ipcMain.on('get-unidad', async (event, args) => {
     await conexion
     const result = await conexion.request().query(`Select * from vUnidad`)
     console.log('Enviando', result.recordset)
-    event.reply('get-unidad-reply', result.recordset)
+    event.reply('get-unidad-reply', { ok: true, response: result.recordset})
   } catch (e) {
-    event.reply('get-unidad-reply', e)
+    event.reply('get-unidad-reply', {ok: false, e})
     console.log(e)
   }
 })
@@ -426,9 +429,9 @@ ipcMain.on('get-inventario', async (event, args) => {
     await conexion
     const result = await conexion.request().query(`Select * from vInventario`)
     console.log('Enviando', result.recordset)
-    event.reply('get-inventario-reply', result.recordset)
+    event.reply('get-inventario-reply', { ok: true, response: result.recordset})
   } catch (e) {
-    event.reply('get-inventario-reply', e)
+    event.reply('get-inventario-reply', {ok: false, e})
     console.log(e)
   }
 })
@@ -438,9 +441,9 @@ ipcMain.on('get-inventario-id', async (event, IdInventario) => {
     await conexion
     const result = await conexion.request().query(`Select * from vInventario where IdInventario = ${IdInventario}`)
     console.log('Enviando', result.recordset)
-    event.reply('get-inventario-id-reply', result.recordset[0])
+    event.reply('get-inventario-id-reply', { ok: true, response: result.recordset[0]})
   } catch (e) {
-    event.reply('get-inventario-id-reply', e)
+    event.reply('get-inventario-id-reply', {ok : false, e})
     console.log(e)
   }
 })
@@ -481,7 +484,7 @@ ipcMain.on('create-factura', async (event, args) => {
     response.ok = true
     event.reply('create-factura-reply',response )
   } catch (e) {
-    response.error = e
+    response.e = e
     event.reply('create-factura-reply', response)
     console.log(e)
   }
@@ -501,12 +504,12 @@ ipcMain.on('get-usuario-permisos', async (evento, idUsuario) => {
      return acc
     }, {})
     console.log({ ...infoUsuario, permisos: permisosUsuario })
-    evento.reply('get-usuario-permisos-reply',{...infoUsuario, permisos : permisosUsuario})
+    evento.reply('get-usuario-permisos-reply', { ok: true, response: { ...infoUsuario, permisos: permisosUsuario }})
 
 
   } catch (e) {
     console.log(e)
-    evento.reply('get-usuario-permisos-reply',e)
+    evento.reply('get-usuario-permisos-reply',{ok: true, e})
   }
 
 })
@@ -667,9 +670,9 @@ ipcMain.on('get-usuarios', async (event, request) => {
     const usuariosRecordset = await conexion.request().query(`Select * from vUsuario`)
     console.log(usuariosRecordset)
     const response = usuariosRecordset.recordset
-    event.reply('get-usuarios-reply', response)
+    event.reply('get-usuarios-reply', { ok: true, response})
   } catch (e) {
-    event.reply('get-usuarios-reply',e)
+    event.reply('get-usuarios-reply',{ok: false, e})
   }
 })
 
@@ -688,9 +691,9 @@ ipcMain.on('get-user-detalle', async (event, idUsuario) => {
     }, {})
     const response = { ...dataUsuario, permisos: permisosUsuario }
     
-    event.reply('get-user-detalle-reply', response)
+    event.reply('get-user-detalle-reply', { ok: true, response})
   } catch (e) {
-    event.reply('get-user-detalle-reply', e)
+    event.reply('get-user-detalle-reply', {ok: false, e})
   }
 })
 
@@ -735,9 +738,9 @@ ipcMain.on('get-inventario-historico', async (evento, request) => {
     await conexion
     const inventarioRecordset = await conexion.request().query(`
     Select * from vInventarioHistorico`)
-    evento.reply('get-inventario-historico-reply', inventarioRecordset.recordset)
+    evento.reply('get-inventario-historico-reply', { ok: true, response: inventarioRecordset.recordset})
   } catch (e) {
-    evento.reply('get-inventario-historico-reply', e)
+    evento.reply('get-inventario-historico-reply', {ok:true, e})
   }
 })
 

@@ -38,9 +38,11 @@ const PlatilloView= ({ store }) => {
 
         }
     ])
-    const listener = createListener('get-platillos', (event, data) => {
+    const listener = createListener('get-platillos', (event, response) => {
+      if (response.ok) {
+        setPlatillo(response.response)
+        }
         
-        setPlatillo(data)
         
         
     })

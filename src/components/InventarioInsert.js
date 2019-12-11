@@ -25,7 +25,9 @@ const InventarioInsert = () => {
     const [unidades, setUnidad] = useState([{ idUnidad: 0 , unidad: '', }])
     
     const listenerUnidad = createListener('get-unidad', (evento, respuesta) => {
-        setUnidad(respuesta)
+        if (respuesta.ok) {
+            setUnidad(respuesta.response)
+        }
     })
     const listenerInventario = createListener('create-inventario', (evento, respuesta) => {
         console.log(respuesta)

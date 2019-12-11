@@ -25,7 +25,6 @@ const Login = ({setLoginStatus,...rest}) => {
       history.push('/')
     } else {
       console.log('Loggin false')
-
       setLoginStatus(false)
     }
   }
