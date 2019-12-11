@@ -909,4 +909,30 @@ span.actuinv{
       justify-content: center;
   }
 
-  
+  .invh1{
+    text-align: center;
+  }
+
+  .platillosh1, .platupdi{
+      text-align: center;
+  }
+
+  .logoout{
+      float: right;
+      font-size: 22px;
+     
+  }
+  .logouta{
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.7);
+    color: #E9EBED;
+    padding: 8px 10px;
+    text-decoration: none;
+  }
+  .logouta:hover{
+    border-radius: 1px 1px 1px 1px;
+    background-color: #7FD8BE ;
+    color: black;
+    transition: 2s;
+  }

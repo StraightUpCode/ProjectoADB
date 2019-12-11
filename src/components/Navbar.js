@@ -28,11 +28,8 @@ const navbarComposed = (rutas) => () => (
   <div className="sidebar">
     
   
-        <h2 className="permisito"><a className="permisote" href="#">Permisos</a></h2>
+        <h2 className="permisito"><Zelda className="permisote" href="/">Permisos</Zelda></h2>
         
-      
-
-      
       {rutas}
 
   </div>
@@ -72,7 +69,7 @@ export const createNavbar = (permisos) => {
       if (crud.charAt(index) == '1') {
         switch (index) {
           case 2: {
-            miniRutas.push('anadir')
+            miniRutas.push('añadir')
             break;
           }
           case 3: {

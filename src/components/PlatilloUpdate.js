@@ -129,7 +129,7 @@ const PlatilloUpdate = (props) => {
                 <BackButton></BackButton></div>
             <div className="update">
 
-
+                <h1 className="platupdi">Actualizar Platillo</h1>
                 <form >
                     <div className="platup">
                         <p className="insertlabel">Platillo:  {id} </p>
@@ -165,7 +165,8 @@ const PlatilloUpdate = (props) => {
                                                 </select>
 
                                             </label>
-                                            <label>
+                                            <br></br>
+                                            <label className="insertlabel">
                                                 Cantidad
                                                 <input className="numbercito" name='cantidad' type='number' value={ingrediente.cantidad} onChange={updatePlatilloIngrediente(index)}></input>
                                             </label>

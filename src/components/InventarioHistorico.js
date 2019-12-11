@@ -2,6 +2,20 @@ import React, { useEffect, useState } from 'react'
 import { createListener } from '../utils/events'
 import useListener from './hooks/useListener'
 import {withNavbar} from'./Navbar'
+import {useHistory} from 'react-router-dom'
+
+
+
+const BackButton = (props) => { 
+    const history = useHistory()
+    return (
+      <a onClick={history.goBack} href="#" className="back" title="Regresar">
+        <i class="fas fa-arrow-circle-left"></i>
+      </a>
+    )
+  }
+
+
 const InventarioHistorico = (props) => {
     const [inventarioHistorico, setInventarioHistorico] = useState([{
         IdInventarioHistorico: 0,
@@ -21,7 +35,10 @@ const InventarioHistorico = (props) => {
         listenerInventarioHistorico.send()
     })
     return (
+        <>
+        <div className="backi"><BackButton></BackButton></div>
         <div> 
+            <h1 className="invh1">Inventario Historico</h1>
             <table className='table'> 
                 <thead>
                     <th>
@@ -57,7 +74,9 @@ const InventarioHistorico = (props) => {
                 </tbody>
             </table>
         </div>
+        </>
     )
+   
 }
 
 export default withNavbar(InventarioHistorico)
