@@ -58,7 +58,7 @@ const PlatilloView= ({ store }) => {
                                 <span className="prueba">
                                     <Zelda className="nosee" href={`/Platillo/ver/${platillo.IdPlatillo}`}>Ver Detalle</Zelda> </span>
                                 <span className="pruebaact">
-                                    {permisoPlatillo[1] == '1' ? <Zelda className="nosee" href={`/Platillo/actualizar/${platillo.IdFactura}`}>Actualizar Platillo</Zelda> : null}</span>
+                                    {permisoPlatillo[1] == '1' ? <Zelda className="nosee" href={`/Platillo/actualizar/${platillo.IdPlatillo}`}>Actualizar Platillo</Zelda> : null}</span>
                                 <span className="pruebael"> {permisoPlatillo[0] == '1' ? <Zelda className="nosee" href={`/Platillo/borrar/${platillo.IdFactura}`}>Borrar Platillo</Zelda> : null}</span>
 
 

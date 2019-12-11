@@ -358,6 +358,7 @@ ipcMain.on('get-platillo-detalle', async (evento, IdPlatillo) => {
     console.log('get-platillo-detalle')
     const conexion = connecionDb.getConeccion()
     await conexion
+    console.log('IdPlatillo', IdPlatillo)
     const platilloQuery =  conexion.request().query(`Select * from vPlatillo where IdPlatillo = ${IdPlatillo}`)
     const ingredienteQuery = conexion.request().query(`Select * from vPlatillo_Ingrediente where IdPlatillo = ${IdPlatillo}`)
     console.log('Destructurando el Promise')
