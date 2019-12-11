@@ -6,7 +6,7 @@ import RegistrarUsuario from './components/RegisterUser'
 import "./custom.css";
 
 import Home from "./components/Home";
-import Root from "./components/Root.JS";
+import Root from "./components/Root.js";
 import FacturaView from "./components/FacturaView";
 import { getDbConfig } from "./utils/events";
 import FacturaInsertar from "./components/FacturaInsert";
@@ -23,6 +23,7 @@ import PlatilloInsert from "./components/PlatilloInsert";
 import PlatilloDetalle from "./components/PlatilloDetalle";
 import PlatilloUpdate from "./components/PlatilloUpdate";
 import InventarioUpdate from "./components/InventarioUpdate";
+import SaView from "./components/SaView";
 
 const RequireValidDB = ({ validDb, children, ...rest }) => {
   return (
@@ -107,12 +108,11 @@ const App = () => {
           <RequireLogin isLogged={session} path='/Usuario/actualizar/:id' >
             <UsuarioUpdate></UsuarioUpdate>
           </RequireLogin>
-
+          <RequireLogin isLogged={session} path='/sa/ver' >
+            <SaView/>
+          </RequireLogin>
           <RequireLogin isLogged={session}  path='/' >
-            <>
               <Home />
-              <Root></Root>
-            </>
           </RequireLogin>
         </Switch>
       </Router>

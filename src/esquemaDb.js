@@ -7,6 +7,7 @@ const esquema = {
     Platillo: ['Platillo_Ingrediente'],
     Unidad: [''],
     Usuario: ['Usuario_Permiso'],
+    InventarioHistorico: ['']
 }
 
 
