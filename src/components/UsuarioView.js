@@ -6,6 +6,8 @@ import Zelda from '../utils/Zelda'
 import Navbar, { withNavbar } from './Navbar'
 import Dialog from './Dialog';
 import {useHistory} from 'react-router-dom'
+import useDialog from './hooks/useDialog'
+
 
 const BackButton = (props) => { 
     const history = useHistory()
@@ -26,6 +28,8 @@ const UsuarioView = ({ store, addPermisos }) => {
     permisoPermicial.crud = 15
     const permisoUsuario = permisoPermicial.crud.toString(2).padStart(4, '0')
     console.log(permisoUsuario)
+    const [isOpen, toggleOpen] = useDialog()
+    const [deletedId, setDeleted] = useState()
     const [usuarios, setUsuarios] = useState([
         {
             IdUsuario: 1,
@@ -58,6 +62,17 @@ const UsuarioView = ({ store, addPermisos }) => {
         console.log(id)
        deleteListener.send(id)
     }
+
+    const preDelete = (id) => e => {
+        setDeleted(id)
+        toggleOpen()
+      }
+      const confirmarDelete = e => {
+        deleteListener.send(deletedId)
+        toggleOpen()
+    
+      }
+
     console.log('Permiso Usuario', permisoUsuario)
     return (
         <>
@@ -83,35 +98,27 @@ const UsuarioView = ({ store, addPermisos }) => {
 
                                     <span className="pruebaact">
                                         {permisoUsuario[1] == '1' ? <Zelda className="nosee" href={`/Usuario/actualizar/${usuario.IdUsuario}`}>Actualizar usuario</Zelda> : null}</span>
-                                         <span className="pruebael"><a className="borrita"href="#popup1">Borrar Usuario</a></span>
-
-<div id="popup1" className="overlay">
-<div className="popita">
-<h2 className="cerrarito">Quiere eliminar este usuario?</h2>
-
-
-{/*Coso para borrar la cosa*/}
-                                            <span ><button onClick={deleteUsuario(usuario.IdUsuario)} className="Cerraruser">{permisoUsuario[0] == '1' ? <Zelda className="nosee" href={`/Usuario/borrar/${usuario.IdUsuario}`}>Si {`/Usuario/borrar/${usuario.IdUsuario}`}</Zelda> : null}</button></span>
-
-
-<span className="nocer"><a className="noCerrar" href="#">No</a></span>
-</div>
-
-</div>
-
-
-
-
-
-
-
-
+                                        <span className="pruebael" onClick={preDelete(usuario.IdUsuario)}><a className="borrita"href="#popup1">Borrar Usuario</a></span>
 
                                     
                                 </div>
                             </div>
                         ))
                     }
+                    <Dialog isOpen={isOpen}><div id="popup1" className="popuppadre">
+              <div className="botonhijo">
+                <h2 className="cerrarito">Quiere eliminar este Usuario?</h2>
+
+
+                {/*Coso para borrar la cosa*/}
+                <div className="centrado">
+                <span><button onClick={confirmarDelete} className="cambito">Si</button></span>
+
+
+                <span onClick={toggleOpen}><button className="cambito" >No</button></span></div>
+              </div>
+
+            </div></Dialog>
 
                 </div>
             </div>

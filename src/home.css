@@ -669,9 +669,48 @@ span.eliminar{
 
     opacity: 2;
   }
+  .centrado{
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    min-width: 100px;
+  }
 
-  .dialogitohijo{
-      
+  .cambito, .cambiando{
+    border-radius: 5px 5px 5px 5px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.7);
+    color: #E9EBED;
+    padding: 8px 30px;
+     
+    text-decoration: none;
+    
+  }
+
+  .popuppadre{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+  }
+
+   .popuppadre:target {
+    visibility: visible;
+    opacity: 1;
+  }
+  .botonhijo{
+    margin: 10% auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 18%;
+    transition: all 5s ease-in-out;
+
   }
 
   .overlay {
@@ -685,6 +724,7 @@ span.eliminar{
     visibility: hidden;
     opacity: 0;
   }
+
   .overlay:target {
     visibility: visible;
     opacity: 1;
@@ -742,7 +782,7 @@ span.eliminar{
      background: rgba(0, 0, 0, 0.7);
      color: #E9EBED;
      padding: 8px 10px;
-     margin: 20px 24px; 
+     margin: 0 auto;
      text-decoration: none;
      position: relative;
      width: 100px;
