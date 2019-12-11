@@ -53,6 +53,12 @@ from Inventario as I
 inner join Unidad as U on U.IdUnidad = I.idUnidad
 go
 
+create view vInventarioHistorico
+AS
+SELECT IH.IdInventarioHistorico, IH.cantidad, IH.fechaRegistrado, I.ingrediente
+FROM InventarioHistorico as IH
+inner join Inventario as I on I.IdInventario = IH.IdInventario
+go
 -- Procedimiento
 create procedure sp_MiData 
    @username nvarchar(50),

@@ -83,6 +83,15 @@ create table Usuario_Permiso(
     idPermiso int not null
 )
 
+CREATE TABLE InventarioHistorico
+(IdInventarioHistorico int IDENTITY(1,1) PRIMARY KEY NOT NULL,
+cantidad numeric(9,2) not null,
+IdInventario int NOT NULL,
+fechaRegistrado DATE NOT NULL, 
+FOREIGN KEY (IdInventario) REFERENCES Inventario(IdInventario)
+)
+GO
+
 alter table Platillo_Ingrediente
     ADD constraint FK_PI_Platillo FOREIGN KEY (idPlatillo) REFERENCES Platillo(IdPlatillo) on delete cascade on update cascade,
     constraint FK_PI_Ingrediente FOREIGN KEY(idInventario) REFERENCES Inventario(IdInventario) on delete cascade on update CASCADE
