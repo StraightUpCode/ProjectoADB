@@ -256,7 +256,7 @@ ipcMain.on("rootCommand", async (event, args) => {
     // devuelve el valor al front end
     console.log(request)
     event.reply('rootCommand-reply', { ok: true, request})
-  } catch (error) {
+  } catch (e) {
     event.reply('rootCommand-reply',{ok: false, e})
     console.log(error)
   }

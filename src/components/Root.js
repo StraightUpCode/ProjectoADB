@@ -2,12 +2,18 @@ import React,{useState} from "react";
 import useForm from './hooks/useForm'
 import {createListener} from '../utils/events'
 import useListener from './hooks/useListener'
+import ErrorComponent from "./ErrorComponent";
 
 const Root = (props) => {
-  const [stat,fstat]= useState({recordset: []}) 
+  const [stat, fstat] = useState({ recordset: [] }) 
+  const [error, setError] = useState()
   const listener = createListener('rootCommand', (event, response) => {
-    if (response.ok && response.recordset) {
+    if (response.ok) {
       fstat(response.response)
+    }
+    else if (response.e) {
+      setError(response.e)
+      console.log(response.e)
     }
     console.log(stat)
   })
@@ -27,7 +33,7 @@ const Root = (props) => {
 
     useListener(listener)
 
-  
+    console.log(error)
     return (
       <div className="Root_Container">
         <h1 className="TitleRoot">Admin</h1>
@@ -63,7 +69,8 @@ const Root = (props) => {
                 </table>
               ) : null
         }
-      </div>
+        </div>
+        {error ? <ErrorComponent error={error}></ErrorComponent> : null}
       </div>
     );
   };

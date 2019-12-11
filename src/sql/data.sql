@@ -14,7 +14,9 @@ insert into Unidad values ('Taza')
 
 
 --Permiso
-insert into Permiso values('Unidad',1),
+insert into Permiso values
+('sa',1),
+('Unidad',1),
 ('Unidad',2),
 ('Unidad',3),
 ('Unidad',4),
@@ -173,7 +175,7 @@ insert into Permiso values('Unidad',1),
 ('DetalleFactura',12),
 ('DetalleFactura',13),
 ('DetalleFactura',14),
-('DetalleFactura',15)
+('DetalleFactura',15),
 go
 
 

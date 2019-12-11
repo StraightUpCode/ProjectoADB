@@ -45,19 +45,9 @@ const tablaConRutas = ['Factura', 'Inventario', 'InventarioHistorico', 'Usuario'
 export const createNavbar = (permisos) => {
   console.log(permisos)
   if(rutas.length > 0 ) rutas.length = 0
-  let permisosFinal 
-  if (permisos.find(el => el.tabla == 'sa')) {
-    console.log(permisos)
-    console.log(sa)
-    permisosFinal = [...permisos, ...sa]
-    addPermisos(permisosFinal)
-    
-  } else {
-    permisosFinal = permisos
-  }
   
   //arreglo de permisos
-  for (const permiso of permisosFinal) {
+  for (const permiso of permisos) {
      //permiso es un objeto que contiene, el nombre de la tabla 
     // y el valor crud
     if(!tablaConRutas.includes(permiso.tabla) || permiso.tabla == 'InventarioHistorico') continue
@@ -82,7 +72,7 @@ export const createNavbar = (permisos) => {
 
     const array = []
     if (permiso.tabla == 'sa' && miniRutas.includes('ver')) { 
-      array.push((<li className="rutas"><Zelda className="pedo" key={rutas.length} href='/sa/ver' >SA </Zelda></li>))
+      array.push((<li className="rutas"><Zelda className="pedo" key={rutas.length} href='/sa/ver' >SA</Zelda></li>))
     } else {
       for (const accion of miniRutas) {
         const link = `/${permiso.tabla}/${accion}` // crea la url de la accion

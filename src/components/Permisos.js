@@ -95,6 +95,10 @@ const Permisos = ({ setPermisos, permisos }) => {
                     
                 })
             }
+            <div>
+                <p>SA</p>
+                <input className="check" onChange={handleChange} type='checkbox' name='sa' value='1' checked={permisosTablas.sa == 1}></input> 
+            </div>
         </div>
     )
 }
