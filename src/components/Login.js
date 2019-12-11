@@ -12,8 +12,8 @@ import ErrorComponent from "./ErrorComponent";
 
 const Login = ({setLoginStatus,...rest}) => {
   const [loginData, handleChange] = useForm({
-    username: 'sa',
-    password: 'Roberto4$'
+    username: '',
+    password: ''
   })
   const history = useHistory()
   const [stat, fstat] = useState({ recordset: [] }) 

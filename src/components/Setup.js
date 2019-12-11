@@ -3,26 +3,30 @@ import {useHistory} from 'react-router-dom'
 import { createListener , setConeccionStatus} from '../utils/events'
 import useListener from './hooks/useListener'
 import useForm from './hooks/useForm'
+import ErrorComponent from './ErrorComponent'
 
 
-const testConeccionListener = (history, setValidDb) => createListener('set-conection', (event, coneccion) => {
+const testConeccionListener = (history, setValidDb, handleError) => createListener('set-conection', (event, coneccion) => {
     console.log(coneccion)
     setValidDb(coneccion)
     console.log(coneccion)
     if (coneccion.ok) {
         history.push('/')
+    } else {
+        handleError(true)
     }
 })
 const Setup = ({setDb}) => {
     const history = useHistory()
     const [coneccion, handleCredenciales] = useForm({
-        server: 'localhost',
-        database: 'projecto',
-        user: 'sa',
-        password: 'Roberto4$'
+        server: '',
+        database: '',
+        user: '',
+        password: ''
     })
+    const [ error, setError ] = useState()
 
-    const listener = testConeccionListener(history,setDb)
+    const listener = testConeccionListener(history,setDb,setError)
     useListener(listener)
     
     const handleSubmit = (e) => {
@@ -43,6 +47,11 @@ const Setup = ({setDb}) => {
                 <input className="labelinput" type="password" placeholder='SQL Login Password' name="password" value={coneccion.password} onChange={handleCredenciales} ></input>
                 <input className="enter" type="submit" value="Submit" />
             </form>
+            {error ? (
+                <div>
+                    Revise la coneccion o el Usuario
+                </div>
+            ) : null}
 
         </div>
     )
