@@ -35,9 +35,13 @@ class ConeccionDB {
     }
     async crearConeccion() { 
         try {
+            if (this.coneccion) {
+                this.coneccion.close()
+                console.log('Cerrando Conexion previa')
+
+            }
+
             this.coneccion = new mssql.ConnectionPool(this.opciones)
-            this.coneccion.close()
-            console.log('Cerrando Conexion previa')
             const something = await this.coneccion.connect() 
             console.log('Conecto nueva conexion')
             if (something) {

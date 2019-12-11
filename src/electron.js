@@ -251,11 +251,10 @@ ipcMain.on("rootCommand", async (event, args) => {
     // hace la solicutd
     const response = await conecion.request().query(args)
     // devuelve el valor al front end
-    console.log(request)
     event.reply('rootCommand-reply', { ok: true, response})
   } catch (e) {
     event.reply('rootCommand-reply',{ok: false, e})
-    console.log(error)
+    console.log(e)
   }
 })
 

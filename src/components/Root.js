@@ -9,7 +9,6 @@ const Root = (props) => {
   const [error, setError] = useState()
   const listener = createListener('rootCommand', (event, response) => {
     if (response.ok) {
-
       fstat(response.response)
     }
     else if (response.e) {
@@ -28,6 +27,7 @@ const Root = (props) => {
     const sendCommand = (event) => {
       event.preventDefault()
       console.log(Command);
+      fstat({ recordset : []})
       listener.send(Command.Log); 
   
     }
