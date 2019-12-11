@@ -107,3 +107,20 @@ go
 
 alter table Factura 
     add CONSTRAINT FK_Factura_Usuario FOREIGN key (idUsuario) REFERENCES Usuario(IdUsuario) on delete cascade on update cascade;
+go
+Create trigger guardasInventarioHistorico
+ON Inventario
+AFTER UPDATE
+AS
+BEGIN 
+SET NOCOUNT ON
+IF UPDATE(cantidad)
+    BEGIN 
+        Insert into InventarioHistorico SELECT inserted.cantidad, inserted.IdInventario, GETDATE() from inserted
+    
+    END
+END
+GO
+
+
+
