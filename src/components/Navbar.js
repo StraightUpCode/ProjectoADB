@@ -8,7 +8,6 @@ import {Alert, Moda, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 
 
-
 const rutas = []
 
 
@@ -45,7 +44,7 @@ const navbarComposed = (rutas) => () => (
 )
 
 
-
+const tablaConRutas = ['Factura', 'Inventario', 'InventarioHistorico', 'Usuario', 'Platillo', 'sa']
 export const createNavbar = (permisos) => {
   
   console.log(permisos)
@@ -64,7 +63,7 @@ export const createNavbar = (permisos) => {
   for (const permiso of permisosFinal) {
      //permiso es un objeto que contiene, el nombre de la tabla 
     // y el valor crud
-
+    if(!tablaConRutas.includes(permiso.tabla) || permiso.tabla == 'InventarioHistorico') continue
     const miniRutas = []
     const crud = permiso.crud.toString(2).padStart(4,'0')
     for (let index = 0; index < crud.length; index += 1) {
@@ -72,14 +71,6 @@ export const createNavbar = (permisos) => {
       //Determina que permisos tiene si ver, actualizar,etc
       if (crud.charAt(index) == '1') {
         switch (index) {
-          case 0: {
-            miniRutas.push('borrar')
-            break;
-          }
-          case 1: {
-            miniRutas.push('actualizar')
-            break;
-          }
           case 2: {
             miniRutas.push('anadir')
             break;
@@ -93,12 +84,19 @@ export const createNavbar = (permisos) => {
     }
 
     const array = []
-    for (const accion of miniRutas) {
-      const link = `/${permiso.tabla}/${accion}` // crea la url de la accion
-      //a;ade un anchor tag a rutas 
-      array.push((<li className="rutas"><Zelda className="pedo"  key={rutas.length} href={link} >{permiso.tabla + ' '+ accion} </Zelda></li> ))
-      
+    if (permiso.tabla == 'sa' && miniRutas.includes('ver')) { 
+      array.push((<li className="rutas"><Zelda className="pedo" key={rutas.length} href='/sa/ver' >SA </Zelda></li>))
+    } else {
+      for (const accion of miniRutas) {
+        const link = `/${permiso.tabla}/${accion}` // crea la url de la accion
+        //a;ade un anchor tag a rutas 
+        array.push((<li className="rutas"><Zelda className="pedo" key={rutas.length} href={link} >{permiso.tabla + ' ' + accion} </Zelda></li>))
+        if (permiso.tabla == 'Inventario' && accion == 'ver') {
+          array.push((<li className="rutas"><Zelda className="pedo" key={rutas.length} href='/InventarioHistorico/ver' >Inventario Historico </Zelda></li>))
 
+        }
+
+      }
     }
     
     
