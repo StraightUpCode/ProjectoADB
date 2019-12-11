@@ -7,6 +7,7 @@ const DB_DAO = require('./db')
 const connecionDb = new DB_DAO()
 const store = require('./store')
 const esquemaDb = require('./esquemaDb') 
+const {encriptar, desencriptar} = require('./utils/encriptacion')
 const ipcMain = electron.ipcMain
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
@@ -95,7 +96,7 @@ const registrarUsuario = async (event, nuevoUsuario) => {
     await conexion.request().query(`Create Login ${username} with password = '${password}'`)// Crea Login
     await conexion.request().query(`Create User ${username} for login ${username} `)// 
     const createUserString = `Insert into Usuario values
-    ('${username}','${hash.update(password).digest('hex')}', '${infoUsuario.nombre}','${infoUsuario.apellido}' );
+    ('${username}','${encriptar(password)}', '${infoUsuario.nombre}','${infoUsuario.apellido}' );
     Select SCOPE_IDENTITY() as id`
     console.log(createUserString)
     const createUserInTable = await conexion.request().query(createUserString)
@@ -193,8 +194,7 @@ ipcMain.on('login', async (e, ...arg) => {
     }
     if (username != 'sa') { // si el usuario no es sa
       console.log(coneccion)
-      const hash = crypto.createHash('sha256') // crea el encriptador
-      const query = `execute sp_MiData '${username}', '${hash.update(password).digest('hex')}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
+      const query = `execute sp_MiData '${username}', '${encriptar(password)}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
       console.log('query creada')
       const userData = await coneccion.request().query(query) // ejecuta el query
       console.log('Connsiguiendo el usuario')
@@ -497,6 +497,7 @@ ipcMain.on('get-usuario-permisos', async (evento, idUsuario) => {
     await conexion
     const infoUsuarioRecordset = await conexion.request().query(`Select * from vUsuario where IdUsuario = ${idUsuario}`)
     const infoUsuario = infoUsuarioRecordset.recordset[0]
+    infoUsuario.contrasena = desencriptar(infoUsuario.contrasena)
     const permisosUsuarioRecordet = await conexion.request().query(`Select * from vUsuario_Permiso where idUsuario = ${infoUsuario.IdUsuario}`)
     const permisosUsuario = permisosUsuarioRecordet.recordset.reduce((acc, current) => {
       console.log('Before ', acc)
@@ -525,11 +526,12 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
     
     const currentUserData = await conexion.request().query(`Select * from vUsuario where IdUsuario = ${infoUsuario.IdUsuario}`)
     const { nombreUsuario, contrasena } = currentUserData.recordset[0]
+    const contrasenaDesencriptada = desencriptar(contrasena)
     console.log(`Nombres de Usuario ${infoUsuario.nombreUsuario} = ${nombreUsuario} `, infoUsuario.nombreUsuario != nombreUsuario)
     console.log(`Contrase;as ${infoUsuario.contrasena} = ${contrasena} :`, infoUsuario.contrasena != contrasena)
     const nombreUsuarioIguales = compareStrings(infoUsuario.nombreUsuario, nombreUsuario)
     console.log('Nombre Iguales ', nombreUsuarioIguales)
-    const contrasenasIguales = compareStrings(infoUsuario.contrasena ,contrasena)
+    const contrasenasIguales = compareStrings(infoUsuario.contrasena, contrasenaDesencriptada)
       console.log('Contrasena Iguales ', contrasenasIguales)
     const recrearUsuario = (! nombreUsuarioIguales) ||( ! contrasenasIguales)
     console.log('Recrear Usuario ', recrearUsuario)
@@ -538,18 +540,19 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
       console.log('Login Dropped')
       await conexion.request().query(`Drop user ${nombreUsuario}`)
       console.log('User Dropped')
-      await conexion.request().query(`Create Login ${infoUsuario.nombUsuario} with password = '${infoUsuario.contrasena}'`)// Crea Login
+      await conexion.request().query(`Create Login ${infoUsuario.nombreUsuario} with password = '${infoUsuario.contrasena}'`)// Crea Login
       console.log('Login Created')
-      await conexion.request().query(`Create User ${infoUsuario.nombUsuario} for login ${infoUsuario.nombUsuario} `)// 
+      await conexion.request().query(`Create User ${infoUsuario.nombreUsuario} for login ${infoUsuario.nombreUsuario} `)// 
       console.log('User Created')
+      await conexion.request().query(`GRANT execute on sp_MiData to ${infoUsuario.nombreUsuario}`)
+      await conexion.request().query(`GRANT execute on sp_MisPermisos to ${infoUsuario.nombreUsuario}`)
       if (!nombreUsuarioIguales) {
        console.log('Los nombres no son iguales') 
-        await conexion.request().query(`Update Usuario set nombreUsuario = '${infoUsuario.nombUsuario}' where IdUsuario = ${infoUsuario.IdUsuario}`)
+        await conexion.request().query(`Update Usuario set nombreUsuario = '${infoUsuario.nombreUsuario}' where IdUsuario = ${infoUsuario.IdUsuario}`)
         console.log('Nombre Actualizado')
       }
       if (!contrasenasIguales) {
-        const hash = crypto.createHash('sha256')
-        await conexion.request().query(`Update Usuario set contrasena = '${hash.update(password).digest('hex')}' where IdUsuario = ${infoUsuario.IdUsuario}`)
+        await conexion.request().query(`Update Usuario set contrasena = '${encriptar(infoUsuario.contrasena)}' where IdUsuario = ${infoUsuario.IdUsuario}`)
       }
     }
 
