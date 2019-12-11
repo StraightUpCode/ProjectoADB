@@ -9,6 +9,7 @@ const Root = (props) => {
   const [error, setError] = useState()
   const listener = createListener('rootCommand', (event, response) => {
     if (response.ok) {
+
       fstat(response.response)
     }
     else if (response.e) {
@@ -39,7 +40,7 @@ const Root = (props) => {
         <h1 className="TitleRoot">Admin</h1>
         <form className="Root" onSubmit={sendCommand} >
           <label className="label">Console</label>
-          <input className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></input>
+          <textarea className="labelinput" type="text" name='Log' value={Command.Log} onChange={handleChange} ></textarea>
           <input  type="submit" value="Submit" className="enter" />
           
           

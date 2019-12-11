@@ -185,13 +185,10 @@ ipcMain.on('login', async (e, ...arg) => {
   const [username, password] = arg
   const response = { logged : false}
   try {
-    
-    let coneccion = connecionDb.getConeccion()
-    console.log(coneccion)
-    if (!coneccion) { 
-      coneccion = await connecionDb.loginToDB(username, password)
+     
+    const coneccion = await connecionDb.loginToDB(username, password)
+    await coneccion
       console.log('coneccion generada')
-    }
     if (username != 'sa') { // si el usuario no es sa
       console.log(coneccion)
       const query = `execute sp_MiData '${username}', '${encriptar(password)}'`//crea el query para ejecutar el sp con el username y la contrase;a encriptada
@@ -204,7 +201,7 @@ ipcMain.on('login', async (e, ...arg) => {
       permisosResponse = await coneccion.request().query(permisosQuery) // se ejecuta el sp
       response.user[0].permisos = permisosResponse.recordset // se guarda el resultado
     } else { // si es sa
-      response.user = [{ permisos: [{ tabla: 'sa', crud: 1 }] }]
+      response.user = [{ permisos: [{ tabla: 'sa', crud: 1 }, {tabla: 'Usuario', crud: 15 }] }]
     }
     response.logged = true
     console.log('reply')
@@ -252,10 +249,10 @@ ipcMain.on("rootCommand", async (event, args) => {
     // se conecta como tal
     await conecion
     // hace la solicutd
-    const request = await conecion.request().query(args)
+    const response = await conecion.request().query(args)
     // devuelve el valor al front end
     console.log(request)
-    event.reply('rootCommand-reply', { ok: true, request})
+    event.reply('rootCommand-reply', { ok: true, response})
   } catch (e) {
     event.reply('rootCommand-reply',{ok: false, e})
     console.log(error)
