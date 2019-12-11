@@ -60,7 +60,7 @@ const App = () => {
           <RequireValidDB validDb={validDb} path='/login'>
             <Login setLoginStatus={setSession}></Login>
           </RequireValidDB>
-          <RequireLogin isLogged={session} path='/Usuario/anadir' >
+          <RequireLogin isLogged={session} path='/Usuario/añadir' >
             <RegistrarUsuario></RegistrarUsuario>
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Factura/ver/:id' >
@@ -69,7 +69,7 @@ const App = () => {
           <RequireLogin isLogged={session}  path='/Factura/ver' >
             <FacturaView></FacturaView>
           </RequireLogin>
-          <RequireLogin isLogged={session} path='/Factura/anadir' >
+          <RequireLogin isLogged={session} path='/Factura/añadir' >
             <FacturaInsertar></FacturaInsertar>
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Factura/actualizar/:id' >
@@ -84,13 +84,13 @@ const App = () => {
           <RequireLogin isLogged={session} path='/Platillo/ver' >
             <PlatilloView></PlatilloView>
           </RequireLogin>
-          <RequireLogin isLogged={session} path='/Platillo/anadir' >
+          <RequireLogin isLogged={session} path='/Platillo/añadir' >
             <PlatilloInsert></PlatilloInsert>
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Inventario/ver' >
             <InventarioView></InventarioView>
           </RequireLogin>
-          <RequireLogin isLogged={session} path='/Inventario/anadir' >
+          <RequireLogin isLogged={session} path='/Inventario/añadir' >
             <InventarioInsert></InventarioInsert>
           </RequireLogin>
           <RequireLogin isLogged={session} path='/Inventario/actualizar/:id' >

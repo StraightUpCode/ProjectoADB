@@ -77,10 +77,10 @@ const PlatilloView= ({ store }) => {
       <div className="backi">
        <BackButton></BackButton></div>
         <div>
-            <div><h1 className="PlatilloH1">Factura</h1></div>
+            
 
             <div>
-                
+                <h1 className="platillosh1">Platillos</h1>
                 {
                     platillo.map((platillo) => (
                         <div className="ver">

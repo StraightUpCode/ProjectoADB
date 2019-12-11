@@ -86,6 +86,7 @@ const InventarioUpdate = (props) => {
             
                 
                 <form>
+                    <h1 className="platupdi">Actualizar Inventario</h1>
                     <div className="insertarup">
                 <p className="insertlabel">Inventario: {id} </p>
                 
