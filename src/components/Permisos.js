@@ -6,7 +6,7 @@ const Permisos = ({ setPermisos, permisos }) => {
    const esquemaDb = Object.keys(esquema).reduce((acc, cur) => {
         acc[cur] = 0
         return acc
-   }, {}) 
+   }, {sa: 0}) 
     console.log(permisos)
     const [permisosTablas, cambiarPermisos] = useState({ ...esquemaDb })
     useEffect(() => {
@@ -64,7 +64,8 @@ const Permisos = ({ setPermisos, permisos }) => {
     return (
         <div className="checkboxpedo">
             {
-                Object.entries(permisosTablas).map(([llave , valor], index) => {
+                Object.entries(permisosTablas).map(([llave, valor], index) => {
+                    if(llave == 'sa' ) return null
                     const val = valor.toString(2).padStart(4,'0')
                     return (
                         <div key={index}>

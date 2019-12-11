@@ -77,12 +77,20 @@ class ConeccionDB {
             pool.close()
             const conecto = await pool.connect()
             if (conecto) {
-                return true
+                return conectado
             }
         } catch (error) { 
             console.log(error)
             return false
         }
+    }
+
+    async conectarAMaster() {
+        const config = { ...this.opciones, ...{ database: 'master' } }
+        const nuevaConexion = new mssql.ConnectionPool(config)
+        const conecto = await nuevaConexion.connect()
+        if (conecto) return nuevaConexion
+       
     }
 
 }

@@ -75,7 +75,6 @@ const setConfig = (objeto) => {
 const registrarUsuario = async (event, nuevoUsuario) => {
   const { permisos, ...infoUsuario } = nuevoUsuario
   const { username, password } = infoUsuario
-  const hash = crypto.createHash('sha256')
   try {
     console.log(infoUsuario)
     const conexion = connecionDb.getConeccion()
@@ -116,7 +115,17 @@ const registrarUsuario = async (event, nuevoUsuario) => {
     }
     // if(array.includes('Select')) => Grant Select on v${tabla}
     // if(array.includes('Insert')) => Grant execture on spInsert${tabla}
+    const esSa = permisos.sa == 1
     for (const [tabla, permiso] of Object.entries(permisos)) {
+      if (tabla == 'sa' && permiso != 0) {
+        console.log('sa')
+        const conexionMaster = await connecionDb.conectarAMaster()
+        await conexionMaster
+        await conexionMaster.request().query(`Grant Alter Any Login to ${username} with Grant Option`)
+        await conexion.request().query(`Grant Alter Any User to ${username} with Grant Option`)
+        conexionMaster.close()
+        continue
+      }
       if (permiso == 0) continue
       const permisosSQL = []
       const permisoBinario = permiso.toString(2).padStart(4, '0')
@@ -143,28 +152,28 @@ const registrarUsuario = async (event, nuevoUsuario) => {
         }
       }
       console.log(tabla, permisosSQL)
-      await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${username}`)
+      await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tabla} to ${username} ${esSa ? ' With Grant Option':''}`)
       if (esquemaDb.TablasConTablasIntermedias.includes(tabla)) {
         console.log(tabla)
         const tablasIntermedia = esquemaDb.esquema[tabla]
-        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablasIntermedia[0]} to ${username}`)
+        await conexion.request().query(`GRANT ${permisosSQL.join(',')} on ${tablasIntermedia[0]} to ${username} ${esSa ? ' With Grant Option' : ''}`)
 
 
       }
       if (permisosSQL.includes('Select')) {
         console.log('Agregar Select Vista Tabla', tabla)
-        await conexion.request().query(`GRANT Select on v${tabla} to ${username}`)
+        await conexion.request().query(`GRANT Select on v${tabla} to ${username} ${esSa ? ' With Grant Option' : ''}`)
         const tablasIntermedia = esquemaDb.esquema[tabla]
         for (const tablaIntermedia of tablasIntermedia) {
           if (tablaIntermedia.length === 0) continue
           console.log('Agregando Select Vistas a tablas intermedia', tablaIntermedia)
-          await conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${username}`)
+          await conexion.request().query(`GRANT Select on v${tablaIntermedia} to ${username} ${esSa ? ' With Grant Option' : ''}`)
           console.log('Termino Tablas Intermedias')
         }
       }
     }
-    await conexion.request().query(`GRANT execute on sp_MiData to ${username}`)
-    await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username}`)
+    await conexion.request().query(`GRANT execute on sp_MiData to ${username} ${esSa ? ' With Grant Option' : ''}`)
+    await conexion.request().query(`GRANT execute on sp_MisPermisos to ${username} ${esSa ? ' With Grant Option' : ''}`)
     console.log('Termino el Registro')
     event.reply('registrar-usuario-reply', { ok: true })
 
@@ -582,10 +591,21 @@ ipcMain.on('update-usuario-permisos', async (evento, arg) => {
 
     // Realiza los permisos de SQL server
     for (const [tabla, permiso] of Object.entries(permisosUsuario)) {
+      console.log(tabla)
+      if (tabla == 'sa' && permiso != 0) {
+        console.log('sa')
+        const conexionMaster = await connecionDb.conectarAMaster()
+        await conexionMaster
+        await conexionMaster.request().query(`Grant Alter Any Login to ${infoUsuario.nombreUsuario} with Grant Option`)
+        await conexion.request().query(`Grant Alter Any User to ${infoUsuario.nombreUsuario} with Grant Option`)
+        conexionMaster.close()
+        continue
+      }
       const revokeQuery = `Revoke Select, Insert, Update, Delete on ${tabla} to ${infoUsuario.nombreUsuario}`
       console.log(revokeQuery);
       await conexion.request().query(revokeQuery)
       if (permiso == 0) continue
+   
       const permisosSQL = []
       const permisoBinario = permiso.toString(2).padStart(4, '0')
       for (let index = 0; index < permisoBinario.length; index += 1) {
