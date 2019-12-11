@@ -89,20 +89,26 @@ const PlatilloUpdate = (props) => {
         setIngredientePlatillo(ingredientes)
 
     })
+    const listenerUpdateFactura = createListener('update-platillo-detalle', (event, respuesta) => {
+        if (respuesta.ok) {
+            console.log('Que tuani')
+        }  
+    })
 
 
     const setUpdate = () => {
         const requestData = {
             ...platilloData,
-            ingredientePlatillo
+            ingredientes: ingredientePlatillo
         }
         console.log(requestData)
-      //  listenerUpdateFactura.send(requestData)
+      listenerUpdateFactura.send(requestData)
     }
     //Efeccts
     useListener(listenerUnidades)
     useListener(listenerIngredientes)
     useListener(listenerPlatilloDetalle)
+    useListener(listenerUpdateFactura)
     useEffect(() => {
         listenerUnidades.send()
         listenerIngredientes.send()

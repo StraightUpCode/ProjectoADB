@@ -680,6 +680,29 @@ ipcMain.on('create-inventario', async (evento, request) => {
     evento.reply('create-inventario-reply',{ok: false, e})
   }
 })
+
+ipcMain.on('update-platillo-detalle', async (evento, request) => {
+  try {
+    const conexion = connecionDb.getConeccion()
+    await conexion
+    const { ingredientes, ...infoPlatillo } = request
+    console.log(ingredientes)
+    const ingredientesQuery = []
+    for (const ingredientePlatillo of ingredientes) { 
+      ingredientesQuery.push(conexion.request().query(`
+        Update  Platillo_Ingrediente set idInventario = ${ingredientePlatillo.IdInventario}, idUnidad = ${ingredientePlatillo.IdUnidad},
+        cantidad=${ingredientePlatillo.cantidad} where IdPlatilloIngrediente = ${ingredientePlatillo.IdPlatilloIngrediente}
+      `))
+    }
+    const platilloRecordset = await conexion.request().query(`Update Platillo set nombre='${infoPlatillo.nombre}', porcentajeDescuento=${infoPlatillo.porcentajeDescuento},
+    precio=${infoPlatillo.precio} where IdPlatillo=${infoPlatillo.IdPlatillo}`)
+    await Promise.all(ingredientesQuery)
+    evento.reply('update-platillo-detalle-reply',{ok: true})
+  } catch (e) {
+    console.log(e)
+    evento.reply('update-platillo-detalle-reply', { ok: false, e })
+  }
+})
 /// EJEMPLOD DE COMO HACER UNA SOLICITUD AL SQL
 
 /* 
