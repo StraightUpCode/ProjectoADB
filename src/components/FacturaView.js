@@ -62,7 +62,7 @@ const FacturaView = ({ store, addPermisos }) => {
       console.log('Delete Factura', id)
       deleteListener.send(id)
     }
-  const preDelete = (id) = e => {
+  const preDelete = (id) => e => {
     setDeleted(id)
     toggleOpen()
   }
@@ -107,16 +107,17 @@ const FacturaView = ({ store, addPermisos }) => {
 
                     /*{permisoFactura[0] == '1' ? <Zelda className="nosee" href={`/Factura/borrar/${factura.IdFactura}`}>Borrar Factura</Zelda> : null}*/
                 }
-            <Dialog isOpen={isOpen}><div id="popup1" className="overlay">
-              <div className="popita">
+            <Dialog isOpen={isOpen}><div id="popup1" className="popuppadre">
+              <div className="botonhijo">
                 <h2 className="cerrarito">Quiere eliminar esta factura?</h2>
 
 
                 {/*Coso para borrar la cosa*/}
-                <span><button onClick={confirmarDelete} className="Cerrar">{permisoFactura[0] == '1' ? <Zelda className="nosee" href={`/Factura/borrar/${factura.IdFactura}`}>Si</Zelda> : null}</button></span>
+                <div className="centrado">
+                <span><button onClick={confirmarDelete} className="cambito">Si</button></span>
 
 
-                <span className="nocer" onClick={toggleOpen}><a className="noCerrar" href="#">No</a></span>
+                <span onClick={toggleOpen}><button className="cambito" >No</button></span></div>
               </div>
 
             </div></Dialog>
